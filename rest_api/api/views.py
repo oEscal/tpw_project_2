@@ -59,11 +59,15 @@ def login(request):
     return create_response("Login feito com sucesso", HTTP_200_OK, token=token.key)
 
 
+######################### Add #########################
+
+
 @csrf_exempt
 @api_view(["POST"])
 def add_stadium(request):
     status = HTTP_200_OK
     message = ""
+    data = []
 
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
@@ -72,6 +76,7 @@ def add_stadium(request):
     try:
         stadium_serializer = StadiumSerializer(data=request.data)
         if not stadium_serializer.is_valid():
+            data = stadium_serializer.errors
             status = HTTP_400_BAD_REQUEST
             message = "Dados inválidos!"
         else:
@@ -82,11 +87,16 @@ def add_stadium(request):
         status = HTTP_403_FORBIDDEN
         message = "Erro a adicionar novo estádio!"
 
-    return create_response(message, status, token=token)
+    return create_response(message, status, token=token, data=data)
+
 
 @csrf_exempt
 @api_view(["POST"])
 def add_team(request):
+    status = HTTP_200_OK
+    message = ""
+    data = []
+
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
 
@@ -94,13 +104,18 @@ def add_team(request):
     try:
         team_serializer = TeamSerializer(data=request.data)
         if not team_serializer.is_valid():
-            return create_response("Dados inválidos!", HTTP_400_BAD_REQUEST, token=token, data=team_serializer.errors)
-
-        add_status, message = queries.add_team(team_serializer.data)
-        return create_response(message, HTTP_200_OK if add_status else HTTP_404_NOT_FOUND, token=token)
+            status = HTTP_400_BAD_REQUEST
+            message = "Dados inválidos!"
+            data = team_serializer.errors
+        else:
+            add_status, message = queries.add_team(team_serializer.data)
+            status = HTTP_200_OK if add_status else HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)
-        return create_response("Erro a adicionar nova equipa!", HTTP_403_FORBIDDEN, token=token)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a adicionar nova equipa!"
+
+    return create_response(message, status, token=token, data=data)
 
 
 @csrf_exempt
@@ -114,9 +129,9 @@ def add_player(request):
         player_serializer = PlayerSerializer(data=request.data)
         if not player_serializer.is_valid():
             return create_response("Dados inválidos!", HTTP_400_BAD_REQUEST, token=token, data=player_serializer.errors)
-
-        add_status, message = queries.add_player(player_serializer.data)
-        return create_response(message, HTTP_200_OK if add_status else HTTP_404_NOT_FOUND, token=token)
+        else:
+            add_status, message = queries.add_player(player_serializer.data)
+            status = HTTP_200_OK if add_status else HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)
         return create_response("Erro ao adicionar jogador!", HTTP_403_FORBIDDEN, token=token)
