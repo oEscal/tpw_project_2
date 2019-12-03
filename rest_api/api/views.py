@@ -152,6 +152,7 @@ def add_event(request):
     status = HTTP_200_OK
     message = ""
     data = []
+
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
 
@@ -159,18 +160,18 @@ def add_event(request):
     try:
         event_serializer = GamePlayerEventSerializer(data=request.data)
         if not event_serializer.is_valid():
-            return create_response(
-                "Dados inválidos!",
-                HTTP_400_BAD_REQUEST,
-                token=token,
-                data=event_serializer.errors
-            )
-
-        add_status, message = queries.add_event(event_serializer.data)
-        return create_response(message, HTTP_200_OK if add_status else HTTP_404_NOT_FOUND, token=token)
+            data = event_serializer.errors
+            status = HTTP_400_BAD_REQUEST
+            message = "Dados inválidos!"
+        else:
+            add_status, message = queries.add_event(event_serializer.data)
+            status = HTTP_200_OK if add_status else HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)
-        return create_response("Erro ao adicionar jogador!", HTTP_403_FORBIDDEN, token=token)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro ao adicionar evento!"
+
+    return create_response(message, status, token=token, data=data)
 
 
 @csrf_exempt
