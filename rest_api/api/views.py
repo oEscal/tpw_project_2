@@ -398,3 +398,30 @@ def update_team(request, name):
             message = "Erro ao editar equipa!"
 
     return create_response(message, status, token=token, data=data)
+
+
+######################### Delete #########################
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_team(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            remove_status, message = queries.remove_team(name)
+
+            if not remove_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro a eliminar equipa!"
+
+    return create_response(message, status, token=token, data=data)
