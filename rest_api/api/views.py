@@ -266,7 +266,7 @@ def team(request, name):
     token = ""
 
     if verify_if_admin(request.user):
-        is_admin = True
+        token = Token.objects.get(user=request.user).key
 
     try:
         data, message = queries.get_team(name)
@@ -276,5 +276,28 @@ def team(request, name):
         print(e)
         status = HTTP_403_FORBIDDEN
         message = "Erro a obter a equipa!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def player(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_player(id)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter o jogador!"
 
     return create_response(message, status, token=token, data=data)

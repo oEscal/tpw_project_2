@@ -31,4 +31,6 @@ urlpatterns = [
 
     path('teams', teams, name='teams'),
     url(r'^team/(?P<name>[\w\s]+)/$', team, name='team'),
+    url(r'^player/(?P<id>\w+)/$', player, name='player'),
+
 ]
