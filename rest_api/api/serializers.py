@@ -23,7 +23,7 @@ class StadiumSerializer(serializers.Serializer):
 
 class TeamSerializer(serializers.Serializer):
     name = serializers.CharField(required=True, max_length=200)
-    foundation_date = serializers.DateField(required=False, allow_null=True)
+    foundation_date = serializers.DateField()
     logo = serializers.ImageField(required=False, allow_empty_file=True, allow_null=True)
     stadium = serializers.CharField(required=True, max_length=200)
 
