@@ -251,7 +251,30 @@ def teams(request):
             status = HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)
+        status = HTTP_403_FORBIDDEN
         message = "Erro a obter todas as equipas!"
 
     return create_response(message, status, token=token, data=data)
 
+
+@csrf_exempt
+@api_view(["GET"])
+def team(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        is_admin = True
+
+    try:
+        data, message = queries.get_team(name)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter a equipa!"
+
+    return create_response(message, status, token=token, data=data)
