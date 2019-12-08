@@ -461,6 +461,8 @@ def get_info_game(id):
 
 
 ######################### Update #########################
+
+
 def update_team(data):
     transaction.set_autocommit(False)
 
@@ -470,11 +472,14 @@ def update_team(data):
         if not team.exists():
             return False, "Equipa a editar não existe na base de dados!"
 
-        if data['foundation_date'] is not None:
+        if 'foundation_date' in data and data['foundation_date'] is not None:
             team.update(foundation_date=data['foundation_date'])
-        if data['logo'] is not None:
+        if 'logo' in data and data['logo'] is not None:
             team.update(logo=data['logo'])
-        if data['stadium'] is not None:
+        if 'stadium' in data and data['stadium'] is not None:
+            if (Team.objects.filter(stadium__name=data['stadium']).exists()
+                  and not Team.objects.filter(Q(stadium__name=data['stadium']) & Q(name=data['name'])).exists()):
+                return False, "O estádio selecionado já pertence a outra equipa!"
             team.update(stadium=Stadium.objects.get(name=data['stadium']))
 
         transaction.set_autocommit(True)

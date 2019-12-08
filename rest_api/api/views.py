@@ -1,3 +1,5 @@
+import base64
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -28,6 +30,14 @@ def verify_if_admin(user):
 
 def whoami(user):
     return user.username
+
+
+def image_to_base64(image):
+    if image:
+        photo_b64 = base64.b64encode(image.file.read())
+        photo_b64 = photo_b64.decode()
+        return photo_b64
+    return None
 
 
 def create_response(message, status, token=None, data=None):
@@ -353,5 +363,38 @@ def games(request):
         print(e)
         status = HTTP_403_FORBIDDEN
         message = "Erro a obter todos os jogos"
+
+    return create_response(message, status, token=token, data=data)
+
+
+######################### Update #########################
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_team(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            data_to_update = request.data
+            data_to_update['name'] = name
+
+            # encode logo
+            if 'logo' in data_to_update:
+                data_to_update['logo'] = image_to_base64(data_to_update['logo'])
+
+            add_status, message = queries.update_team(data_to_update)
+            if not add_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar equipa!"
 
     return create_response(message, status, token=token, data=data)
