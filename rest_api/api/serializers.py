@@ -47,6 +47,7 @@ class GamePlayerEventSerializer(serializers.Serializer):
     game = serializers.IntegerField(required=True, validators=[MinValueValidator(0)])
     player = serializers.IntegerField(required=True, validators=[MinValueValidator(0)])
     minute = serializers.IntegerField(required=True, validators=[MinValueValidator(0)])
+    kind_event = serializers.CharField(required=True, max_length=200)
 
 
 class GameStatusSerializer(serializers.Serializer):
