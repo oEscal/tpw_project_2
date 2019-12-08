@@ -27,4 +27,6 @@ urlpatterns = [
     path('add_game', add_game, name='add_game'),                                    # falta verificar se funciona
     path('add_event', add_event, name='add_event'),                                 # falta verificar se funciona
     path('add_player_to_game', add_player_to_game, name='add_player_to_game'),      # falta verificar se funciona
+
+    path('teams', teams, name='teams'),
 ]
