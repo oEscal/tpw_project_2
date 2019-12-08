@@ -9,6 +9,7 @@ from rest_framework.status import *
 
 import rest_api.queries as queries
 from api.serializers import *
+from rest_api.settings import MAX_PLAYERS_MATCH, MIN_PLAYERS_MATCH
 
 
 def verify_if_admin(user):
@@ -204,7 +205,7 @@ def add_game(request):
 
 @csrf_exempt
 @api_view(["POST"])
-def add_player_to_game(request):
+def add_players_game(request, id):
     status = HTTP_200_OK
     message = ""
     data = []
@@ -213,15 +214,21 @@ def add_player_to_game(request):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
 
     token = Token.objects.get(user=request.user).key
-    # noinspection PyInterpreter
     try:
-        player_game_serializer = PlayerGameSerializer(data=request.data)
-        if not player_game_serializer.is_valid():
-            data = player_game_serializer.errors
-            status = HTTP_400_BAD_REQUEST
-            message = "Dados inválidos!"
-        else:
-            add_status, message = queries.add_player_to_game(player_game_serializer.data)
+        make_query = True
+
+        # verify if number of players is greater or smaller than the constraints
+        for team_name in request.data:
+            if len(set(request.data[team_name])) > MAX_PLAYERS_MATCH or len(set(request.data[team_name])) < MIN_PLAYERS_MATCH:
+                message = f"Tem de escolher entre {MIN_PLAYERS_MATCH} e {MAX_PLAYERS_MATCH} " \
+                            f"jogadores na equipa {team_name}!"
+                status = HTTP_400_BAD_REQUEST
+                make_query = False
+        if make_query:
+            add_status, message = queries.add_player_to_game({
+                'id': id,
+                'teams': request.data
+            })
             status = HTTP_200_OK if add_status else HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)

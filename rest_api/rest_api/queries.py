@@ -185,9 +185,14 @@ def add_player_to_game(data):
         game_id = data['id']
         teams = data['teams']
 
-        # verify max and min number of players on that team on that game
-        for t in teams:
-            if len(set(teams[t])) > MAX_PLAYERS_MATCH or len(set(teams[t])) < MIN_PLAYERS_MATCH:
+        teams_played_game = [game_status.team.name for game_status in GameStatus.objects.filter(game_id=game_id)]
+        for team_name in teams:
+            # verify if teams selected played that game
+            if team_name not in teams_played_game:
+                return False, f"A equipa {team_name} não jogou o referido jogo!"
+
+            # verify max and min number of players on that team on that game
+            if len(set(teams[team_name])) > MAX_PLAYERS_MATCH or len(set(teams[team_name])) < MIN_PLAYERS_MATCH:
                 return False, f"O número de jogadores por equipa deve estar compreendido " \
                               f"entre {MIN_PLAYERS_MATCH} e {MAX_PLAYERS_MATCH}!"
 
@@ -195,15 +200,21 @@ def add_player_to_game(data):
         if PlayerPlayGame.objects.filter(game_id=game_id).exists():
             return False, "Já foram definidos os jogadores que jogam nesse jogo!"
 
-        for t in teams:
-            for p in teams[t]:
+        for team_name in teams:
+            for player_id in teams[team_name]:
+                player = Player.objects.get(id=player_id)
+
+                if player.team.name != team_name:
+                    transaction.rollback()
+                    return False, f"Jogador {player.name} não pertence à equipa {team_name}"
+
                 PlayerPlayGame.objects.create(
                     game=Game.objects.get(id=game_id),
-                    player=Player.objects.get(id=p)
+                    player=player
                 )
 
         transaction.set_autocommit(True)
-        return True, "Jogador adicionado com sucesso ao jogo"
+        return True, "Jogadores adicionado com sucesso ao jogo"
     except Game.DoesNotExist:
         transaction.rollback()
         return False, "Jogo não existente!"

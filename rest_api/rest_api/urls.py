@@ -27,7 +27,7 @@ urlpatterns = [
     path('add_player', add_player, name='add_player'),
     path('add_game', add_game, name='add_game'),
     path('add_event', add_event, name='add_event'),                                 # falta verificar se funciona
-    path('add_player_to_game', add_player_to_game, name='add_player_to_game'),      # falta verificar se funciona
+    url(r'^add_players_game/(?P<id>\w+)/$', add_players_game, name='add_players_game'),      # falta verificar se funciona
 
     path('teams', teams, name='teams'),
     url(r'^team/(?P<name>[\w\s]+)/$', team, name='team'),
