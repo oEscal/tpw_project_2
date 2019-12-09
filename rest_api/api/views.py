@@ -492,6 +492,12 @@ def update_game(request, id):
     return create_response(message, status, token=token, data=data)
 
 
+@csrf_exempt
+@api_view(["PUT"])
+def update_event(request, id):
+    pass
+
+
 ######################### Delete #########################
 
 
@@ -595,3 +601,9 @@ def remove_game(request, id):
             message = "Erro a eliminar jogo!"
 
     return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_event(request, id):
+    pass
