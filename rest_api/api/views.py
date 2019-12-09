@@ -1,3 +1,5 @@
+import base64
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
@@ -9,6 +11,7 @@ from rest_framework.status import *
 
 import rest_api.queries as queries
 from api.serializers import *
+from rest_api.settings import MAX_PLAYERS_MATCH, MIN_PLAYERS_MATCH
 
 
 def verify_if_admin(user):
@@ -27,6 +30,14 @@ def verify_if_admin(user):
 
 def whoami(user):
     return user.username
+
+
+def image_to_base64(image):
+    if image:
+        photo_b64 = base64.b64encode(image.file.read())
+        photo_b64 = photo_b64.decode()
+        return photo_b64
+    return None
 
 
 def create_response(message, status, token=None, data=None):
@@ -204,7 +215,7 @@ def add_game(request):
 
 @csrf_exempt
 @api_view(["POST"])
-def add_player_to_game(request):
+def add_players_game(request, id):
     status = HTTP_200_OK
     message = ""
     data = []
@@ -213,15 +224,21 @@ def add_player_to_game(request):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
 
     token = Token.objects.get(user=request.user).key
-    # noinspection PyInterpreter
     try:
-        player_game_serializer = PlayerGameSerializer(data=request.data)
-        if not player_game_serializer.is_valid():
-            data = player_game_serializer.errors
-            status = HTTP_400_BAD_REQUEST
-            message = "Dados inválidos!"
-        else:
-            add_status, message = queries.add_player_to_game(player_game_serializer.data)
+        make_query = True
+
+        # verify if number of players is greater or smaller than the constraints
+        for team_name in request.data:
+            if len(set(request.data[team_name])) > MAX_PLAYERS_MATCH or len(set(request.data[team_name])) < MIN_PLAYERS_MATCH:
+                message = f"Tem de escolher entre {MIN_PLAYERS_MATCH} e {MAX_PLAYERS_MATCH} " \
+                            f"jogadores na equipa {team_name}!"
+                status = HTTP_400_BAD_REQUEST
+                make_query = False
+        if make_query:
+            add_status, message = queries.add_player_to_game({
+                'id': id,
+                'teams': request.data
+            })
             status = HTTP_200_OK if add_status else HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)
@@ -251,7 +268,342 @@ def teams(request):
             status = HTTP_404_NOT_FOUND
     except Exception as e:
         print(e)
+        status = HTTP_403_FORBIDDEN
         message = "Erro a obter todas as equipas!"
 
     return create_response(message, status, token=token, data=data)
 
+
+@csrf_exempt
+@api_view(["GET"])
+def team(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_team(name)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter a equipa!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def player(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_player(id)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter o jogador!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def stadium(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_stadium(name)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter o estádio!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def games(request):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_games()
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter todos os jogos"
+
+    return create_response(message, status, token=token, data=data)
+
+
+######################### Update #########################
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_team(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            data_to_update = request.data
+            data_to_update['name'] = name
+
+            # encode logo
+            if 'logo' in data_to_update:
+                data_to_update['logo'] = image_to_base64(data_to_update['logo'])
+
+            add_status, message = queries.update_team(data_to_update)
+            if not add_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar equipa!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_player(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            data_to_update = request.data
+            data_to_update['id'] = id
+
+            # encode logo
+            if 'photo' in data:
+                data_to_update['photo'] = image_to_base64(data_to_update['photo'])
+
+            update_status, message = queries.update_player(data_to_update)
+            if not update_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar jogador!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_stadium(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            data_to_update = request.data
+            data_to_update['current_name'] = name
+
+            # encode logo
+            if 'picture' in data_to_update:
+                data_to_update['picture'] = image_to_base64(data_to_update['picture'])
+
+            update_status, message = queries.update_stadium(data_to_update)
+            if not update_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar estádio!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_player_game(request, name):
+    pass
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_game(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            data_to_update = request.data
+            data_to_update['id'] = id
+
+            update_status, message = queries.update_game(data_to_update)
+            if not update_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar jogo!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["PUT"])
+def update_event(request, id):
+    pass
+
+
+######################### Delete #########################
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_team(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            remove_status, message = queries.remove_team(name)
+
+            if not remove_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro a eliminar equipa!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_player(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            remove_status, message = queries.remove_player(id)
+
+            if not remove_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro a eliminar jogador!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_stadium(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            remove_status, message = queries.remove_stadium(name)
+
+            if not remove_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro a eliminar estádio!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_players_game(request, name):
+    pass
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_game(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            remove_status, message = queries.remove_game(id)
+
+            if not remove_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro a eliminar jogo!"
+
+    return create_response(message, status, token=token, data=data)
+
+
+@csrf_exempt
+@api_view(["DELETE"])
+def remove_event(request, id):
+    pass

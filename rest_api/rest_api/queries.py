@@ -185,9 +185,14 @@ def add_player_to_game(data):
         game_id = data['id']
         teams = data['teams']
 
-        # verify max and min number of players on that team on that game
-        for t in teams:
-            if len(set(teams[t])) > MAX_PLAYERS_MATCH or len(set(teams[t])) < MIN_PLAYERS_MATCH:
+        teams_played_game = [game_status.team.name for game_status in GameStatus.objects.filter(game_id=game_id)]
+        for team_name in teams:
+            # verify if teams selected played that game
+            if team_name not in teams_played_game:
+                return False, f"A equipa {team_name} não jogou o referido jogo!"
+
+            # verify max and min number of players on that team on that game
+            if len(set(teams[team_name])) > MAX_PLAYERS_MATCH or len(set(teams[team_name])) < MIN_PLAYERS_MATCH:
                 return False, f"O número de jogadores por equipa deve estar compreendido " \
                               f"entre {MIN_PLAYERS_MATCH} e {MAX_PLAYERS_MATCH}!"
 
@@ -195,15 +200,21 @@ def add_player_to_game(data):
         if PlayerPlayGame.objects.filter(game_id=game_id).exists():
             return False, "Já foram definidos os jogadores que jogam nesse jogo!"
 
-        for t in teams:
-            for p in teams[t]:
+        for team_name in teams:
+            for player_id in teams[team_name]:
+                player = Player.objects.get(id=player_id)
+
+                if player.team.name != team_name:
+                    transaction.rollback()
+                    return False, f"Jogador {player.name} não pertence à equipa {team_name}"
+
                 PlayerPlayGame.objects.create(
                     game=Game.objects.get(id=game_id),
-                    player=Player.objects.get(id=p)
+                    player=player
                 )
 
         transaction.set_autocommit(True)
-        return True, "Jogador adicionado com sucesso ao jogo"
+        return True, "Jogadores adicionado com sucesso ao jogo"
     except Game.DoesNotExist:
         transaction.rollback()
         return False, "Jogo não existente!"
@@ -450,6 +461,8 @@ def get_info_game(id):
 
 
 ######################### Update #########################
+
+
 def update_team(data):
     transaction.set_autocommit(False)
 
@@ -459,11 +472,14 @@ def update_team(data):
         if not team.exists():
             return False, "Equipa a editar não existe na base de dados!"
 
-        if data['foundation_date'] is not None:
+        if 'foundation_date' in data and data['foundation_date'] is not None:
             team.update(foundation_date=data['foundation_date'])
-        if data['logo'] is not None:
+        if 'logo' in data and data['logo'] is not None:
             team.update(logo=data['logo'])
-        if data['stadium'] is not None:
+        if 'stadium' in data and data['stadium'] is not None:
+            if (Team.objects.filter(stadium__name=data['stadium']).exists()
+                  and not Team.objects.filter(Q(stadium__name=data['stadium']) & Q(name=data['name'])).exists()):
+                return False, "O estádio selecionado já pertence a outra equipa!"
             team.update(stadium=Stadium.objects.get(name=data['stadium']))
 
         transaction.set_autocommit(True)
@@ -486,11 +502,11 @@ def update_game(data):
             transaction.rollback()
             return False, "Jogo a editar nao existe na base de dados!"
 
-        if data['date']:
+        if 'date' in data and data['date']:
             game.update(date=data['date'])
-        if data['journey']:
+        if 'journey' in data and data['journey']:
             game.update(journey=data['journey'])
-        if data['stadium']:
+        if 'stadium' in data and data['stadium']:
             game.update(stadium=Stadium.objects.get(name=data['stadium']))
 
         teams = game[0].teams.all()
@@ -500,9 +516,9 @@ def update_game(data):
 
         home_ball_pos, away_ball_pos = None, None
 
-        if data['home_ball_pos'] is not None:
+        if 'home_ball_pos' in data and data['home_ball_pos'] is not None:
             home_ball_pos = data['home_ball_pos']
-        if data['away_ball_pos'] is not None:
+        if 'away_ball_pos' in data and data['away_ball_pos'] is not None:
             away_ball_pos = data['away_ball_pos']
 
         if home_ball_pos is not None and away_ball_pos is not None:
@@ -513,22 +529,22 @@ def update_game(data):
                 game_status_home.update(ball_possession=home_ball_pos)
                 game_status_away.update(ball_possession=away_ball_pos)
 
-        if data['home_goals']:
+        if 'home_goals' in data and data['home_goals']:
             game_status_home.update(goals=data['home_goals'])
 
-        if data['away_goals']:
+        if 'away_goals' in data and data['away_goals']:
             game_status_away.update(goals=data['away_goals'])
 
-        if data['home_shots']:
+        if 'home_shots' in data and data['home_shots']:
             game_status_home.update(shots=data['home_shots'])
 
-        if data['away_shots']:
+        if 'away_shots' in data and data['away_shots']:
             game_status_away.update(shots=data['away_shots'])
 
-        if data['home_corners']:
+        if 'home_corners' in data and data['home_corners']:
             game_status_home.update(corners=data['home_corners'])
 
-        if data['away_corners']:
+        if 'away_corners' in data and data['away_corners']:
             game_status_away.update(corners=data['away_corners'])
 
         transaction.set_autocommit(True)
@@ -559,14 +575,14 @@ def update_stadium(data):
         stadium = Stadium.objects.filter(name=data['current_name'])
 
         if not stadium.exists():
-            return False, "Estadio a editar mao existe na base de dados"
+            return False, "Estadio a editar não existe na base de dados"
 
-        if data['name'] is not None:
+        if 'name' in data and data['name'] is not None:
             stadium.update(name=data['name'])
             stadium = Stadium.objects.filter(name=data['name'])
-        if data['number_seats'] is not None:
+        if 'number_seats' in data and data['number_seats'] is not None:
             stadium.update(number_seats=data['number_seats'])
-        if data['picture'] is not None:
+        if 'picture' in data and data['picture'] is not None:
             stadium.update(picture=data['picture'])
 
         transaction.set_autocommit(True)
@@ -574,7 +590,7 @@ def update_stadium(data):
     except Exception as e:
         print(e)
         transaction.rollback()
-        return False, "Errno na base de dados a editar as informações do estadio!"
+        return False, "Erro na base de dados a editar as informações do estadio!"
 
 
 def update_player_to_game(data):
@@ -617,21 +633,21 @@ def update_player(data):
         if not player.exists():
             return False, "Jogador a editar não existe na base de dados!"
 
-        if data['name'] is not None:
+        if 'name' in data and data['name'] is not None:
             player.update(name=data['name'])
-        if data['photo'] is not None:
+        if 'photo' in data and data['photo'] is not None:
             player.update(photo=data['photo'])
-        if data['position'] is not None:
+        if 'position' in data and data['position'] is not None:
             player.update(position=Position.objects.get(name=data['position']))
-        if data['birth_date'] is not None:
+        if 'birth_date' in data and data['birth_date'] is not None:
             player.update(birth_date=data['birth_date'])
-        if data['nick'] is not None:
+        if 'nick' in data and data['nick'] is not None:
             player.update(nick=data['nick'])
-        if data['team'] is not None:
+        if 'team' in data and data['team'] is not None:
             player.update(team=Team.objects.get(name=data['team']))
 
         transaction.set_autocommit(True)
-        return True, "Jogador editada com sucesso"
+        return True, "Jogador editado com sucesso"
     except Team.DoesNotExist:
         return False, "Equipa inexistente!"
     except Position.DoesNotExist:
@@ -764,11 +780,13 @@ def remove_stadium(name):
     transaction.set_autocommit(False)
     try:
         stadium = Stadium.objects.get(name=name)
-        team = Team.objects.get(stadium=stadium)
-        remove_team_status, message = remove_team(team.name)
-        if not remove_team_status:
-            transaction.rollback()
-            return False, message
+
+        if Team.objects.filter(stadium=stadium).exists():
+            team = Team.objects.get(stadium=stadium)
+            remove_team_status, message = remove_team(team.name)
+            if not remove_team_status:
+                transaction.rollback()
+                return False, message
 
         stadium.delete()
         transaction.set_autocommit(True)
@@ -793,7 +811,6 @@ def remove_allplayersFrom_game(game_id):
         return True, "Todos os jogadores removidos com sucesso do jogo!"
     except PlayerPlayGame.DoesNotExist:
         return False, "Jogo inexistente!"
-
     except Exception as e:
         print(e)
         return False, "Erro ao eliminar todos os jogadores do jogo!"
@@ -803,7 +820,7 @@ def remove_game(game_id):
     transaction.set_autocommit(False)
 
     try:
-        game = Game.objects.filter(id=game_id)
+        game = Game.objects.get(id=game_id)
         game_status = GameStatus.objects.filter(game=game_id)
 
         remove_players_status, message = remove_allplayersFrom_game(game_id)  # remove player form game and their events
@@ -815,6 +832,8 @@ def remove_game(game_id):
 
         transaction.set_autocommit(True)
         return True, "Jogo removido com sucesso!"
+    except Game.DoesNotExist:
+        return False, "Jogo inexistente!"
     except Exception as e:
         transaction.rollback()
         print(e)
