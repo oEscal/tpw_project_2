@@ -38,11 +38,12 @@ urlpatterns = [
     url(r'^update_team/(?P<name>[\w\s]+)/$', update_team, name='update_team'),
     url(r'^update_player/(?P<id>\w+)/$', update_player, name='update_player'),
     url(r'^update_stadium/(?P<name>[\w\s()]+)/$', update_stadium, name='update_stadium'),
-    # url(r'^update_game/(?P<id>\w+)/$', update_game, name='update_game'),
-    # url(r'^update_players_game/(?P<id>\w+)/$', update_player_game, name='update_players_game'),
+    url(r'^update_players_game/(?P<id>\w+)/$', update_player_game, name='update_players_game'),             # em falta
+    url(r'^update_game/(?P<id>\w+)/$', update_game, name='update_game'),
     # url(r'^update_event/(?P<id>\w+)/$', update_event, name='update_event'),
 
     url(r'^remove_team/(?P<name>[\w\s]+)/$', remove_team, name='remove_team'),
     url(r'^remove_player/(?P<id>[\w\s]+)/$', remove_player, name='remove_player'),
     url(r'^remove_stadium/(?P<name>[\w\s]+)/$', remove_stadium, name='remove_stadium'),
+    url(r'^remove_players_game/(?P<id>[\w\s]+)/$', remove_players_game, name='remove_players_game'),        # em falta
 ]

@@ -502,11 +502,11 @@ def update_game(data):
             transaction.rollback()
             return False, "Jogo a editar nao existe na base de dados!"
 
-        if data['date']:
+        if 'date' in data and data['date']:
             game.update(date=data['date'])
-        if data['journey']:
+        if 'journey' in data and data['journey']:
             game.update(journey=data['journey'])
-        if data['stadium']:
+        if 'stadium' in data and data['stadium']:
             game.update(stadium=Stadium.objects.get(name=data['stadium']))
 
         teams = game[0].teams.all()
@@ -516,9 +516,9 @@ def update_game(data):
 
         home_ball_pos, away_ball_pos = None, None
 
-        if data['home_ball_pos'] is not None:
+        if 'home_ball_pos' in data and data['home_ball_pos'] is not None:
             home_ball_pos = data['home_ball_pos']
-        if data['away_ball_pos'] is not None:
+        if 'away_ball_pos' in data and data['away_ball_pos'] is not None:
             away_ball_pos = data['away_ball_pos']
 
         if home_ball_pos is not None and away_ball_pos is not None:
@@ -529,22 +529,22 @@ def update_game(data):
                 game_status_home.update(ball_possession=home_ball_pos)
                 game_status_away.update(ball_possession=away_ball_pos)
 
-        if data['home_goals']:
+        if 'home_goals' in data and data['home_goals']:
             game_status_home.update(goals=data['home_goals'])
 
-        if data['away_goals']:
+        if 'away_goals' in data and data['away_goals']:
             game_status_away.update(goals=data['away_goals'])
 
-        if data['home_shots']:
+        if 'home_shots' in data and data['home_shots']:
             game_status_home.update(shots=data['home_shots'])
 
-        if data['away_shots']:
+        if 'away_shots' in data and data['away_shots']:
             game_status_away.update(shots=data['away_shots'])
 
-        if data['home_corners']:
+        if 'home_corners' in data and data['home_corners']:
             game_status_home.update(corners=data['home_corners'])
 
-        if data['away_corners']:
+        if 'away_corners' in data and data['away_corners']:
             game_status_away.update(corners=data['away_corners'])
 
         transaction.set_autocommit(True)
