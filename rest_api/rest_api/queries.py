@@ -575,14 +575,14 @@ def update_stadium(data):
         stadium = Stadium.objects.filter(name=data['current_name'])
 
         if not stadium.exists():
-            return False, "Estadio a editar mao existe na base de dados"
+            return False, "Estadio a editar não existe na base de dados"
 
-        if data['name'] is not None:
+        if 'name' in data and data['name'] is not None:
             stadium.update(name=data['name'])
             stadium = Stadium.objects.filter(name=data['name'])
-        if data['number_seats'] is not None:
+        if 'number_seats' in data and data['number_seats'] is not None:
             stadium.update(number_seats=data['number_seats'])
-        if data['picture'] is not None:
+        if 'picture' in data and data['picture'] is not None:
             stadium.update(picture=data['picture'])
 
         transaction.set_autocommit(True)
@@ -590,7 +590,7 @@ def update_stadium(data):
     except Exception as e:
         print(e)
         transaction.rollback()
-        return False, "Errno na base de dados a editar as informações do estadio!"
+        return False, "Erro na base de dados a editar as informações do estadio!"
 
 
 def update_player_to_game(data):

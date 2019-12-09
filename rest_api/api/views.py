@@ -430,6 +430,36 @@ def update_player(request, id):
     return create_response(message, status, token=token, data=data)
 
 
+@csrf_exempt
+@api_view(["PUT"])
+def update_stadium(request, name):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            data_to_update = request.data
+            data_to_update['current_name'] = name
+
+            # encode logo
+            if 'picture' in data_to_update:
+                data_to_update['picture'] = image_to_base64(data_to_update['picture'])
+
+            update_status, message = queries.update_stadium(data_to_update)
+            if not update_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar estádio!"
+
+    return create_response(message, status, token=token, data=data)
+
+
 ######################### Delete #########################
 
 
