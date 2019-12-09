@@ -811,7 +811,6 @@ def remove_allplayersFrom_game(game_id):
         return True, "Todos os jogadores removidos com sucesso do jogo!"
     except PlayerPlayGame.DoesNotExist:
         return False, "Jogo inexistente!"
-
     except Exception as e:
         print(e)
         return False, "Erro ao eliminar todos os jogadores do jogo!"
@@ -821,7 +820,7 @@ def remove_game(game_id):
     transaction.set_autocommit(False)
 
     try:
-        game = Game.objects.filter(id=game_id)
+        game = Game.objects.get(id=game_id)
         game_status = GameStatus.objects.filter(game=game_id)
 
         remove_players_status, message = remove_allplayersFrom_game(game_id)  # remove player form game and their events
@@ -833,6 +832,8 @@ def remove_game(game_id):
 
         transaction.set_autocommit(True)
         return True, "Jogo removido com sucesso!"
+    except Game.DoesNotExist:
+        return False, "Jogo inexistente!"
     except Exception as e:
         transaction.rollback()
         print(e)
