@@ -780,11 +780,13 @@ def remove_stadium(name):
     transaction.set_autocommit(False)
     try:
         stadium = Stadium.objects.get(name=name)
-        team = Team.objects.get(stadium=stadium)
-        remove_team_status, message = remove_team(team.name)
-        if not remove_team_status:
-            transaction.rollback()
-            return False, message
+
+        if Team.objects.filter(stadium=stadium).exists():
+            team = Team.objects.get(stadium=stadium)
+            remove_team_status, message = remove_team(team.name)
+            if not remove_team_status:
+                transaction.rollback()
+                return False, message
 
         stadium.delete()
         transaction.set_autocommit(True)
