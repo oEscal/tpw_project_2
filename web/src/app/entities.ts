@@ -14,6 +14,16 @@ export class PlayerMinimal {
   photo: File;
 }
 
+export class Player {
+  id: number;
+  name: string;
+  bird_date: string;
+  nick: string;
+  position: string;
+  team: string;
+  photo: File;
+}
+
 export class TeamMinimal {
   name: string;
   logo: File;

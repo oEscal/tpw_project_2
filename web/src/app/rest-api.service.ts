@@ -64,4 +64,9 @@ export class RestApiService {
     const url: string = `${API_URL}/positions/`;
     return this.http.get(url, http_options);
   }
+
+  get_player(id): Observable<any> {
+    const url: string = `${API_URL}/player/${id}/`;
+    return this.http.get(url, http_options);
+  }
 }

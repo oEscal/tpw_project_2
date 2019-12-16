@@ -7,6 +7,7 @@ import {AddTeamComponent} from './add-team/add-team.component';
 import {TeamsComponent} from './teams/teams.component';
 import {TeamComponent} from './team/team.component';
 import {AddPlayerComponent} from './add-player/add-player.component';
+import {PlayerComponent} from './player/player.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
 
   {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}},
   {path: 'equipas', component: TeamsComponent, data: {title: 'Equipas'}},
-  {path: 'equipa/:name', component: TeamComponent, data: {title: 'Equipa'}}
+  {path: 'equipa/:name', component: TeamComponent, data: {title: 'Equipa'}},
+  {path: 'jogador/:id', component: PlayerComponent, data: {title: 'Jogador'}}
 ];
 
 
