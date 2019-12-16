@@ -15,18 +15,18 @@ export class StadiumComponent implements OnInit {
   stadium: Stadium = null;
 
   error_message: string = '';
-  stadium_name;
+  stadium_name: string;
 
   constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {this.stadium_name = params.name;});
-    this.get_stadium(this.stadium_name);
+    this.get_stadium();
   }
 
-  get_stadium(stadium_name): void {
-    this.rest_api_service.get_stadium(stadium_name).subscribe(
+  get_stadium(): void {
+    this.rest_api_service.get_stadium(this.stadium_name).subscribe(
       result => this.stadium = result.data as Stadium,
       error => this.handle_error(error));
   }
