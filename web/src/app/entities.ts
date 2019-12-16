@@ -8,6 +8,7 @@ export class Stadium {
 }
 
 export class PlayerMinimal {
+  id: number;
   name: string;
   position: string;
   photo: File;

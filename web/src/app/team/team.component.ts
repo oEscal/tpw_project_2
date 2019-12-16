@@ -11,7 +11,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class TeamComponent implements OnInit {
 
-  team: TeamMinimal;
+  team: Team;
 
   team_name: string;
   error_message: string = '';
@@ -20,7 +20,7 @@ export class TeamComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {this.team_name = params.name;});
+    this.route.params.subscribe(params => {this.team_name = params.name; });
     this.get_team();
   }
 
