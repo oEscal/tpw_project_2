@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Stadium} from './entities';
 
 
 const http_options = {
@@ -10,7 +11,7 @@ const http_options = {
   })
 };
 
-const API_URL: string = 'http://localhost:8000/';
+const API_URL: string = 'http://localhost:8000';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,12 @@ export class RestApiService {
   constructor(private http: HttpClient) { }
 
   add_stadium(new_stadium): Observable<any> {
-    const url: string = API_URL + 'add_stadium';
+    const url: string = `${API_URL}/add_stadium`;
     return this.http.post(url, new_stadium, http_options);
+  }
+
+  get_stadium(name): Observable<any> {
+    const url: string = `${API_URL}/stadium/${name}/`;
+    return this.http.get(url, http_options);
   }
 }

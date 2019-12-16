@@ -6,13 +6,13 @@ import { AppComponent } from './app.component';
 import { AddStadiumComponent } from './add-stadium/add-stadium.component';
 import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { EstadioComponent } from './estadio/estadio.component';
+import { StadiumComponent } from './stadium/stadium.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddStadiumComponent,
-    EstadioComponent
+    StadiumComponent,
   ],
   imports: [
     BrowserModule,

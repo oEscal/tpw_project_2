@@ -4,4 +4,5 @@ export class Stadium {
   address: string;
   number_seats: number;
   picture: File;
+  team: string;
 }

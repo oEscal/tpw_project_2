@@ -316,9 +316,10 @@ def get_stadium(name):
         stadium = Stadium.objects.get(name=name)
 
         result.update(StadiumSerializer(stadium).data)
-        result.update({
-            'team': Team.objects.get(stadium__name=name).name
-        })
+        if Team.objects.filter(stadium__name=name).exists():
+            result.update({
+                'team': Team.objects.get(stadium__name=name).name
+            })
         result['picture'] = stadium.picture
     except Stadium.DoesNotExist:
         return None, "Não existe nenhum estádio com esse nome na base de dados!"
