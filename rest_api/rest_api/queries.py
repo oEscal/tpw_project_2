@@ -334,14 +334,24 @@ def get_all_unused_stadiums():
     result = {}
 
     try:
-        stadiums = Stadium.objects.all()
-        result = [stadium.name for stadium in stadiums if not Team.objects.filter(stadium=stadium).exists()]
+        result = [stadium.name for stadium in Stadium.objects.all() if not Team.objects.filter(stadium=stadium).exists()]
     except Exception as e:
         print(e)
         return None, "Erro na base de dados a obter os estádios!"
 
     return result, "Sucesso"
 
+
+def get_stadiums():
+    result = {}
+
+    try:
+        result = [stadium.name for stadium in Stadium.objects.all()]
+    except Exception as e:
+        print(e)
+        return None, "Erro na base de dados a obter os estádios!"
+
+    return result, "Sucesso"
 
 def get_games():
     result = []

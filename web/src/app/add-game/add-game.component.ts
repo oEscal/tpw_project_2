@@ -31,8 +31,8 @@ export class AddGameComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rest_api_service.get_positions().subscribe(
-      result => this.player_positions = result.data,
+    this.rest_api_service.get_stadiums().subscribe(
+      result => this.stadiums = result.data,
       error => this.handle_error(error));
 
     // TODO -> posteriormente, poderá adicionar-se um método à rest api só para retornar os nomes das equipas, para não tornar esta chamada tão pesada
