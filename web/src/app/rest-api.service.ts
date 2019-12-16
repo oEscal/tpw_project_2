@@ -44,4 +44,9 @@ export class RestApiService {
     const url: string = `${API_URL}/get_all_unused_stadiums/`;
     return this.http.get(url, http_options);
   }
+
+  get_teams(): Observable<any> {
+    const url: string = `${API_URL}/teams/`;
+    return this.http.get(url, http_options);
+  }
 }

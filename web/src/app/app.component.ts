@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
 
   title = '';
 
-  constructor(private route:ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 

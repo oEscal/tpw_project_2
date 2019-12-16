@@ -21,7 +21,7 @@ export class StadiumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {this.stadium_name = params.name})
+    this.route.params.subscribe(params => {this.stadium_name = params.name;});
     this.get_stadium(this.stadium_name);
   }
 
@@ -35,5 +35,4 @@ export class StadiumComponent implements OnInit {
     console.log(error);
     this.error_message = error.error.message;
   }
-
 }

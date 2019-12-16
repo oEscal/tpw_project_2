@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { StadiumComponent } from './stadium/stadium.component';
 import { AddTeamComponent } from './add-team/add-team.component';
+import { TeamsComponent } from './teams/teams.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { AddTeamComponent } from './add-team/add-team.component';
     AddStadiumComponent,
     StadiumComponent,
     AddTeamComponent,
+    TeamsComponent,
   ],
   imports: [
     BrowserModule,

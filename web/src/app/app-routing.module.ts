@@ -4,13 +4,15 @@ import {RouterModule, Routes} from '@angular/router';
 import {AddStadiumComponent} from './add-stadium/add-stadium.component';
 import {StadiumComponent} from './stadium/stadium.component';
 import {AddTeamComponent} from './add-team/add-team.component';
+import {TeamsComponent} from './teams/teams.component';
 
 
 const routes: Routes = [
   {path: 'adicionar-estadio', component: AddStadiumComponent, data: {title: 'Adicionar estádio'}},
   {path: 'adicionar-equipa', component: AddTeamComponent, data: {title: 'Adicionar equipa'}},
 
-  {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}}
+  {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}},
+  {path: 'equipas', component: TeamsComponent, data: {title: 'Equipas'}}
 ];
 
 
