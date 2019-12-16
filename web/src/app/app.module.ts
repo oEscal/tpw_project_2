@@ -7,12 +7,14 @@ import { AddStadiumComponent } from './add-stadium/add-stadium.component';
 import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { StadiumComponent } from './stadium/stadium.component';
+import { AddTeamComponent } from './add-team/add-team.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddStadiumComponent,
     StadiumComponent,
+    AddTeamComponent,
   ],
   imports: [
     BrowserModule,
