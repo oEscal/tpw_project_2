@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Stadium} from '../entities';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
-import {catchError} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
-import {error} from 'util';
+
 
 @Component({
   selector: 'app-add-stadium',
