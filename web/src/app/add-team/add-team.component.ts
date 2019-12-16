@@ -26,7 +26,9 @@ export class AddTeamComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.rest_api_service.get_all_unused_stadiums().subscribe(
+      result => this.stadiums = result.data,
+      error => this.handle_error(error));
   }
 
   add_team(new_team): void {
