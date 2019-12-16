@@ -20,10 +20,20 @@ export class RestApiService {
 
   constructor(private http: HttpClient) { }
 
+  /************************************** Add **************************************/
+
   add_stadium(new_stadium): Observable<any> {
     const url: string = `${API_URL}/add_stadium`;
     return this.http.post(url, new_stadium, http_options);
   }
+
+  add_team(new_team): Observable<any> {
+    const url: string = `${API_URL}/add_team`;
+    return this.http.post(url, new_team, http_options);
+  }
+
+
+  /************************************** Get **************************************/
 
   get_stadium(name): Observable<any> {
     const url: string = `${API_URL}/stadium/${name}/`;

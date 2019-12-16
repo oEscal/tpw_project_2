@@ -6,3 +6,10 @@ export class Stadium {
   picture: File;
   team: string;
 }
+
+export class Team {
+  name: string;
+  foundation_date: string;
+  logo: File;
+  stadium: string;
+}
