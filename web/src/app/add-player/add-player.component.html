@@ -60,7 +60,7 @@
                   <select formControlName="position" class="form-control" placeholder="Insira a posição do jogador" id="id_position">
                     <option value="-">Insira a posição do jogador</option>
 
-                    <option *ngFor="let position of player_positions">{{ position }}</option>
+                    <option *ngFor="let position of player_positions" value="{{ position }}">{{ position }}</option>
 
                   </select>
 
@@ -75,7 +75,7 @@
                   <select formControlName="team" class="form-control" placeholder="Insira a equipa do jogador" id="id_team">
                     <option value="-">Insira a equipa do jogador</option>
 
-                    <option *ngFor="let team of teams">{{ team.name }}</option>
+                    <option *ngFor="let team of teams" value="{{ team.name }}">{{ team.name }}</option>
 
                   </select>
 
