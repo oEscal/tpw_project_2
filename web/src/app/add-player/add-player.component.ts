@@ -29,9 +29,14 @@ export class AddPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.rest_api_service.get_all_unused_stadiums().subscribe(
-    //   result => this.stadiums = result.data,
-    //   error => this.handle_error(error));
+    this.rest_api_service.get_positions().subscribe(
+      result => this.player_positions = result.data,
+      error => this.handle_error(error));
+
+    // TODO -> posteriormente, poderá adicionar-se um método à rest api só para retornar os nomes das equipas, para não tornar esta chamada tão pesada
+    this.rest_api_service.get_teams().subscribe(
+      result => this.teams = result.data,
+      error => this.handle_error(error));
   }
 
   add_player(new_player): void {
