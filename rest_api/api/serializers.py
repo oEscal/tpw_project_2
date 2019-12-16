@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from api.models import *
-from rest_framework.compat import MinValueValidator, MaxValueValidator
+# from rest_framework.compat import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class UserLoginSerializer(serializers.Serializer):
