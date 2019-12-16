@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Stadium, Team} from '../entities';
+import {Stadium, TeamMinimal} from '../entities';
 import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -11,7 +11,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class TeamsComponent implements OnInit {
 
-  teams: Team[];
+  teams: TeamMinimal[];
 
   error_message: string = '';
 
@@ -24,7 +24,7 @@ export class TeamsComponent implements OnInit {
 
   get_teams(): void {
     this.rest_api_service.get_teams().subscribe(
-      result => this.teams = result.data as Team[],
+      result => this.teams = result.data as TeamMinimal[],
       error => this.handle_error(error));
   }
 

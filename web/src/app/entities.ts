@@ -7,6 +7,11 @@ export class Stadium {
   team: string;
 }
 
+export class TeamMinimal {
+  name: string;
+  logo: File;
+}
+
 export class Team {
   name: string;
   foundation_date: string;
