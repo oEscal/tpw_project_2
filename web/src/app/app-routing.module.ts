@@ -8,7 +8,7 @@ import {StadiumComponent} from './stadium/stadium.component';
 const routes: Routes = [
   {path: 'adicionar-estadio', component: AddStadiumComponent, data: {title: 'Adicionar estádio'}},
 
-  {path: 'estadio', component: StadiumComponent, data: {title: 'Estádio'}}
+  {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}}
 ];
 
 

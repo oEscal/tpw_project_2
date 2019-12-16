@@ -3,6 +3,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {RestApiService} from '../rest-api.service';
 import {FormBuilder} from '@angular/forms';
 import {Stadium} from '../entities';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
 
 
 @Component({
@@ -15,12 +17,14 @@ export class StadiumComponent implements OnInit {
   stadium: Stadium = null;
 
   error_message: string = '';
+  stadium_name;
 
-  constructor(private rest_api_service: RestApiService) {
+  constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.get_stadium('ola');
+    this.route.params.subscribe(params => {this.stadium_name = params.name})
+    this.get_stadium(this.stadium_name);
   }
 
   get_stadium(stadium_name): void {
