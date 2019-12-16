@@ -17,7 +17,7 @@ export class PlayerMinimal {
 export class Player {
   id: number;
   name: string;
-  bird_date: string;
+  birth_date: string;
   nick: string;
   position: string;
   team: string;
