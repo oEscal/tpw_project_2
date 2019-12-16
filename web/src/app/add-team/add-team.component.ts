@@ -10,6 +10,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class AddTeamComponent implements OnInit {
 
+  stadiums;
   new_team;
 
   error_message:string = null;
@@ -25,6 +26,7 @@ export class AddTeamComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   add_team(new_team): void {
