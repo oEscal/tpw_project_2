@@ -353,6 +353,7 @@ def get_stadiums():
 
     return result, "Sucesso"
 
+
 def get_games():
     result = []
 

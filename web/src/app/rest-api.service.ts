@@ -79,4 +79,9 @@ export class RestApiService {
     const url: string = `${API_URL}/stadiums/`;
     return this.http.get(url, http_options);
   }
+
+  get_games(): Observable<any> {
+    const url: string = `${API_URL}/games/`;
+    return this.http.get(url, http_options);
+  }
 }

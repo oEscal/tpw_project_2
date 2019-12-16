@@ -36,3 +36,21 @@ export class Team {
   stadium: string;
   players: PlayerMinimal[];
 }
+
+export class Event {
+  kind_event: string;
+  id: number;
+  minute: number;
+  player: string;
+  player_id: number;
+  photo: File;
+  team: string;
+}
+
+export class Game {
+  id: number;
+  stadium: string;
+  stadium_picture: File;
+  teams: TeamMinimal[];
+  events: Event[];
+}
