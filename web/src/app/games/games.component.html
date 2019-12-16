@@ -1,1 +1,95 @@
-<p>games works!</p>
+<div class="site-section site-blocks-vs">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+
+
+        <!-- More Info -->
+        <!--ADICIONAR AQUI-->
+      </div>
+    </div>
+
+    <!-- All games -->
+    <div class="row align-items-center mb-5">
+      <div class="col-md-12">
+        <div *ngFor="let game of games" class="row bg-white align-items-center ml-0 mr-0 py-4 match-entry">
+          <div class="col-md-4 col-lg-4 mb-4 mb-lg-0">
+
+            <div class="text-center text-lg-left">
+              <div class="d-block d-lg-flex align-items-center">
+                <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
+                  <!--TODO-->
+                  <img src="https://domingoasdez.com/images/default-emblem.png" alt="Image" class="img-fluid">
+                </div>
+                <div class="text">
+                  <h3 class="h5 mb-0 text-black">
+                    <a routerLink="/equipa/{{ game.teams[0].name }}" target="_blank">
+                      {{ game.teams[0].name }}
+                    </a>
+                  </h3>
+                  <span class="text-uppercase small country">Casa</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-4 col-lg-4 text-center mb-4 mb-lg-0">
+            <div class="d-inline-block">
+              <p class="mb-0"><small class="text-uppercase text-black font-weight-bold">10
+                {{ game.date }}</small></p>
+              <div class="bg-black py-2 px-4 mb-2 text-white d-inline-block rounded"><span
+                class="h5">{{ game.teams[0].goals }}:{{ game.teams[1].goals }}</span></div>
+            </div>
+            <br>
+            <button class="btn btn-dark more_info_btn" id="{{ game.id }}">Mais info</button>
+          </div>
+          <div class="col-md-4 col-lg-4 text-center text-lg-right">
+            <div class="">
+              <div class="d-block d-lg-flex align-items-center">
+                <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
+                  <!--TODO-->
+                  <img src="https://domingoasdez.com/images/default-emblem.png" alt="Image" class="img-fluid">
+                </div>
+                <div class="text order-1 w-100">
+                  <h3 class="h5 mb-0 text-black">
+                    <a routerLink="/equipa/{{ game.teams[1].name }}" target="_blank">
+                      {{ game.teams[1].name }}
+                    </a>
+                  </h3>
+                  <span class="text-uppercase small country">Fora</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- TODO
+          {% if is_admin %}
+          -->
+          <div class="col-12 text-center mb-4 p-3 row">
+            <div class="col-5 p-2">
+              <a type="button" class="btn btn-success col-12 pull-left"
+                 routerLink="/adicionar-evento/{{ game.id }}" target="_blank">
+                Adicionar eventos
+              </a>
+            </div>
+            <div class="col-2 p-2">
+              <a class="btn btn-warning col-12 pull-right"
+                 routerLink="/atualizar-jogo/{{ game.id }}" target="_blank">
+                Editar
+              </a>
+            </div>
+            <div class="col-5 p-2">
+              <a type="button" class="btn btn-success col-12 pull-right"
+                 routerLink="/adicionar-jogadores-jogo/{{ game.id }}" target="_blank">
+                Adicionar jogadores
+              </a>
+            </div>
+          </div>
+          <!-- TODO
+          {% endif %}
+          -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

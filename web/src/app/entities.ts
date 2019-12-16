@@ -47,10 +47,20 @@ export class Event {
   team: string;
 }
 
+export class TeamPlayGame {
+  name: string;
+  shots: number;
+  ball_possession: number;
+  corners: number;
+  goals: number;
+  logo: File;
+}
+
 export class Game {
   id: number;
+  date: string;
   stadium: string;
   stadium_picture: File;
-  teams: TeamMinimal[];
+  teams: TeamPlayGame[];
   events: Event[];
 }
