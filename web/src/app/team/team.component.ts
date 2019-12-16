@@ -1,30 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import {TeamMinimal} from '../entities';
+import {Team, TeamMinimal} from '../entities';
 import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
-  selector: 'app-teams',
-  templateUrl: './teams.component.html',
-  styleUrls: ['./teams.component.css']
+  selector: 'app-team',
+  templateUrl: './team.component.html',
+  styleUrls: ['./team.component.css']
 })
-export class TeamsComponent implements OnInit {
+export class TeamComponent implements OnInit {
 
-  teams: TeamMinimal[];
+  team: TeamMinimal;
 
+  team_name: string;
   error_message: string = '';
 
   constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.get_teams();
+    this.route.params.subscribe(params => {this.team_name = params.name;});
+    this.get_team();
   }
 
-  get_teams(): void {
-    this.rest_api_service.get_teams().subscribe(
-      result => this.teams = result.data as TeamMinimal[],
+  get_team(): void {
+    this.rest_api_service.get_team(this.team_name).subscribe(
+      result => this.team = result.data as Team,
       error => this.handle_error(error));
   }
 

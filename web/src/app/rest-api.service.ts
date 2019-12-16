@@ -49,4 +49,9 @@ export class RestApiService {
     const url: string = `${API_URL}/teams/`;
     return this.http.get(url, http_options);
   }
+
+  get_team(name): Observable<any> {
+    const url: string = `${API_URL}/team/${name}`;
+    return this.http.get(url, http_options);
+  }
 }

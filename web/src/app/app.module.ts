@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { StadiumComponent } from './stadium/stadium.component';
 import { AddTeamComponent } from './add-team/add-team.component';
 import { TeamsComponent } from './teams/teams.component';
+import { TeamComponent } from './team/team.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { TeamsComponent } from './teams/teams.component';
     StadiumComponent,
     AddTeamComponent,
     TeamsComponent,
+    TeamComponent,
   ],
   imports: [
     BrowserModule,

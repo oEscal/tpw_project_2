@@ -7,6 +7,12 @@ export class Stadium {
   team: string;
 }
 
+export class PlayerMinimal {
+  name: string;
+  position: string;
+  photo: File;
+}
+
 export class TeamMinimal {
   name: string;
   logo: File;
@@ -17,4 +23,5 @@ export class Team {
   foundation_date: string;
   logo: File;
   stadium: string;
+  players: PlayerMinimal[];
 }
