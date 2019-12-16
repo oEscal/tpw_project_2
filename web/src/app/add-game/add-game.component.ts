@@ -41,8 +41,8 @@ export class AddGameComponent implements OnInit {
       error => this.handle_error(error));
   }
 
-  add_player(new_player): void {
-    this.rest_api_service.add_player(new_player).subscribe(
+  add_game(new_game): void {
+    this.rest_api_service.add_game(new_game).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }
