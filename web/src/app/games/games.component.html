@@ -3,10 +3,250 @@
     <div class="row">
       <div class="col-md-12">
 
-
+        <div *ngIf="error_message" class="alert alert-primary" role="alert">
+          {{ error_message }}
+        </div>
 
         <!-- More Info -->
-        <!--ADICIONAR AQUI-->
+        <div *ngFor="let game of games" class="bg-image overlay-success rounded mb-5 more_info" id="more_info_{{ game.id }}"
+             style="background-image: url(/assets/img/hero_bg_1.jpg); " data-stellar-background-ratio="0.5" > <!--display: none;-->
+
+          <div class="row align-items-center">
+
+            <!-- Teams and result -->
+            <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+              <div class="text-center text-lg-left">
+                <div class="d-block d-lg-flex align-items-center">
+                  <div class="image mx-auto mb-3 mb-lg-0 mr-lg-3">
+                    <!--TODO-->
+                    <img src="https://domingoasdez.com/images/default-emblem.png" alt="Image" class="img-fluid">
+                  </div>
+                  <div class="text">
+                    <h3 class="h5 mb-0 text-black">
+                      <a routerLink="/equipa/{{ game.teams[0].name }}" target="_blank">
+                        {{ game.teams[0].name }}
+                      </a>
+                    </h3>
+                    <span class="text-uppercase small country text-black">Casa</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-12 col-lg-4 text-center mb-4 mb-lg-0">
+              <div class="d-inline-block">
+                <h4 class="mb-2"><small class="text-uppercase text-black font-weight-bold">Primeira
+                  Liga
+                  &mdash; {{ game.journey }}ª jornada</small></h4>
+                <div class="bg-black py-2 px-4 mb-2 text-white d-inline-block rounded"><span
+                  class="h3">{{ game.teams[0].goals }}:{{ game.teams[1].goals }}</span>
+                </div>
+                <p class="mb-0"><small class="text-uppercase text-black font-weight-bold">10
+                  {{ game.date }}</small></p>
+              </div>
+            </div>
+
+            <div class="col-md-12 col-lg-4 text-center text-lg-right">
+              <div class="">
+                <div class="d-block d-lg-flex align-items-center">
+                  <div class="image mx-auto ml-lg-3 mb-3 mb-lg-0 order-2">
+                    <!--TODO-->
+                    <img src="https://domingoasdez.com/images/default-emblem.png" alt="Image" class="img-fluid">
+                  </div>
+                  <div class="text order-1">
+                    <h3 class="h5 mb-0 text-black">
+                      <a routerLink="/equipa/{{ game.teams[1].name }}" target="_blank">
+                        {{ game.teams[1].name }}
+                      </a>
+                    </h3>
+                    <span class="text-uppercase small country text-black">Fora</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stadium -->
+            <div class="offset-lg-4 col-md-12 col-lg-4 text-center mb-4 mb-lg-0">
+              <br>
+              <div class="d-inline-block">
+                <h4 class="mb-2"><small class="text-uppercase text-black font-weight-bold">
+                  {{ game.stadium }}</small></h4>
+                <div class="mx-auto col-8">
+                  <!--TODO-->
+                  <img src="{{ game.stadium_picture }}" alt="" class="img-fluid">
+                </div>
+              </div>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+            </div>
+            <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+            </div>
+
+            <!-- Game Status -->
+            <div class="offset-lg-4 col-md-12 col-lg-4 text-center mb-4 mb-lg-0">
+              <div class="d-inline-block">
+                <h2 class="mb-2"><small class="text-uppercase text-black font-weight-bold">
+                  Estatisticas do jogo</small></h2>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+            </div>
+
+            <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+              <div class="text-center text-lg-left">
+                <div class="text order-1 pull-right">
+                  <h2 class="h2 mb-0 text-black">{{ game.teams[0].shots }}</h2>
+                  <h2 class="h2 mb-0 text-black">{{ game.teams[0].ball_possession }} %</h2>
+                  <h2 class="h2 mb-0 text-black">{{ game.teams[0].corners }}</h2>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-12 col-lg-4 text-center mb-4 mb-lg-0">
+              <div class="d-inline-block">
+                <h4 class="mb-2"><small class="text-uppercase text-black font-weight-bold">
+                  Remates</small></h4>
+                <h4 class="mb-2"><small class="text-uppercase text-black font-weight-bold">
+                  Posse de bola</small></h4>
+                <h4 class="mb-2"><small class="text-uppercase text-black font-weight-bold">
+                  Cantos</small></h4>
+              </div>
+            </div>
+
+            <div class="col-md-12 col-lg-4 text-center text-lg-right">
+              <div class="text-center text-lg-right">
+                <div class="text order-1 pull-left">
+                  <h2 class="h2 mb-0 text-black">{{ game.teams[1].shots }}</h2>
+                  <h2 class="h2 mb-0 text-black">{{ game.teams[1].ball_possession }} %</h2>
+                  <h2 class="h2 mb-0 text-black">{{ game.teams[1].corners }}</h2>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-12 text-center text-center">
+            <br>
+            <br>
+            <br>
+            <div class="btn" data-toggle="collapse" routerLink="#collapseExample"
+                 role="button" aria-expanded="false" aria-controls="collapseExample">
+              <h2 class="mb-2">
+                <small class="text-uppercase text-black font-weight-bold">
+                  Eventos
+                  <i class="fa fa-chevron-down"></i>
+                </small>
+              </h2>
+            </div>
+            <div class="collapse" id="collapseExample">
+              <!-- TODO
+              {% if is_admin %}
+              -->
+              <div class="container">
+                <a class="btn btn-warning col-3 pull-right" routerLink="/atualizar-jogadores-jogo/{{ game.id }}" target="_blank">
+                  Editar jogadores do jogo
+                </a>
+              </div>
+              <br>
+              <br>
+              <!-- TODO
+              {% endif %}
+              -->
+              <div class="container">
+                <br>
+                <h4 style="color: #4997cd">Minuto</h4>
+                <div id="timeline">
+                  <div *ngFor="let event of game.events" class="row timeline-movement">
+                    <div class="timeline-badge">
+                      <span class="timeline-balloon-date-day">{{ event.minute }}</span>
+                    </div>
+
+                    <div *ngIf="event.team == game.teams[1].name" class="col-sm-6">
+                    </div>
+
+                    <div class="col-sm-6  timeline-item p-1">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="timeline-panel" [attr.class]="event.team == game.teams[1].name ? 'credits' : 'debits'">
+                            <ul class="timeline-panel-ul">
+                              <div class="text-center col-12 row">
+                                <div class="col-12">
+                                  <li [attr.class]="event.team == game.teams[1].name ? 'pull-right' : 'pull-left'">
+                                    <span class="importo h4">
+                                      <a routerLink="/jogador/{{ event.player_id }}"
+                                         target="_blank">
+                                        {{ event.player }}
+                                      </a>
+                                    </span>
+                                  </li>
+                                </div>
+                                <div *ngIf="event.team == game.teams[1].name; else event_team_0">
+                                  <div class="col-9">
+                                    <p class="pull-left">
+                                      <small class="text-muted h5">
+                                        {{ event.kind_event }}
+                                      </small>
+                                    </p>
+                                  </div>
+                                  <div class="col-3">
+                                    <!--TODO-->
+                                    <img src="https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d" alt="Image"
+                                         class="img-fluid pull-right">
+                                  </div>
+                                </div>
+                                <div #event_team_0>
+                                  <div class="col-3">
+                                    <!--TODO-->
+                                    <img src="https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d" alt="Image"
+                                         class="img-fluid pull-left">
+                                  </div>
+                                  <div class="col-9">
+                                    <p class="pull-right">
+                                      <small class="text-muted h5">
+                                        {{ event.kind_event }}
+                                      </small>
+                                    </p>
+                                  </div>
+                                </div>
+                                <!-- TODO
+                                {% if is_admin %}
+                                -->
+                                <div class="col-12">
+                                  <a class="btn btn-warning col-3" [attr.class]="event.team == game.teams[1].name ? 'pull-left' : 'pull-right'"
+                                          routerLink="/editar-evento/{{ event.id }}" target="_blank">
+                                    Editar
+                                  </a>
+                                </div>
+                                <!-- TODO
+                                {% endif %}
+                                -->
+                              </div>
+                            </ul>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="event.team == game.teams[0].name" class="col-sm-6">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <br>
+            <br>
+            <button class="btn btn-dark pull-right less_info_btn" id="{{ game.id }}">Menos info
+            </button>
+          </div>
+
+        </div>
       </div>
     </div>
 

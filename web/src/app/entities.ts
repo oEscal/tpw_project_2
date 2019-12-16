@@ -59,6 +59,7 @@ export class TeamPlayGame {
 export class Game {
   id: number;
   date: string;
+  journey: number;
   stadium: string;
   stadium_picture: File;
   teams: TeamPlayGame[];
