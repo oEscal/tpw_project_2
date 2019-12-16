@@ -37,6 +37,7 @@ urlpatterns = [
     path('games/', games, name='games'),
     path('stadiums/', stadiums, name='stadiums'),
     path('positions/', positions, name='positions'),
+    url(r'^get_game_team_players/(?P<id>\w+)/$', get_game_team_players, name='get_game_team_players'),
 
     url(r'^update_team/(?P<name>[\w\s]+)/$', update_team, name='update_team'),
     url(r'^update_player/(?P<id>\w+)/$', update_player, name='update_player'),

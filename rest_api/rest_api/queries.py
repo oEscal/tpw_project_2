@@ -419,13 +419,20 @@ def get_minimal_event(id):
 def get_positions():
     try:
         return [position.name for position in Position.objects.all()], "Sucesso"
-    except PlayerPlayGame.DoesNotExist:
-        return None, "Não existe nenhum jogador atribuido a esse evento!"
-    except Event.DoesNotExist:
-        return None, "Esse evento não existe!"
     except Exception as e:
         print(e)
         return None, "Erro na base de dados a obter as posições!"
+
+
+def get_game_team_players(id):
+    try:
+        for team in Game.objects.get(id=id).teams.all():
+            return [player.name for player in Player.objects.filter(team=team)], "Sucesso"
+    except Game.DoesNotExist:
+        return None, "Esse jogo não existe!"
+    except Exception as e:
+        print(e)
+        return None, "Erro na base de dados a obter os jogadores das equipas que jogaram no jogo!"
 
 
 ######################### Update #########################

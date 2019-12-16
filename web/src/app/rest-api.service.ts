@@ -42,6 +42,11 @@ export class RestApiService {
     return this.http.post(url, new_game, http_options);
   }
 
+  add_players_game(new_players_game, id): Observable<any> {
+    const url: string = `${API_URL}/add_players_game/${id}`;
+    return this.http.post(url, new_players_game, http_options);
+  }
+
 
   /************************************** Get **************************************/
 
@@ -82,6 +87,11 @@ export class RestApiService {
 
   get_games(): Observable<any> {
     const url: string = `${API_URL}/games/`;
+    return this.http.get(url, http_options);
+  }
+
+  get_game_team_players(id): Observable<any> {
+    const url: string = `${API_URL}/get_game_team_players/${id}/`;
     return this.http.get(url, http_options);
   }
 }
