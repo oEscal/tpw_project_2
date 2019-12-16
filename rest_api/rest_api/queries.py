@@ -405,6 +405,18 @@ def get_minimal_event(id):
         return None, "Erro na base de dados a obter o evento!"
 
 
+def get_positions():
+    try:
+        return [position.name for position in Position.objects.all()], "Sucesso"
+    except PlayerPlayGame.DoesNotExist:
+        return None, "Não existe nenhum jogador atribuido a esse evento!"
+    except Event.DoesNotExist:
+        return None, "Esse evento não existe!"
+    except Exception as e:
+        print(e)
+        return None, "Erro na base de dados a obter as posições!"
+
+
 ######################### Update #########################
 
 

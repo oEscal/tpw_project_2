@@ -28,6 +28,7 @@ urlpatterns = [
     path('add_game', add_game, name='add_game'),
     path('add_event', add_event, name='add_event'),
     url(r'^add_players_game/(?P<id>\w+)/$', add_players_game, name='add_players_game'),
+    path('positions/', positions, name='positions'),
 
     path('teams/', teams, name='teams'),
     url(r'^team/(?P<name>[\w\s]+)/$', team, name='team'),
