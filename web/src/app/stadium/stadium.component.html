@@ -3,6 +3,10 @@
     <div class="row align-items-first">
       <div class="col-md-12">
 
+        <div *ngIf="error_message" class="alert alert-primary" role="alert">
+          {{ error_message }}
+        </div>
+
         <h1>{{ stadium.name }}</h1>
         <div class="p-4 border mb-3 bg-white row">
           <!--TODO-->

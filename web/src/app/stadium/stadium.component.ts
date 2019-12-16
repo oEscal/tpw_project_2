@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {RestApiService} from '../rest-api.service';
-import {FormBuilder} from '@angular/forms';
 import {Stadium} from '../entities';
-import {ActivatedRoute, ParamMap} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
