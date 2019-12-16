@@ -1,1 +1,98 @@
-<p>add-player works!</p>
+  <div class="site-section bg-light aos-init aos-animate" data-aos="fade-up">
+    <div class="container">
+      <div class="row align-items-first">
+        <div class="col-md-12">
+
+          <div *ngIf="error_message" class="alert alert-primary" role="alert">
+            {{ error_message }}
+          </div>
+
+          <div *ngIf="success_message" class="alert alert-success" role="alert">
+            {{ success_message }}
+          </div>
+
+          <form [formGroup]="new_player" (ngSubmit)="add_player(new_player.value)" ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
+            <div class="p-3 p-lg-5 border">
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="id_name" class="text-black"><label for="id_name">Nome do jogador:</label> <span class="text-danger">*</span></label>
+                  <input type="text" formControlName="name" maxlength="200" class="form-control" placeholder="Insira o nome do jogador" required="" id="id_name">
+
+                  <div class="text-danger">
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_birth_date" class="text-black"><label for="id_birth_date">Data de nascimento do jogador:</label> <span class="text-danger">*</span></label>
+                  <input type="date" formControlName="birth_date" class="form-control" placeholder="Insira a data de nascimento do jogador" id="id_birth_date">
+
+                  <div class="text-danger">
+
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="id_photo" class="text-black"><label for="id_photo">Foto do jogador:</label> </label>
+                  <br>
+                  <input type="file" formControlName="photo" accept="image/*" id="id_photo">
+
+                  <div class="text-danger">
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_nick" class="text-black"><label for="id_nick">Alcunha do jogador:</label>
+                    <span class="text-danger"></span>
+                  </label>
+                  <input type="text" formControlName="nick" maxlength="200" class="form-control" placeholder="Insira a alcunha do jogador" id="id_nick">
+
+                  <div class="text-danger">
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="id_position" class="text-black"><label forc_fname="id_position">Posição do Jogador:</label> <span class="text-danger">*</span></label>
+                  <select formControlName="position" class="form-control" placeholder="Insira a posição do jogador" id="id_position">
+                    <option value="-">Insira a posição do jogador</option>
+
+                    <option *ngFor="let position of player_positions">{{ position }}</option>
+
+                  </select>
+
+                  <div class="text-danger">
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_team" class="text-black"><label for="id_team">Equipa do Jogador:</label>
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select formControlName="team" class="form-control" placeholder="Insira a equipa do jogador" id="id_team">
+                    <option value="-">Insira a equipa do jogador</option>
+
+                    <option *ngFor="let team of teams">{{ team.name }}</option>
+
+                  </select>
+
+                  <div class="text-danger">
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-lg-12">
+                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Novo jogador">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
