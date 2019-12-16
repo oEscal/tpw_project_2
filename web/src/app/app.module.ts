@@ -12,6 +12,7 @@ import { TeamsComponent } from './teams/teams.component';
 import { TeamComponent } from './team/team.component';
 import { AddPlayerComponent } from './add-player/add-player.component';
 import { PlayerComponent } from './player/player.component';
+import { AddGameComponent } from './add-game/add-game.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PlayerComponent } from './player/player.component';
     TeamComponent,
     AddPlayerComponent,
     PlayerComponent,
+    AddGameComponent,
   ],
   imports: [
     BrowserModule,

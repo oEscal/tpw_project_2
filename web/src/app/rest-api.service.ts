@@ -32,9 +32,14 @@ export class RestApiService {
     return this.http.post(url, new_team, http_options);
   }
 
-  add_player(add_player): Observable<any> {
+  add_player(new_player): Observable<any> {
     const url: string = `${API_URL}/add_player/`;
-    return this.http.post(url, add_player, http_options);
+    return this.http.post(url, new_player, http_options);
+  }
+
+  add_game(new_game): Observable<any> {
+    const url: string = `${API_URL}/add_game/`;
+    return this.http.post(url, new_game, http_options);
   }
 
 
