@@ -10,6 +10,7 @@ import { StadiumComponent } from './stadium/stadium.component';
 import { AddTeamComponent } from './add-team/add-team.component';
 import { TeamsComponent } from './teams/teams.component';
 import { TeamComponent } from './team/team.component';
+import { AddPlayerComponent } from './add-player/add-player.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TeamComponent } from './team/team.component';
     AddTeamComponent,
     TeamsComponent,
     TeamComponent,
+    AddPlayerComponent,
   ],
   imports: [
     BrowserModule,

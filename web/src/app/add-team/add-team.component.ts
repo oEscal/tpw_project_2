@@ -41,5 +41,4 @@ export class AddTeamComponent implements OnInit {
     console.log(error);
     this.error_message = error.error.message;
   }
-
 }

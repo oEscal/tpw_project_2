@@ -32,6 +32,11 @@ export class RestApiService {
     return this.http.post(url, new_team, http_options);
   }
 
+  add_player(add_player): Observable<any> {
+    const url: string = `${API_URL}/add_player/`;
+    return this.http.post(url, add_player, http_options);
+  }
+
 
   /************************************** Get **************************************/
 
