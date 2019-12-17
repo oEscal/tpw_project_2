@@ -95,7 +95,6 @@ export class AddGameComponent implements OnInit {
   }
 
   handle_error(error: HttpErrorResponse) {
-    console.log(error);
     this.error_data = error.error.data;
     if (error.error.message)
       this.error_message = error.error.message;

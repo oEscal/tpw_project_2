@@ -509,6 +509,29 @@ def game(request, id):
     return create_response(message, status, token=token, data=data)
 
 
+@csrf_exempt
+@api_view(["GET"])
+def event(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_minimal_event(id)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter o evento!"
+
+    return create_response(message, status, token=token, data=data)
+
+
 ######################### Update #########################
 
 
