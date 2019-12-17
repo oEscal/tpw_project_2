@@ -25,10 +25,16 @@ export class RestApiService {
   }
 
   private http_options() {
+    if (this.is_logged())
+      return {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Authorization: 'Token ' + this.get_token()
+        })
+      };
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: 'Token ' + this.get_token()
       })
     };
   }
@@ -42,11 +48,7 @@ export class RestApiService {
 
   login(new_login): Observable<any> {
     const url: string = `${API_URL}/login/`;
-    return this.http.post(url, new_login, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    }).pipe(
+    return this.http.post(url, new_login, this.http_options()).pipe(
       tap(result => this.setSession(result))
     );
   }
