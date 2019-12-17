@@ -723,11 +723,11 @@ def update_event(data):
             transaction.rollback()
             return False, "Não existe nenhum jogador atribuido ao evento a editar!"
 
-        if data['minute'] is not None:
+        if data['minute']:
             event.update(minute=data['minute'])
-        if data['kind_event'] is not None:
+        if data['kind_event']:
             event.update(kind_event=KindEvent.objects.get(name=data['kind_event']))
-        if data['player'] is not None:
+        if data['player']:
             PlayerPlayGame.objects.filter(event__id=data['id']).delete()
             PlayerPlayGame.objects.get(player__id=data['player']).event.add(Event.objects.get(id=data['id']))
 
