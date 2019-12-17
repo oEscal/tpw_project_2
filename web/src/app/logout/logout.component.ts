@@ -13,7 +13,7 @@ export class LogoutComponent implements OnInit {
 
   ngOnInit() {
     this.rest_api_service.logout();
-    this.router.navigate(['/']);
+    window.location.href = '/';
   }
 
 }

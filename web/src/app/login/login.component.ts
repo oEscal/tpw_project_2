@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.rest_api_service.login(new_login).subscribe(
       result => {
         this.success_message = result.message;
-        this.router.navigateByUrl('/');
+        window.location.href = '/';
       },
       error => this.handle_error(error));
   }
