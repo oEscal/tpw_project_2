@@ -19,7 +19,7 @@ export class PlayerComponent implements OnInit {
   constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {this.player_id = params.id; });
+    this.route.params.subscribe(params => {this.player_id = params.id;});
     this.get_team();
   }
 

@@ -104,4 +104,11 @@ export class RestApiService {
     const url: string = `${API_URL}/get_players_per_game_and_events/${id}/`;
     return this.http.get(url, http_options);
   }
+
+
+  /************************************** Update **************************************/
+  update_player(new_data, id): Observable<any> {
+    const url: string = `${API_URL}/update_player/${id}/`;
+    return this.http.put(url, new_data, http_options);
+  }
 }

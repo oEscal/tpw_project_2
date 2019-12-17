@@ -17,7 +17,7 @@ import {AddEventComponent} from './add-event/add-event.component';
 const routes: Routes = [
   {path: 'adicionar-estadio', component: AddStadiumComponent, data: {title: 'Adicionar estádio'}},
   {path: 'adicionar-equipa', component: AddTeamComponent, data: {title: 'Adicionar equipa'}},
-  {path: 'adicionar-jogador', component: AddPlayerComponent, data: {title: 'Adicionar jogador'}},
+  {path: 'adicionar-jogador', component: AddPlayerComponent, data: {title: 'Adicionar jogador', update: false}},
   {path: 'adicionar-jogo', component: AddGameComponent, data: {title: 'Adicionar jogo'}},
   {path: 'adicionar-jogadores-jogo/:id', component: AddPlayersGameComponent, data: {title: 'Adicionar jogadores a um jogo'}},
   {path: 'adicionar-evento/:id', component: AddEventComponent, data: {title: 'Adicionar evento'}},
@@ -26,7 +26,9 @@ const routes: Routes = [
   {path: 'equipas', component: TeamsComponent, data: {title: 'Equipas'}},
   {path: 'equipa/:name', component: TeamComponent, data: {title: 'Equipa'}},
   {path: 'jogador/:id', component: PlayerComponent, data: {title: 'Jogador'}},
-  {path: 'jogos', component: GamesComponent, data: {title: 'Jogos'}}
+  {path: 'jogos', component: GamesComponent, data: {title: 'Jogos'}},
+
+  {path: 'editar-jogador/:id', component: AddPlayerComponent, data: {title: 'Editar', update: true}},
 ];
 
 

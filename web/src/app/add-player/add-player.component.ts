@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-add-player',
@@ -10,6 +11,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class AddPlayerComponent implements OnInit {
 
+  update = false;
+
+  // for update
+  player_id;
+  player;
+
   player_positions;
   teams;
   new_player;
@@ -17,7 +24,9 @@ export class AddPlayerComponent implements OnInit {
   error_message: string;
   success_message: string;
 
-  constructor(private formBuilder: FormBuilder, private rest_api_service: RestApiService) {
+  constructor(private formBuilder: FormBuilder,
+              private rest_api_service: RestApiService,
+              private route: ActivatedRoute) {
     this.new_player = this.formBuilder.group({
       name: '',
       birth_date: '',
@@ -29,6 +38,14 @@ export class AddPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {this.update = data.update; });
+    if (this.update) {
+      this.route.params.subscribe(param => {this.player_id = param.id; });
+      this.rest_api_service.get_player(this.player_id).subscribe(
+        result => this.player = result.data,
+        error => this.handle_error(error));
+    }
+
     this.rest_api_service.get_positions().subscribe(
       result => this.player_positions = result.data,
       error => this.handle_error(error));
@@ -41,6 +58,12 @@ export class AddPlayerComponent implements OnInit {
 
   add_player(new_player): void {
     this.rest_api_service.add_player(new_player).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
+  update_player(new_player): void {
+    this.rest_api_service.update_player(new_player, this.player_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }

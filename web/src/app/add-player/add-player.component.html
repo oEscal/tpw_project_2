@@ -17,7 +17,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_name" class="text-black"><label for="id_name">Nome do jogador:</label> <span class="text-danger">*</span></label>
-                  <input type="text" formControlName="name" maxlength="200" class="form-control" placeholder="Insira o nome do jogador" required="" id="id_name">
+                  <input type="text" formControlName="name" maxlength="200" class="form-control"
+                         placeholder="Insira o nome do jogador" required="" id="id_name" [value]="update ? player.name : ''">
 
                   <div class="text-danger">
 
@@ -25,7 +26,8 @@
                 </div>
                 <div class="col-md-6">
                   <label for="id_birth_date" class="text-black"><label for="id_birth_date">Data de nascimento do jogador:</label> <span class="text-danger">*</span></label>
-                  <input type="date" formControlName="birth_date" class="form-control" placeholder="Insira a data de nascimento do jogador" id="id_birth_date">
+                  <input type="date" formControlName="birth_date" class="form-control"
+                         placeholder="Insira a data de nascimento do jogador" id="id_birth_date" [value]="update ? player.birth_date : ''">
 
                   <div class="text-danger">
 
@@ -46,7 +48,8 @@
                   <label for="id_nick" class="text-black"><label for="id_nick">Alcunha do jogador:</label>
                     <span class="text-danger"></span>
                   </label>
-                  <input type="text" formControlName="nick" maxlength="200" class="form-control" placeholder="Insira a alcunha do jogador" id="id_nick">
+                  <input type="text" formControlName="nick" maxlength="200" class="form-control"
+                         placeholder="Insira a alcunha do jogador" id="id_nick" [value]="update ? player.nick : ''">
 
                   <div class="text-danger">
 
@@ -57,7 +60,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_position" class="text-black"><label forc_fname="id_position">Posição do Jogador:</label> <span class="text-danger">*</span></label>
-                  <select formControlName="position" class="form-control" placeholder="Insira a posição do jogador" id="id_position">
+                  <select formControlName="position" class="form-control" placeholder="Insira a posição do jogador"
+                          id="id_position" [value]="update ? player.position : '-'">
                     <option value="-">Insira a posição do jogador</option>
 
                     <option *ngFor="let position of player_positions" value="{{ position }}">{{ position }}</option>
@@ -72,7 +76,8 @@
                   <label for="id_team" class="text-black"><label for="id_team">Equipa do Jogador:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <select formControlName="team" class="form-control" placeholder="Insira a equipa do jogador" id="id_team">
+                  <select formControlName="team" class="form-control" placeholder="Insira a equipa do jogador"
+                          id="id_team" [value]="update ? player.team : '-'">
                     <option value="-">Insira a equipa do jogador</option>
 
                     <option *ngFor="let team of teams" value="{{ team.name }}">{{ team.name }}</option>
