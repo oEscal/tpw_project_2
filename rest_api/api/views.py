@@ -159,7 +159,7 @@ def add_player(request):
 
 @csrf_exempt
 @api_view(["POST"])
-def add_event(request):
+def add_event(request, id):
     status = HTTP_200_OK
     message = ""
     data = []
@@ -169,6 +169,7 @@ def add_event(request):
 
     token = Token.objects.get(user=request.user).key
     try:
+        request.data['id'] = id
         event_serializer = GamePlayerEventSerializer(data=request.data)
         if not event_serializer.is_valid():
             data = event_serializer.errors
@@ -461,6 +462,28 @@ def get_game_team_players(request, id):
 
     return create_response(message, status, token=token, data=data)
 
+
+@csrf_exempt
+@api_view(["GET"])
+def get_players_per_game_and_events(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if verify_if_admin(request.user):
+        token = Token.objects.get(user=request.user).key
+
+    try:
+        data, message = queries.get_players_per_game_and_events(id)
+        if not data:
+            status = HTTP_404_NOT_FOUND
+    except Exception as e:
+        print(e)
+        status = HTTP_403_FORBIDDEN
+        message = "Erro a obter os jogadores e as equipas que jogaram num jogo!"
+
+    return create_response(message, status, token=token, data=data)
 
 ######################### Update #########################
 

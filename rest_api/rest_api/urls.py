@@ -26,7 +26,7 @@ urlpatterns = [
     path('add_team', add_team, name='add_team'),
     path('add_player/', add_player, name='add_player'),
     path('add_game/', add_game, name='add_game'),
-    path('add_event', add_event, name='add_event'),
+    url(r'^add_event/(?P<id>\w+)/$', add_event, name='add_event'),
     url(r'^add_players_game/(?P<id>\w+)/$', add_players_game, name='add_players_game'),
 
     path('teams/', teams, name='teams'),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('stadiums/', stadiums, name='stadiums'),
     path('positions/', positions, name='positions'),
     url(r'^get_game_team_players/(?P<id>\w+)/$', get_game_team_players, name='get_game_team_players'),
+    url(r'^get_players_per_game_and_events/(?P<id>\w+)/$', get_players_per_game_and_events, name='get_players_per_game_and_events'),
 
     url(r'^update_team/(?P<name>[\w\s]+)/$', update_team, name='update_team'),
     url(r'^update_player/(?P<id>\w+)/$', update_player, name='update_player'),

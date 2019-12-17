@@ -11,6 +11,7 @@ import {PlayerComponent} from './player/player.component';
 import {AddGameComponent} from './add-game/add-game.component';
 import {GamesComponent} from './games/games.component';
 import {AddPlayersGameComponent} from './add-players-game/add-players-game.component';
+import {AddEventComponent} from './add-event/add-event.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'adicionar-jogador', component: AddPlayerComponent, data: {title: 'Adicionar jogador'}},
   {path: 'adicionar-jogo', component: AddGameComponent, data: {title: 'Adicionar jogo'}},
   {path: 'adicionar-jogadores-jogo/:id', component: AddPlayersGameComponent, data: {title: 'Adicionar jogadores a um jogo'}},
+  {path: 'adicionar-evento/:id', component: AddEventComponent, data: {title: 'Adicionar evento'}},
 
   {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}},
   {path: 'equipas', component: TeamsComponent, data: {title: 'Equipas'}},

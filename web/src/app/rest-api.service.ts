@@ -47,6 +47,11 @@ export class RestApiService {
     return this.http.post(url, new_players_game, http_options);
   }
 
+  add_event(new_event, id): Observable<any> {
+    const url: string = `${API_URL}/add_event/${id}/`;
+    return this.http.post(url, new_event, http_options);
+  }
+
 
   /************************************** Get **************************************/
 

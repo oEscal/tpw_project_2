@@ -15,6 +15,7 @@ import { PlayerComponent } from './player/player.component';
 import { AddGameComponent } from './add-game/add-game.component';
 import { GamesComponent } from './games/games.component';
 import { AddPlayersGameComponent } from './add-players-game/add-players-game.component';
+import { AddEventComponent } from './add-event/add-event.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AddPlayersGameComponent } from './add-players-game/add-players-game.com
     AddGameComponent,
     GamesComponent,
     AddPlayersGameComponent,
+    AddEventComponent,
   ],
   imports: [
     BrowserModule,
