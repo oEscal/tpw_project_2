@@ -4,6 +4,7 @@ import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
 
 import {ErrorHandlingService} from '../error-handling.service';
+import {FilesService} from '../files.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class AddStadiumComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
               private route: ActivatedRoute,
-              private error_service: ErrorHandlingService) {
+              private error_service: ErrorHandlingService,
+              private files_service: FilesService) {
     this.new_stadium = this.formBuilder.group({
       name: '',
       address: '',
@@ -74,13 +76,7 @@ export class AddStadiumComponent implements OnInit {
   }
 
   read_file($event) {
-    const file: File =  $event.target.files[0];
-
-    const image_reader: FileReader = new FileReader();
-    image_reader.onloadend = (e) => {
-      this.image = image_reader.result;
-    };
-    image_reader.readAsDataURL(file);
+    this.image = this.files_service.read_file($event);
   }
 
   add(new_stadium): void {
