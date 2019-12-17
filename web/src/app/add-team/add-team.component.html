@@ -12,13 +12,15 @@
           </div>
 
 
-          <form [formGroup]="new_team" (ngSubmit)="add_team(new_team.value)" ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
+          <form [formGroup]="new_team" (ngSubmit)="update ? update_team(new_team.value) : add_team(new_team.value)"
+                ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
             <div class="p-3 p-lg-5 border">
 
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_name" class="text-black"><label for="id_name">Nome da equipa:</label> <span class="text-danger">*</span></label><br>
-                  <input type="text" formControlName="name" maxlength="200" class="form-control" placeholder="Insira o nome da equipa" required="" id="id_name">
+                  <input type="text" formControlName="name" maxlength="200" class="form-control"
+                         placeholder="Insira o nome da equipa" required="" id="id_name" [value]="update ? team.name : ''">
 
                   <div class="text-danger">
 
@@ -26,7 +28,8 @@
                 </div>
                 <div class="col-md-6">
                   <label for="id_foundation_date" class="text-black"><label for="id_foundation_date">Data de fundação:</label> <span class="text-danger">*</span></label><br>
-                  <input type="date" formControlName="foundation_date" class="form-control" placeholder="Insira a data de fundação  da equipa" id="id_foundation_date">
+                  <input type="date" formControlName="foundation_date" class="form-control"
+                         placeholder="Insira a data de fundação  da equipa" id="id_foundation_date" [value]="update ? team.foundation_date : ''">
 
                   <div class="text-danger">
 
@@ -44,10 +47,15 @@
                 </div>
                 <div class="col-md-6">
                   <label for="id_stadium" class="text-black"><label for="id_stadium">Estádio da equipa:</label> <span class="text-danger">*</span></label><br>
-                  <select formControlName="stadium" class="form-control" placeholder="Insira o nome do estádio da equipa" id="id_stadium">
+                  <select formControlName="stadium" class="form-control" placeholder="Insira o nome do estádio da equipa"
+                          id="id_stadium" [value]="update ? team.stadium : '-'">
                     <option value="-" selected="selected">Insira o nome do estádio da equipa</option>
                     <option *ngFor="let stadium of stadiums" value="{{ stadium }}">
                       {{ stadium }}
+                    </option>
+
+                    <option *ngIf="update" value="{{ team.stadium }}">
+                      {{ team.stadium }}
                     </option>
                   </select>
 
@@ -59,7 +67,7 @@
 
               <div class="form-group row">
                 <div class="col-lg-12">
-                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Nova equipa">
+                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ title }}">
                 </div>
               </div>
             </div>
