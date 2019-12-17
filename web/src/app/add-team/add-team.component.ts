@@ -11,6 +11,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddTeamComponent implements OnInit {
 
+  is_logged = false;
+
   // url params
   update = false;
   title = '';
@@ -24,8 +26,6 @@ export class AddTeamComponent implements OnInit {
 
   error_message:string = null;
   success_message:string = null;
-
-  is_logged = false;
 
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,

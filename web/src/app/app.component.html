@@ -65,7 +65,7 @@
           <li><a routerLink="/jogos">Jogos</a></li>
           <!--{% if is_admin %}-->
           <li class="has-children active">
-            <a class="font-weight-bold">Conta</a>
+            <a *ngIf="is_logged" class="font-weight-bold">Conta</a>
             <ul class="dropdown arrow-top">
               <li><a routerLink="/adicionar-estadio">Adicionar estádio</a></li>
               <li><a routerLink="/adicionar-equipa">Adicionar equipa</a></li>
@@ -75,7 +75,9 @@
             </ul>
           </li>
           <!--{% else %}-->
-          <li class="active"><a class="font-weight-bold" href="/login">Iniciar sessão</a></li>
+          <li *ngIf="!is_logged" class="active"><a class="font-weight-bold" routerLink="/login">
+            Iniciar sessão
+          </a></li>
           <!--{% endif %}-->
         </ul>
       </div>

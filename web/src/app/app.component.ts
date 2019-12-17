@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {RestApiService} from './rest-api.service';
 
 
 @Component({
@@ -9,13 +10,11 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  title = '';
+  is_logged = false;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private rest_api_service: RestApiService) { }
 
   ngOnInit(): void {
-
-    // this.title = this.route.firstChild.snapshot.data['title'];
-    console.log(this.route.data);
+    this.is_logged = this.rest_api_service.is_logged();
   }
 }
