@@ -254,8 +254,8 @@ def add_players_game(request, id):
 ######################### Get #########################
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def teams(request):
     status = HTTP_200_OK
     message = ""
@@ -277,8 +277,8 @@ def teams(request):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def team(request, name):
     status = HTTP_200_OK
     message = ""
@@ -300,8 +300,8 @@ def team(request, name):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def player(request, id):
     status = HTTP_200_OK
     message = ""
@@ -323,8 +323,8 @@ def player(request, id):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def stadium(request, name):
     status = HTTP_200_OK
     message = ""
@@ -347,8 +347,8 @@ def stadium(request, name):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def get_all_unused_stadiums(request):
     status = HTTP_200_OK
     message = ""
@@ -371,8 +371,8 @@ def get_all_unused_stadiums(request):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def games(request):
     status = HTTP_200_OK
     message = ""
@@ -394,8 +394,8 @@ def games(request):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def positions(request):
     status = HTTP_200_OK
     message = ""
@@ -417,8 +417,8 @@ def positions(request):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def stadiums(request):
     status = HTTP_200_OK
     message = ""
@@ -440,8 +440,8 @@ def stadiums(request):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def get_game_team_players(request, id):
     status = HTTP_200_OK
     message = ""
@@ -463,8 +463,8 @@ def get_game_team_players(request, id):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def get_players_per_game_and_events(request, id):
     status = HTTP_200_OK
     message = ""
@@ -486,8 +486,8 @@ def get_players_per_game_and_events(request, id):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def game(request, id):
     status = HTTP_200_OK
     message = ""
@@ -509,8 +509,8 @@ def game(request, id):
     return create_response(message, status, token=token, data=data)
 
 
-@csrf_exempt
 @api_view(["GET"])
+@permission_classes((AllowAny,))
 def event(request, id):
     status = HTTP_200_OK
     message = ""

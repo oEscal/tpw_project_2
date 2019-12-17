@@ -21,7 +21,8 @@ from api.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login', login, name='login'),
+    path('login/', login, name='login'),
+
     path('add_stadium', add_stadium, name='add_stadium'),
     path('add_team', add_team, name='add_team'),
     path('add_player/', add_player, name='add_player'),
