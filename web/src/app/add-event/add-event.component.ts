@@ -3,6 +3,8 @@ import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
+import $ from 'jquery';
+
 
 @Component({
   selector: 'app-add-event',
@@ -15,6 +17,7 @@ export class AddEventComponent implements OnInit {
 
   form_data;
   game_id;
+  teams;
 
   error_message: string;
   success_message: string;
@@ -25,16 +28,33 @@ export class AddEventComponent implements OnInit {
     this.new_event = this.formBuilder.group({
       team: '',
       player: '',
-      event: '',
+      kind_event: '',
       minute: ''
     });
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {this.game_id = params.name; });
+    this.route.params.subscribe(params => {this.game_id = params.id; });
     this.rest_api_service.get_players_per_game_and_events(this.game_id).subscribe(
-      result => this.form_data = result.data,
+      result => {
+        this.form_data = result.data;
+        this.teams = Object.keys(this.form_data.teams);
+      },
       error => this.handle_error(error));
+
+    // jquery
+    $(document).ready(function () {
+      $("." + $("#id_team option:selected").text().replace(" ", "_")).show(1000);
+
+      $("#id_team").change(function () {
+        console.log("ola")
+        $("#id_team option").each(function () {
+          $("." + $(this).text().replace(" ", "_")).hide(1000);
+        });
+
+        $("." + $("#id_team option:selected").text().replace(" ", "_")).show(1000);
+      });
+    });
   }
 
   add_event(new_event): void {

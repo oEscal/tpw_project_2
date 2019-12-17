@@ -443,7 +443,7 @@ def get_game_team_players(id):
 
 
 def get_players_per_game_and_events(game_id):
-    result = {}
+    result = {'teams': {}}
 
     player_game = PlayerPlayGame.objects.filter(game_id=game_id)
 
@@ -451,9 +451,9 @@ def get_players_per_game_and_events(game_id):
         for p in player_game:
             player = p.player
             team = player.team.name
-            if team not in result:
-                result[team] = []
-            result[team].append({
+            if team not in result['teams']:
+                result['teams'][team] = []
+            result['teams'][team].append({
                 'id': player.id,
                 'name': player.name
             })

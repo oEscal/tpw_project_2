@@ -169,7 +169,7 @@ def add_event(request, id):
 
     token = Token.objects.get(user=request.user).key
     try:
-        request.data['id'] = id
+        request.data['game'] = id
         event_serializer = GamePlayerEventSerializer(data=request.data)
         if not event_serializer.is_valid():
             data = event_serializer.errors
