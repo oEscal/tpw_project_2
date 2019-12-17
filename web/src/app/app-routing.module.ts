@@ -31,7 +31,7 @@ const routes: Routes = [
   {path: 'editar-estadio/:name', component: AddStadiumComponent, data: {title: 'Editar estádio', update: true}},
   {path: 'editar-equipa/:name', component: AddTeamComponent, data: {title: 'Editar equipa', update: true}},
   {path: 'editar-jogador/:id', component: AddPlayerComponent, data: {title: 'Editar jogador', update: true}},
-  {path: 'adicionar-jogo', component: AddGameComponent, data: {title: 'Adicionar jogo', update: true}},
+  {path: 'editar-jogo/:id', component: AddGameComponent, data: {title: 'Editar jogo', update: true}},
 ];
 
 

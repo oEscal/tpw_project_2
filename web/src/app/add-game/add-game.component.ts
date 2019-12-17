@@ -51,12 +51,12 @@ export class AddGameComponent implements OnInit {
     this.route.data.subscribe(data => {this.title = data.title; });
 
     this.route.data.subscribe(data => {this.update = data.update; });
-    // if (this.update) {
-    //   this.route.params.subscribe(param => {this.game_id = param.id; });
-    //   this.rest_api_service.get_game(this.game_id).subscribe(
-    //     result => this.game = result.data,
-    //     error => this.handle_error(error));
-    // }
+    if (this.update) {
+      this.route.params.subscribe(param => {this.game_id = param.id; });
+      this.rest_api_service.get_game(this.game_id).subscribe(
+        result => {this.game = result.data; console.log(this.game)},
+        error => this.handle_error(error));
+    }
 
     this.rest_api_service.get_stadiums().subscribe(
       result => this.stadiums = result.data,
@@ -97,6 +97,9 @@ export class AddGameComponent implements OnInit {
   handle_error(error: HttpErrorResponse) {
     console.log(error);
     this.error_data = error.error.data;
-    this.error_message = error.error.message;
+    if (error.error.message)
+      this.error_message = error.error.message;
+    else
+      this.error_message = "Houve um erro a contactar a REST API!";
   }
 }

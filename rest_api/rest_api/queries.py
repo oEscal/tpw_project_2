@@ -500,7 +500,6 @@ def get_info_game(id):
 
     except Game.DoesNotExist:
         return None, "Jogo inexistente!"
-
     except Exception as e:
         print(e)
         return None, "Erro na base de dados a obter a informação do jogo!"

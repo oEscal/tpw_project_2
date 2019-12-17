@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import {Game, Player} from '../entities';
 import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
@@ -11,7 +11,7 @@ import $ from 'jquery';
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.css']
 })
-export class GamesComponent implements OnInit {
+export class GamesComponent implements OnInit{
 
   games: Game[];
 
@@ -23,21 +23,22 @@ export class GamesComponent implements OnInit {
     this.get_games();
 
     // jquery code
-    $(document).ready(function () {
-      $(".more_info_btn").click(function () {
-        $(".more_info").hide(1000);
-        $("#more_info_" + this.id).show(1000);
+    $(document).ready(function() {
+      $('.more_info_btn').click(function() {
+        console.log(this.id);
+        $('.more_info').hide(1000);
+        $('#more_info_' + this.id).show(1000);
       });
 
-      $(".less_info_btn").click(function () {
-        $("#more_info_" + this.id).hide(1000);
+      $('.less_info_btn').click(function() {
+        $('#more_info_' + this.id).hide(1000);
       });
     });
   }
 
   get_games(): void {
     this.rest_api_service.get_games().subscribe(
-      result => this.games = result.data as Game[],
+      result => {this.games = result.data as Game[];},
       error => this.handle_error(error));
   }
 

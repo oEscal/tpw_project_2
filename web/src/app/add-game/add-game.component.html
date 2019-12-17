@@ -22,7 +22,8 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="id_date" class="text-black"><label for="id_date">Data do jogo:</label> <span class="text-danger">*</span></label>
-                  <input type="date" formControlName="date" class="form-control" placeholder="Insira a data do jogo" required="" id="id_date">
+                  <input type="date" formControlName="date" class="form-control" placeholder="Insira a data do jogo"
+                         required="" id="id_date" [value]="update ? game.date : ''">
 
                   <div class="text-danger">
 
@@ -35,7 +36,8 @@
                     <span class="text-danger">*</span>
                   </label>
                   <div class="input-sm">
-                    <select formControlName="stadium" class="form-control" placeholder="Insira o estádio do jogo" id="id_stadium">
+                    <select formControlName="stadium" class="form-control" placeholder="Insira o estádio do jogo"
+                            id="id_stadium" [value]="update ? game.stadium : '-'">
                       <option value="-">Insira o estádio do jogo</option>
 
                       <option *ngFor="let stadium of stadiums" value="{{ stadium }}">{{ stadium }}</option>
@@ -50,7 +52,8 @@
                   <label for="id_journey" class="text-black"><label for="id_journey">Jornada do Jogo:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <input type="number" formControlName="journey" min="0" class="form-control" placeholder="Insira a jornada do jogo" required="" id="id_journey">
+                  <input type="number" formControlName="journey" min="0" class="form-control"
+                         placeholder="Insira a jornada do jogo" required="" id="id_journey" [value]="update ? game.journey : ''">
 
                   <div class="text-danger">
 
@@ -61,7 +64,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_home_team" class="text-black"><label for="id_home_team">Equipa local:</label> <span class="text-danger">*</span></label>
-                  <select formControlName="home_team" class="form-control" placeholder="Insira a equipa local" id="id_home_team">
+                  <select formControlName="home_team" class="form-control" placeholder="Insira a equipa local"
+                          id="id_home_team" [value]="update ? game.home_team : ''">
                     <option value="-">Insira a equipa local</option>
 
                     <option *ngFor="let team of teams_props" value="{{ team.name }}">{{ team.name }}</option>
@@ -76,7 +80,8 @@
                   <label for="id_away_team" class="text-black"><label for="id_away_team">Equipa visitante:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <select formControlName="away_team" class="form-control" placeholder="Insira a equipa visitante" id="id_away_team">
+                  <select formControlName="away_team" class="form-control" placeholder="Insira a equipa visitante"
+                          id="id_away_team" [value]="update ? game.away_team : ''">
                     <option value="-">Insira a equipa visitante</option>
 
                     <option *ngFor="let team of teams_props" value="{{ team.name }}">{{ team.name }}</option>
@@ -91,7 +96,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_home_goals" class="text-black"><label for="id_home_goals">Golos da equipa local:</label> <span class="text-danger">*</span></label>
-                  <input type="number" formControlName="home_goals" min="0" class="form-control" placeholder="Insira os golos da equipa local" required="" id="id_home_goals">
+                  <input type="number" formControlName="home_goals" min="0" class="form-control"
+                         placeholder="Insira os golos da equipa local" required="" id="id_home_goals" [value]="update ? game.home_goals : ''">
 
                   <div class="text-danger">
 
@@ -101,7 +107,8 @@
                   <label for="id_away_goals" class="text-black"><label for="id_away_goals">Golos da equipa visitante:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <input type="number" formControlName="away_goals" min="0" class="form-control" placeholder="Insira os golos da equipa visitante" required="" id="id_away_goals">
+                  <input type="number" formControlName="away_goals" min="0" class="form-control"
+                         placeholder="Insira os golos da equipa visitante" required="" id="id_away_goals" [value]="update ? game.away_goals : ''">
 
                   <div class="text-danger">
 
@@ -112,7 +119,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_home_shots" class="text-black"><label for="id_home_shots">Remates da equipa local:</label> <span class="text-danger">*</span></label>
-                  <input type="number" formControlName="home_shots" min="0" class="form-control" placeholder="Insira os remates da equipa local" required="" id="id_home_shots">
+                  <input type="number" formControlName="home_shots" min="0" class="form-control"
+                         placeholder="Insira os remates da equipa local" required="" id="id_home_shots" [value]="update ? game.home_shots : ''">
 
                   <div class="text-danger">
 
@@ -122,7 +130,8 @@
                   <label for="id_away_shots" class="text-black"><label for="id_away_shots">Remates da equipa visitante:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <input type="number" formControlName="away_shots" min="0" class="form-control" placeholder="Insira os remates da equipa visitante" required="" id="id_away_shots">
+                  <input type="number" formControlName="away_shots" min="0" class="form-control"
+                         placeholder="Insira os remates da equipa visitante" required="" id="id_away_shots" [value]="update ? game.away_shots : ''">
 
                   <div class="text-danger">
 
@@ -132,7 +141,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_home_ball_pos" class="text-black"><label for="id_home_ball_pos">Posse de bola da equipa local:</label> <span class="text-danger">*</span></label>
-                  <input type="number" formControlName="home_ball_pos" min="0" class="form-control" placeholder="Insira a posse de bola da equipa local" required="" id="id_home_ball_pos">
+                  <input type="number" formControlName="home_ball_pos" min="0" class="form-control"
+                         placeholder="Insira a posse de bola da equipa local" required="" id="id_home_ball_pos" [value]="update ? game.home_ball_pos : ''">
 
                   <div class="text-danger">
 
@@ -142,7 +152,8 @@
                   <label for="id_away_ball_pos" class="text-black"><label for="id_away_ball_pos">Posse de bola da equipa visitante:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <input type="number" formControlName="away_ball_pos" min="0" class="form-control" placeholder="Insira a posse de bola da equipa visitante" required="" id="id_away_ball_pos">
+                  <input type="number" formControlName="away_ball_pos" min="0" class="form-control"
+                         placeholder="Insira a posse de bola da equipa visitante" required="" id="id_away_ball_pos" [value]="update ? game.away_ball_pos : ''">
 
                   <div class="text-danger">
 
@@ -152,7 +163,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_home_corners" class="text-black"><label for="id_home_corners">Cantos da equipa local:</label> <span class="text-danger">*</span></label>
-                  <input type="number" formControlName="home_corners" min="0" class="form-control" placeholder="Insira os cantos da equipa local" required="" id="id_home_corners">
+                  <input type="number" formControlName="home_corners" min="0" class="form-control"
+                         placeholder="Insira os cantos da equipa local" required="" id="id_home_corners" [value]="update ? game.home_corners : ''">
 
                   <div class="text-danger">
 
@@ -162,7 +174,8 @@
                   <label for="id_away_corners" class="text-black"><label for="id_away_corners">Cantos da equipa visitante:</label>
                     <span class="text-danger">*</span>
                   </label>
-                  <input type="number" formControlName="away_corners" min="0" class="form-control" placeholder="Insira os cantos da equipa visitante" required="" id="id_away_corners">
+                  <input type="number" formControlName="away_corners" min="0" class="form-control"
+                         placeholder="Insira os cantos da equipa visitante" required="" id="id_away_corners" [value]="update ? game.away_corners : ''">
 
                   <div class="text-danger">
 
@@ -173,7 +186,7 @@
 
               <div class="form-group row">
                 <div class="col-lg-12">
-                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Adicionar jogo">
+                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ title }}">
                 </div>
               </div>
             </div>
