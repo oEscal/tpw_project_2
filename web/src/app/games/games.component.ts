@@ -14,6 +14,8 @@ import $ from 'jquery';
 export class GamesComponent implements OnInit{
 
   games: Game[];
+  show_game_info: boolean[] = [];
+  show_events: boolean = false;
 
   error_message: string = '';
 
@@ -21,29 +23,30 @@ export class GamesComponent implements OnInit{
 
   ngOnInit() {
     this.get_games();
-
-    // jquery code
-    $(document).ready(function() {
-      $('.more_info_btn').click(function() {
-        console.log(this.id);
-        $('.more_info').hide(1000);
-        $('#more_info_' + this.id).show(1000);
-      });
-
-      $('.less_info_btn').click(function() {
-        $('#more_info_' + this.id).hide(1000);
-      });
-    });
   }
 
   get_games(): void {
     this.rest_api_service.get_games().subscribe(
-      result => {this.games = result.data as Game[];},
+      result => {
+        this.games = result.data as Game[];
+        for (let i = 0; i < this.games.length; i++)
+          this.show_game_info.push(false);
+        },
       error => this.handle_error(error));
   }
 
   handle_error(error: HttpErrorResponse) {
     console.log(error);
     this.error_message = error.error.message;
+  }
+
+  show_game(id) {
+    this.hidden_all_games()
+    this.show_game_info[id] = true;
+  }
+
+  hidden_all_games() {
+    for (let i = 0; i < this.show_game_info.length; i++)
+      this.show_game_info[i] = false;
   }
 }

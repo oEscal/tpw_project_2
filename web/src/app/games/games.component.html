@@ -8,8 +8,8 @@
         </div>
 
         <!-- More Info -->
-        <div *ngFor="let game of games" class="bg-image overlay-success rounded mb-5 more_info" id="more_info_{{ game.id }}"
-             style="background-image: url(/assets/img/hero_bg_1.jpg); display: none;" data-stellar-background-ratio="0.5">
+        <div *ngFor="let game of games" [hidden]="!show_game_info[game.id]" class="bg-image overlay-success rounded mb-5 more_info" id="more_info_{{ game.id }}"
+             style="background-image: url(/assets/img/hero_bg_1.jpg);" data-stellar-background-ratio="0.5">
 
           <div class="row align-items-center">
 
@@ -134,7 +134,7 @@
             <br>
             <div class="btn" data-toggle="collapse" routerLink="#collapseExample"
                  role="button" aria-expanded="false" aria-controls="collapseExample"
-                (click)="$('.events_').show()">
+                 (click)="show_events = !show_events">
               <h2 class="mb-2">
                 <small class="text-uppercase text-black font-weight-bold">
                   Eventos
@@ -142,7 +142,7 @@
                 </small>
               </h2>
             </div>
-            <div id="events_" style="display: none;" id="collapseExample">
+            <div id="events_" [hidden]="!show_events" id="collapseExample">
               <!-- TODO
               {% if is_admin %}
               -->
@@ -243,7 +243,8 @@
           <div class="col-12">
             <br>
             <br>
-            <button class="btn btn-dark pull-right less_info_btn" id="{{ game.id }}">Menos info
+            <button class="btn btn-dark pull-right less_info_btn" id="{{ game.id }}" (click)="hidden_all_games()">
+              Menos info
             </button>
           </div>
 
@@ -283,7 +284,9 @@
                 class="h5">{{ game.teams[0].goals }}:{{ game.teams[1].goals }}</span></div>
             </div>
             <br>
-            <button class="btn btn-dark more_info_btn" id="{{ game.id }}">Mais info</button>
+            <button class="btn btn-dark more_info_btn" id="{{ game.id }}" (click)="show_game(game.id)">
+              Mais info
+            </button>
           </div>
           <div class="col-md-4 col-lg-4 text-center text-lg-right">
             <div class="">

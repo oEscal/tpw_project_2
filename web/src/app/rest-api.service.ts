@@ -184,8 +184,33 @@ export class RestApiService {
 
   /************************************** Remove **************************************/
 
+  remove_event(id): Observable<any> {
+    const url: string = `${API_URL}/remove_event/${id}/`;
+    return this.http.delete(url, this.http_options());
+  }
+
   remove_game(id): Observable<any> {
     const url: string = `${API_URL}/remove_game/${id}/`;
+    return this.http.delete(url, this.http_options());
+  }
+
+  remove_player(id): Observable<any> {
+    const url: string = `${API_URL}/remove_player/${id}/`;
+    return this.http.delete(url, this.http_options());
+  }
+
+  remove_players_game(id): Observable<any> {
+    const url: string = `${API_URL}/remove_players_game/${id}/`;
+    return this.http.delete(url, this.http_options());
+  }
+
+  remove_stadium(id): Observable<any> {
+    const url: string = `${API_URL}/remove_stadium/${id}/`;
+    return this.http.delete(url, this.http_options());
+  }
+
+  remove_team(id): Observable<any> {
+    const url: string = `${API_URL}/remove_team/${id}/`;
     return this.http.delete(url, this.http_options());
   }
 }
