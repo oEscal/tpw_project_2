@@ -10,12 +10,12 @@ export class ErrorHandlingService {
 
   handle_error(error: HttpErrorResponse) {
     console.log(error);
-    let error_message = ''
+    let error_message = '';
 
     if (error.error.message)
       error_message = error.error.message;
     else
-      error_message = "Houve um erro a contactar a REST API!";
+      error_message = 'Houve um erro a contactar a REST API!';
     return error_message;
   }
 }

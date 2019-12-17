@@ -12,7 +12,7 @@
           <!--TODO-->
           <!--{% if is_admin %}-->
           <div class="col-12">
-            <a class="btn btn-warning col-1 pull-right"
+            <a *ngIf="is_logged" class="btn btn-warning col-1 pull-right"
                     routerLink="/editar-estadio/{{ stadium.name }}" target="_blank">
               Editar
             </a>
@@ -26,13 +26,11 @@
             <p class="mb-4">{{ stadium.number_seats }}</p>
 
             <p class="mb-0 font-weight-bold">Equipa</p>
-            <p class="mb-4"><a href="/team/{{ stadium.team }}">{{ stadium.team }}</a></p>
+            <p class="mb-4"><a routerLink="/team/{{ stadium.team }}">{{ stadium.team }}</a></p>
 
           </div>
           <div class="col-4">
-            <img src="{% if stadium.picture %}
-                                    stadium:image/png;base64,{{ stadium.picture }}
-                                {% endif %}" alt="" class="img-fluid image">
+            <img [src]="stadium.picture ? stadium.picture : ''" alt="" class="img-fluid image">
           </div>
         </div>
       </div>

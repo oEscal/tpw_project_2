@@ -3,7 +3,7 @@ export class Stadium {
   name: string;
   address: string;
   number_seats: number;
-  picture: File;
+  picture: string;
   team: string;
 }
 
@@ -11,7 +11,7 @@ export class PlayerMinimal {
   id: number;
   name: string;
   position: string;
-  photo: File;
+  photo: string;
 }
 
 export class Player {
@@ -21,18 +21,18 @@ export class Player {
   nick: string;
   position: string;
   team: string;
-  photo: File;
+  photo: string;
 }
 
 export class TeamMinimal {
   name: string;
-  logo: File;
+  logo: string;
 }
 
 export class Team {
   name: string;
   foundation_date: string;
-  logo: File;
+  logo: string;
   stadium;
   players: PlayerMinimal[];
 }
@@ -43,7 +43,7 @@ export class Event {
   minute: number;
   player: string;
   player_id: number;
-  photo: File;
+  photo: string;
   team: string;
 }
 
@@ -53,7 +53,7 @@ export class TeamPlayGame {
   ball_possession: number;
   corners: number;
   goals: number;
-  logo: File;
+  logo: string;
 }
 
 export class Game {
@@ -61,7 +61,7 @@ export class Game {
   date: string;
   journey: number;
   stadium: string;
-  stadium_picture: File;
+  stadium_picture: string;
   teams: TeamPlayGame[];
   events: Event[];
 }

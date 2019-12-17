@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
 import {RestApiService} from '../rest-api.service';
 import {Stadium} from '../entities';
 import {ActivatedRoute} from '@angular/router';
+
+import {ErrorHandlingService} from '../error-handling.service';
 
 
 @Component({
@@ -12,15 +13,21 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class StadiumComponent implements OnInit {
 
+  is_logged = false;
+
   stadium: Stadium = null;
 
   error_message: string = '';
   stadium_name: string;
 
-  constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) {
+  constructor(private rest_api_service: RestApiService,
+              private route: ActivatedRoute,
+              private error_service: ErrorHandlingService) {
   }
 
   ngOnInit() {
+    this.is_logged = this.rest_api_service.is_logged();
+
     this.route.params.subscribe(params => {this.stadium_name = params.name;});
     this.get_stadium();
   }
@@ -28,11 +35,6 @@ export class StadiumComponent implements OnInit {
   get_stadium(): void {
     this.rest_api_service.get_stadium(this.stadium_name).subscribe(
       result => this.stadium = result.data as Stadium,
-      error => this.handle_error(error));
-  }
-
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    this.error_message = error.error.message;
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 }
