@@ -49,7 +49,7 @@ export class AddEventComponent implements OnInit {
   ngOnInit() {
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
-      this.error_message = "Não tem conta iniciada!";
+      this.error_message = 'Não tem conta iniciada!';
 
     } else {
       this.route.data.subscribe(data => {
@@ -72,7 +72,7 @@ export class AddEventComponent implements OnInit {
 
             this.no_players_error();
           },
-          error => this.error_service.handle_error(error));
+          error => {this.error_message = this.error_service.handle_error(error); });
       } else {
         this.route.params.subscribe(params => {
           this.game_id = params.id;
@@ -84,7 +84,7 @@ export class AddEventComponent implements OnInit {
 
             this.no_players_error();
           },
-          error => this.error_service.handle_error(error));
+          error => {this.error_message = this.error_service.handle_error(error); });
       }
     }
 
@@ -109,7 +109,7 @@ export class AddEventComponent implements OnInit {
 
     this.rest_api_service.add_event(new_event, this.game_id).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   update_event(new_event): void {
@@ -118,17 +118,17 @@ export class AddEventComponent implements OnInit {
 
     this.rest_api_service.update_event(new_event, this.event_id).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   remove_event(): void {
     this.rest_api_service.remove_event(this.event_id).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   no_players_error() {
     if (this.teams.length == 0)
-      this.error_message = "Atenção, ainda não adicionou jogadores a este jogo!";
+      this.error_message = 'Atenção, ainda não adicionou jogadores a este jogo!';
   }
 }

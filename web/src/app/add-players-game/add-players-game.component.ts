@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormControl} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {ErrorHandlingService} from '../error-handling.service';
 
 @Component({
   selector: 'app-add-players-game',
@@ -28,7 +30,8 @@ export class AddPlayersGameComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private error_service: ErrorHandlingService) {
     this.new_players = this.formBuilder.group({
       um: new FormArray([
         new FormControl(''),
@@ -76,7 +79,7 @@ export class AddPlayersGameComponent implements OnInit {
   ngOnInit() {
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
-      this.error_message = "Não tem conta iniciada!";
+      this.error_message = 'Não tem conta iniciada!';
     } else {
       for (let i = 0; i < this.interval_of_players[1]; i++)
         this.array_loop.push(i);
@@ -88,7 +91,7 @@ export class AddPlayersGameComponent implements OnInit {
         result => {
           this.players = result.data;
         },
-        error => this.handle_error(error));
+        error => {this.error_message = this.error_service.handle_error(error); });
     }
   }
 
@@ -100,11 +103,6 @@ export class AddPlayersGameComponent implements OnInit {
 
     this.rest_api_service.add_players_game(data, this.game_id).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
-  }
-
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    this.error_message = error.error.message;
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 }

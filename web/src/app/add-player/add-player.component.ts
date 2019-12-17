@@ -94,7 +94,7 @@ export class AddPlayerComponent implements OnInit {
   remove_player(): void {
     this.rest_api_service.remove_player(this.player_id).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   handle_error(error: HttpErrorResponse) {

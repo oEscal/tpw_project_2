@@ -71,17 +71,17 @@ export class AddGameComponent implements OnInit {
       this.route.params.subscribe(param => {this.game_id = param.id; });
       this.rest_api_service.get_game(this.game_id).subscribe(
         result => {this.game = result.data; },
-        error => this.error_service.handle_error(error));
+        error => {this.error_message = this.error_service.handle_error(error)});
     }
 
     this.rest_api_service.get_stadiums().subscribe(
       result => this.stadiums = result.data,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error)});
 
     // TODO -> posteriormente, poderá adicionar-se um método à rest api só para retornar os nomes das equipas, para não tornar esta chamada tão pesada
     this.rest_api_service.get_teams().subscribe(
       result => this.teams_props = result.data,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error)});
     }
   }
 
@@ -102,18 +102,18 @@ export class AddGameComponent implements OnInit {
   add_game(new_game): void {
     this.rest_api_service.add_game(this.normalize_data(new_game)).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error)});
   }
 
   update_game(new_game): void {
     this.rest_api_service.update_game(new_game, this.game_id).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error)});
   }
 
   remove_game(): void {
     this.rest_api_service.remove_game(this.game_id).subscribe(
       result => this.success_message = result.message,
-      error => this.error_service.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error)});
   }
 }
