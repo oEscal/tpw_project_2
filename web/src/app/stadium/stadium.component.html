@@ -12,10 +12,10 @@
           <!--TODO-->
           <!--{% if is_admin %}-->
           <div class="col-12">
-            <button class="btn btn-warning col-1 pull-right"
-                    onclick="window.open('{% url 'update_stadium' name=stadium.name %}', '_blank');">
+            <a class="btn btn-warning col-1 pull-right"
+                    routerLink="/editar-estadio/{{ stadium.name }}" target="_blank">
               Editar
-            </button>
+            </a>
           </div>
 
           <div class="col-8">

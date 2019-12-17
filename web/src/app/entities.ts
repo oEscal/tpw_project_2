@@ -25,11 +25,13 @@ export class Player {
 }
 
 export class TeamMinimal {
+  id: number;
   name: string;
   logo: File;
 }
 
 export class Team {
+  id: number;
   name: string;
   foundation_date: string;
   logo: File;

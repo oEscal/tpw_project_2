@@ -12,17 +12,17 @@
               <div class="p-4 border mb-3 bg-white">
 
                 <div class="col-12">
-                  <!--TODO-->
-                  <button class="btn btn-warning col-3 pull-right" onclick="window.open('/update_team//', '_blank');">
+                  <a class="btn btn-warning col-3 pull-right"
+                     routerLink="editar-equipa/{{ team.id }}"  target="_blank">
                     Editar
-                  </button>
+                  </a>
                 </div>
 
                 <p class="mb-0 font-weight-bold h5">Data de fundação</p>
                 <p class="mb-4">{{ team.foundation_date }}</p>
 
                 <p class="mb-0 font-weight-bold h5">Estádio</p>
-                <p class="mb-4"><a href="/stadium/Estádio do Sport Lisboa e Benfica (Luz)">{{ team.stadium }}</a></p>
+                <p class="mb-4"><a routerLink="/estadio/{{ team.stadium }}">{{ team.stadium }}</a></p>
               </div>
             </div>
 
