@@ -775,7 +775,7 @@ def remove_team(name):
                 transaction.rollback()
                 return False, message
         team.delete()
-        transaction.set_autocommit(False)
+        transaction.set_autocommit(True)
         return True, "Equipa removida com sucesso"
     except Team.DoesNotExist:
         transaction.rollback()

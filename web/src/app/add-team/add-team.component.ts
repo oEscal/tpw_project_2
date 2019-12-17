@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {ErrorHandlingService} from '../error-handling.service';
+
 
 @Component({
   selector: 'app-add-team',
@@ -21,15 +24,23 @@ export class AddTeamComponent implements OnInit {
   team_name;
   team;
 
+  // for remove
+  REMOVE_MESSAGE = [
+    'Remover a equipa implica remover:',
+    ' - Todos os jogos em que a equipa participa\n',
+    '- Todos os jogadores inscritos na equipa'
+  ];
+
   stadiums;
   new_team;
 
-  error_message:string = null;
-  success_message:string = null;
+  error_message: string = null;
+  success_message: string = null;
 
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private error_service: ErrorHandlingService) {
     this.new_team = this.formBuilder.group({
       name: '',
       foundation_date: '',
@@ -41,10 +52,9 @@ export class AddTeamComponent implements OnInit {
   ngOnInit() {
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
-      this.error_message = "Não tem conta iniciada!";
+      this.error_message = 'Não tem conta iniciada!';
       return;
-    }
-    else {
+    } else {
       this.route.data.subscribe(data => {this.title = data.title; });
 
       this.route.data.subscribe(data => {this.update = data.update; });
@@ -52,32 +62,30 @@ export class AddTeamComponent implements OnInit {
         this.route.params.subscribe(param => {this.team_name = param.name; });
         this.rest_api_service.get_team(this.team_name).subscribe(
           result => this.team = result.data,
-          error => this.handle_error(error));
+          error => {this.error_message = this.error_service.handle_error(error); });
       }
 
       this.rest_api_service.get_all_unused_stadiums().subscribe(
         result => this.stadiums = result.data,
-        error => this.handle_error(error));
+        error => {this.error_message = this.error_service.handle_error(error); });
     }
   }
 
   add_team(new_team): void {
     this.rest_api_service.add_team(new_team).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   update_team(new_team): void {
     this.rest_api_service.update_team(new_team, this.team_name).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    if (error.error.message)
-      this.error_message = error.error.message;
-    else
-      this.error_message = "Houve um erro a contactar a REST API!";
+  remove_team(): void {
+    this.rest_api_service.remove_team(this.team_name).subscribe(
+      result => this.success_message = result.message,
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 }
