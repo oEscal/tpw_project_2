@@ -7,7 +7,7 @@ import {Stadium} from './entities';
 const http_options = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    Authorization: 'Token 70de2e3e311ab48615455e977939badd7cd611cb',
+    //Authorization: 'Token ' //'Token 70de2e3e311ab48615455e977939badd7cd611cb',
   })
 };
 

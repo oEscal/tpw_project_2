@@ -93,7 +93,7 @@ export class AddEventComponent implements OnInit {
   update_event(new_event): void {
     this.error_message = null;
     this.success_message = null;
-    
+
     this.rest_api_service.update_event(new_event, this.event_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
