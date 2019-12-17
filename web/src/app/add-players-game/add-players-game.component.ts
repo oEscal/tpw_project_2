@@ -13,7 +13,7 @@ import {ErrorHandlingService} from '../error-handling.service';
 })
 export class AddPlayersGameComponent implements OnInit {
 
-  is_logged = false;
+  is_logged: boolean = false;
 
   players;
   game_id;

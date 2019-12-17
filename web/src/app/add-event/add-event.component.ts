@@ -15,7 +15,7 @@ import {ErrorHandlingService} from '../error-handling.service';
 })
 export class AddEventComponent implements OnInit {
 
-  is_logged = false;
+  is_logged: boolean = false;
 
   // url params
   update = false;

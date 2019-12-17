@@ -18,7 +18,7 @@
 
               <div *ngIf="update" class="form-group row">
                 <div class="col-md-4 offset-md-8" style="padding-bottom: 3%;">
-                  <input *ngIf="update" type="button" class="btn btn-outline-danger btn-block" value="Remover Jogo"
+                  <input *ngIf="update && is_logged"  type="button" class="btn btn-outline-danger btn-block" value="Remover Jogo"
                          data-toggle="modal" data-target="#myModal">
                 </div>
               </div>

@@ -13,7 +13,7 @@ import {ErrorHandlingService} from '../error-handling.service';
 })
 export class StadiumComponent implements OnInit {
 
-  is_logged = false;
+  is_logged: boolean = false;
 
   stadium: Stadium = null;
 
