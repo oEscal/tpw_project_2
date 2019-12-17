@@ -625,12 +625,12 @@ def update_stadium(data):
         if not stadium.exists():
             return False, "Estadio a editar não existe na base de dados"
 
-        if 'name' in data and data['name'] is not None:
+        if 'name' in data and data['name']:
             stadium.update(name=data['name'])
             stadium = Stadium.objects.filter(name=data['name'])
-        if 'number_seats' in data and data['number_seats'] is not None:
+        if 'number_seats' in data and data['number_seats']:
             stadium.update(number_seats=data['number_seats'])
-        if 'picture' in data and data['picture'] is not None:
+        if 'picture' in data and data['picture']:
             stadium.update(picture=data['picture'])
 
         transaction.set_autocommit(True)

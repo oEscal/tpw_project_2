@@ -12,13 +12,15 @@
           </div>
 
 
-          <form [formGroup]="new_stadium" (ngSubmit)="add(new_stadium.value)" ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
+          <form [formGroup]="new_stadium" (ngSubmit)="update ? update_stadium(new_stadium.value) : add(new_stadium.value)"
+                ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
             <div class="p-3 p-lg-5 border">
 
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_name" class="text-black"><label for="id_name">Nome do estádio:</label> <span class="text-danger">*</span></label><br>
-                  <input formControlName="name" type="text" name="name" maxlength="200" class="form-control" placeholder="Insira o nome do estádio" required="" id="id_name">
+                  <input formControlName="name" type="text" name="name" maxlength="200" class="form-control"
+                         placeholder="Insira o nome do estádio" required="" id="id_name" [value]="update ? stadium.name : ''">
 
                   <div class="text-danger">
 
@@ -26,7 +28,8 @@
                 </div>
                 <div class="col-md-6">
                   <label for="id_address" class="text-black"><label for="id_address">Endereço do estádio:</label> <span class="text-danger">*</span></label><br>
-                  <input formControlName="address" type="text" name="address" maxlength="200" class="form-control" placeholder="Insira o endereço do estádio" required="" id="id_address">
+                  <input formControlName="address" type="text" name="address" maxlength="200" class="form-control"
+                         placeholder="Insira o endereço do estádio" required="" id="id_address" [value]="update ? stadium.address : ''">
 
                   <div class="text-danger">
 
@@ -36,7 +39,8 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_number_seats" class="text-black"><label for="id_number_seats">Número de cadeiras:</label> <span class="text-danger">*</span></label><br>
-                  <input formControlName="number_seats" type="number" name="number_seats" min="0" class="form-control" placeholder="Insira o número de cadeiras" required="" id="id_number_seats">
+                  <input formControlName="number_seats" type="number" name="number_seats" min="0" class="form-control"
+                         placeholder="Insira o número de cadeiras" required="" id="id_number_seats" [value]="update ? stadium.number_seats : ''">
 
                   <div class="text-danger">
 
@@ -54,7 +58,7 @@
 
               <div class="form-group row">
                 <div class="col-lg-12">
-                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Novo Estadio">
+                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="{{ title }}">
                 </div>
               </div>
             </div>
