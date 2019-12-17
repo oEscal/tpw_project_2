@@ -19,7 +19,7 @@ class StadiumSerializer(serializers.Serializer):
             MinValueValidator(0)
         ]
     )
-    picture = serializers.ImageField(required=False, allow_empty_file=True, allow_null=True)
+    picture = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 
 class TeamSerializer(serializers.Serializer):

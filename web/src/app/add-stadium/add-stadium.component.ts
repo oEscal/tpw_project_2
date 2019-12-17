@@ -31,6 +31,9 @@ export class AddStadiumComponent implements OnInit {
     ' - Remover todos os jogadores da equipa'
   ];
 
+  // for image
+  image;
+
   new_stadium;
 
   error_message: string = null;
@@ -43,8 +46,7 @@ export class AddStadiumComponent implements OnInit {
     this.new_stadium = this.formBuilder.group({
       name: '',
       address: '',
-      number_seats: 1,
-      // picture: 1
+      number_seats: '',
     });
   }
 
@@ -66,26 +68,39 @@ export class AddStadiumComponent implements OnInit {
         });
         this.rest_api_service.get_stadium(this.stadium_name).subscribe(
           result => this.stadium = result.data,
-          error => {this.error_message = this.error_service.handle_error(error)});
+          error => {this.error_message = this.error_service.handle_error(error); });
       }
     }
   }
 
+  read_file($event) {
+    const file: File =  $event.target.files[0];
+
+    const image_reader: FileReader = new FileReader();
+    image_reader.onloadend = (e) => {
+      this.image = image_reader.result;
+    };
+    image_reader.readAsDataURL(file);
+  }
+
   add(new_stadium): void {
+    if (this.image)
+      new_stadium.picture = this.image;
+    console.log(this.image);
     this.rest_api_service.add_stadium(new_stadium).subscribe(
       result => this.success_message = result.message,
-      error => {this.error_message = this.error_service.handle_error(error)});
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   update_stadium(new_stadium): void {
     this.rest_api_service.update_stadium(new_stadium, this.stadium_name).subscribe(
       result => this.success_message = result.message,
-      error => {this.error_message = this.error_service.handle_error(error)});
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   remove_stadium(): void {
     this.rest_api_service.remove_stadium(this.stadium_name).subscribe(
       result => this.success_message = result.message,
-      error => {this.error_message = this.error_service.handle_error(error)});
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 }
