@@ -82,12 +82,18 @@ export class AddEventComponent implements OnInit {
   }
 
   add_event(new_event): void {
+    this.error_message = null;
+    this.success_message = null;
+
     this.rest_api_service.add_event(new_event, this.game_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }
 
   update_event(new_event): void {
+    this.error_message = null;
+    this.success_message = null;
+    
     this.rest_api_service.update_event(new_event, this.event_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
