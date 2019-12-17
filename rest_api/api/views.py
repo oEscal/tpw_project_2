@@ -602,10 +602,6 @@ def update_stadium(request, name):
             data_to_update = request.data
             data_to_update['current_name'] = name
 
-            # encode logo
-            if 'picture' in data_to_update:
-                data_to_update['picture'] = image_to_base64(data_to_update['picture'])
-
             update_status, message = queries.update_stadium(data_to_update)
             if not update_status:
                 status = HTTP_404_NOT_FOUND
