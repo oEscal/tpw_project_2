@@ -426,12 +426,13 @@ def get_positions():
 
 def get_game_team_players(id):
     try:
-        result = []
+        result = {
+            'teams': [],
+            'players': []
+        }
         for team in Game.objects.get(id=id).teams.all():
-            result.append({
-                'team': team.name,
-                'players': [player.name for player in Player.objects.filter(team=team)]
-            })
+            result['teams'].append(team.name)
+            result['players'].append([player.name for player in Player.objects.filter(team=team)])
         return result, "Sucesso"
     except Game.DoesNotExist:
         return None, "Esse jogo não existe!"

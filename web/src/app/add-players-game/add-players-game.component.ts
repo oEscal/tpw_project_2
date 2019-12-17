@@ -14,6 +14,9 @@ export class AddPlayersGameComponent implements OnInit {
   players;
   game_id;
 
+  interval_of_players = [14, 18];
+  array_loop = [];
+
   error_message: string;
   success_message: string;
 
@@ -22,6 +25,9 @@ export class AddPlayersGameComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
+    for (let i = 0; i < this.interval_of_players[1]; i++)
+      this.array_loop.push(i);
+
     this.route.params.subscribe(params => {this.game_id = params.id; });
     this.rest_api_service.get_game_team_players(this.game_id).subscribe(
       result => this.players = result.data,
