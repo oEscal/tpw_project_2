@@ -34,7 +34,6 @@ export class AddGameComponent implements OnInit {
   new_game;
 
   error_message: string;
-  error_data: [];
   success_message: string;
 
   constructor(private formBuilder: FormBuilder,

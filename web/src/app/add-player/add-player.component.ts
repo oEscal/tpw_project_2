@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {ErrorHandlingService} from '../error-handling.service';
 
 @Component({
   selector: 'app-add-player',
@@ -21,6 +23,9 @@ export class AddPlayerComponent implements OnInit {
   player_id;
   player;
 
+  // for remove
+  REMOVE_MESSAGE = ['Remover o jogador implica remover:', ' - Todos os eventos que o jogador fez durante os jogos'];
+
   player_positions;
   teams;
   new_player;
@@ -30,7 +35,8 @@ export class AddPlayerComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private error_service: ErrorHandlingService) {
     this.new_player = this.formBuilder.group({
       name: '',
       birth_date: '',
@@ -44,7 +50,7 @@ export class AddPlayerComponent implements OnInit {
   ngOnInit() {
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
-      this.error_message = "Não tem conta iniciada!";
+      this.error_message = 'Não tem conta iniciada!';
     } else {
       this.route.data.subscribe(data => {
         this.title = data.title;
@@ -83,6 +89,12 @@ export class AddPlayerComponent implements OnInit {
     this.rest_api_service.update_player(new_player, this.player_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
+  }
+
+  remove_player(): void {
+    this.rest_api_service.remove_player(this.player_id).subscribe(
+      result => this.success_message = result.message,
+      error => this.error_service.handle_error(error));
   }
 
   handle_error(error: HttpErrorResponse) {
