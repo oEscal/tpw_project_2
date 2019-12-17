@@ -40,8 +40,10 @@ export class AddTeamComponent implements OnInit {
 
   ngOnInit() {
     this.is_logged = this.rest_api_service.is_logged();
-    if (!this.is_logged)
-      this.error_message = "Não tem conta iniciada!"
+    if (!this.is_logged) {
+      this.error_message = "Não tem conta iniciada!";
+      return;
+    }
     else {
       this.route.data.subscribe(data => {this.title = data.title; });
 

@@ -13,6 +13,8 @@ import $ from 'jquery';
 })
 export class AddEventComponent implements OnInit {
 
+  is_logged = false;
+
   // url params
   update = false;
   title = '';
@@ -42,37 +44,50 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {this.title = data.title; });
+    this.is_logged = this.rest_api_service.is_logged();
+    if (!this.is_logged) {
+      this.error_message = "Não tem conta iniciada!";
 
-    this.route.data.subscribe(data => {this.update = data.update; });
-
-    if (this.update) {
-      this.route.params.subscribe(param => {this.event_id = param.id; });
-      this.rest_api_service.get_event(this.event_id).subscribe(
-        result => {
-          this.event = result.data.event;
-          this.form_data = result.data.game;
-          this.teams = Object.keys(this.form_data.teams);
-          },
-        error => this.handle_error(error));
     } else {
-      this.route.params.subscribe(params => {this.game_id = params.id; });
-      this.rest_api_service.get_players_per_game_and_events(this.game_id).subscribe(
-        result => {
-          this.form_data = result.data;
-          this.teams = Object.keys(this.form_data.teams);
-        },
-        error => this.handle_error(error));
+      this.route.data.subscribe(data => {
+        this.title = data.title;
+      });
+
+      this.route.data.subscribe(data => {
+        this.update = data.update;
+      });
+
+      if (this.update) {
+        this.route.params.subscribe(param => {
+          this.event_id = param.id;
+        });
+        this.rest_api_service.get_event(this.event_id).subscribe(
+          result => {
+            this.event = result.data.event;
+            this.form_data = result.data.game;
+            this.teams = Object.keys(this.form_data.teams);
+          },
+          error => this.handle_error(error));
+      } else {
+        this.route.params.subscribe(params => {
+          this.game_id = params.id;
+        });
+        this.rest_api_service.get_players_per_game_and_events(this.game_id).subscribe(
+          result => {
+            this.form_data = result.data;
+            this.teams = Object.keys(this.form_data.teams);
+          },
+          error => this.handle_error(error));
+      }
     }
 
-
     // jquery
-    $(document).ready(function () {
+    $(document).ready(function() {
       $("." + $("#id_team option:selected").text().replace(" ", "_")).show(1000);
 
-      $("#id_team").change(function () {
+      $("#id_team").change(function() {
         console.log("ola")
-        $("#id_team option").each(function () {
+        $("#id_team option").each(function() {
           $("." + $(this).text().replace(" ", "_")).hide(1000);
         });
 

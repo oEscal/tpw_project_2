@@ -11,6 +11,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddPlayersGameComponent implements OnInit {
 
+  is_logged = false;
+
   players;
   game_id;
 
@@ -72,15 +74,22 @@ export class AddPlayersGameComponent implements OnInit {
   }
 
   ngOnInit() {
-    for (let i = 0; i < this.interval_of_players[1]; i++)
-      this.array_loop.push(i);
+    this.is_logged = this.rest_api_service.is_logged();
+    if (!this.is_logged) {
+      this.error_message = "Não tem conta iniciada!";
+    } else {
+      for (let i = 0; i < this.interval_of_players[1]; i++)
+        this.array_loop.push(i);
 
-    this.route.params.subscribe(params => {this.game_id = params.id; });
-    this.rest_api_service.get_game_team_players(this.game_id).subscribe(
-      result => {
-        this.players = result.data;
-      },
-      error => this.handle_error(error));
+      this.route.params.subscribe(params => {
+        this.game_id = params.id;
+      });
+      this.rest_api_service.get_game_team_players(this.game_id).subscribe(
+        result => {
+          this.players = result.data;
+        },
+        error => this.handle_error(error));
+    }
   }
 
   add_players_game(new_players_game): void {

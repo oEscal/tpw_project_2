@@ -180,4 +180,12 @@ export class RestApiService {
     const url: string = `${API_URL}/update_event/${id}/`;
     return this.http.put(url, new_data, this.http_options());
   }
+
+
+  /************************************** Remove **************************************/
+
+  remove_game(id): Observable<any> {
+    const url: string = `${API_URL}/remove_game/${id}/`;
+    return this.http.delete(url, this.http_options());
+  }
 }

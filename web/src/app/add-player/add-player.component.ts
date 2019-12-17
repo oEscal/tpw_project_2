@@ -11,6 +11,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddPlayerComponent implements OnInit {
 
+  is_logged = false;
+
   // url params
   update = false;
   title = '';
@@ -40,24 +42,35 @@ export class AddPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {this.title = data.title; });
+    this.is_logged = this.rest_api_service.is_logged();
+    if (!this.is_logged) {
+      this.error_message = "Não tem conta iniciada!";
+    } else {
+      this.route.data.subscribe(data => {
+        this.title = data.title;
+      });
 
-    this.route.data.subscribe(data => {this.update = data.update; });
-    if (this.update) {
-      this.route.params.subscribe(param => {this.player_id = param.id; });
-      this.rest_api_service.get_player(this.player_id).subscribe(
-        result => this.player = result.data,
+      this.route.data.subscribe(data => {
+        this.update = data.update;
+      });
+      if (this.update) {
+        this.route.params.subscribe(param => {
+          this.player_id = param.id;
+        });
+        this.rest_api_service.get_player(this.player_id).subscribe(
+          result => this.player = result.data,
+          error => this.handle_error(error));
+      }
+
+      this.rest_api_service.get_positions().subscribe(
+        result => this.player_positions = result.data,
+        error => this.handle_error(error));
+
+      // TODO -> posteriormente, poderá adicionar-se um método à rest api só para retornar os nomes das equipas, para não tornar esta chamada tão pesada
+      this.rest_api_service.get_teams().subscribe(
+        result => this.teams = result.data,
         error => this.handle_error(error));
     }
-
-    this.rest_api_service.get_positions().subscribe(
-      result => this.player_positions = result.data,
-      error => this.handle_error(error));
-
-    // TODO -> posteriormente, poderá adicionar-se um método à rest api só para retornar os nomes das equipas, para não tornar esta chamada tão pesada
-    this.rest_api_service.get_teams().subscribe(
-      result => this.teams = result.data,
-      error => this.handle_error(error));
   }
 
   add_player(new_player): void {

@@ -12,6 +12,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddStadiumComponent implements OnInit {
 
+  is_logged = false;
   // url params
   update = false;
   title = '';
@@ -37,14 +38,25 @@ export class AddStadiumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {this.title = data.title; });
+    this.is_logged = this.rest_api_service.is_logged();
+    if (!this.is_logged) {
+      this.error_message = "Não tem conta iniciada!";
+    } else {
+      this.route.data.subscribe(data => {
+        this.title = data.title;
+      });
 
-    this.route.data.subscribe(data => {this.update = data.update; });
-    if (this.update) {
-      this.route.params.subscribe(param => {this.stadium_name = param.name; });
-      this.rest_api_service.get_stadium(this.stadium_name).subscribe(
-        result => this.stadium = result.data,
-        error => this.handle_error(error));
+      this.route.data.subscribe(data => {
+        this.update = data.update;
+      });
+      if (this.update) {
+        this.route.params.subscribe(param => {
+          this.stadium_name = param.name;
+        });
+        this.rest_api_service.get_stadium(this.stadium_name).subscribe(
+          result => this.stadium = result.data,
+          error => this.handle_error(error));
+      }
     }
   }
 

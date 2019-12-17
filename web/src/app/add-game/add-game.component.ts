@@ -11,6 +11,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddGameComponent implements OnInit {
 
+  is_logged = false;
+
   // url params
   update = false;
   title = '';
@@ -18,6 +20,13 @@ export class AddGameComponent implements OnInit {
   // for update
   game_id;
   game;
+
+  // for remove
+  REMOVE_MESSAGE = [
+    'Remover o jogo implica:',
+    ' - Remover as estatisticas do jogo',
+    '- Remover os jogadores inscritos no jogo'
+  ];
 
   stadiums;
   teams_props;
@@ -48,6 +57,11 @@ export class AddGameComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.is_logged = this.rest_api_service.is_logged();
+    if (!this.is_logged) {
+      this.error_message = "Não tem conta iniciada!";
+    } else {
     this.route.data.subscribe(data => {this.title = data.title; });
 
     this.route.data.subscribe(data => {this.update = data.update; });
@@ -66,6 +80,7 @@ export class AddGameComponent implements OnInit {
     this.rest_api_service.get_teams().subscribe(
       result => this.teams_props = result.data,
       error => this.handle_error(error));
+    }
   }
 
   normalize_data(data): object {
@@ -90,6 +105,12 @@ export class AddGameComponent implements OnInit {
 
   update_game(new_game): void {
     this.rest_api_service.update_game(new_game, this.game_id).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
+  remove_game(): void {
+    this.rest_api_service.remove_game(this.game_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }
