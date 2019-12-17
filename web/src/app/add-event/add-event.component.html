@@ -44,7 +44,7 @@
                     class="text-danger">*</span>
                 </label>
                 <div *ngFor="let team_name of teams" class="input-sm">
-                  <select formControlName="player" class="form-control {{ team_name }}" style="display: none;" placeholder="Escolha o jogador" id="id_player1">
+                  <select formControlName="player" class="form-control {{ team_name.replace(' ', '_') }}" style="display: none;" placeholder="Escolha o jogador" id="id_player1">
                     <option value="-">Escolha o jogador</option>
 
                     <option *ngFor="let player of form_data.teams[team_name]" value="{{ player.id }}">{{ player.name }}</option>
