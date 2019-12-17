@@ -66,6 +66,8 @@ export class AddEventComponent implements OnInit {
             this.event = result.data.event;
             this.form_data = result.data.game;
             this.teams = Object.keys(this.form_data.teams);
+
+            this.no_players_error();
           },
           error => this.handle_error(error));
       } else {
@@ -76,6 +78,8 @@ export class AddEventComponent implements OnInit {
           result => {
             this.form_data = result.data;
             this.teams = Object.keys(this.form_data.teams);
+
+            this.no_players_error();
           },
           error => this.handle_error(error));
       }
@@ -117,5 +121,10 @@ export class AddEventComponent implements OnInit {
   handle_error(error: HttpErrorResponse) {
     console.log(error);
     this.error_message = error.error.message;
+  }
+
+  no_players_error() {
+    if (this.teams.length == 0)
+      this.error_message = "Atenção, ainda não adicionou jogadores a este jogo!";
   }
 }

@@ -187,12 +187,14 @@ def add_player_to_game(data):
 
         teams_played_game = [game_status.team.name for game_status in GameStatus.objects.filter(game_id=game_id)]
         for team_name in teams:
+            players = [p for p in teams[team_name] if p]
+
             # verify if teams selected played that game
             if team_name not in teams_played_game:
                 return False, f"A equipa {team_name} não jogou o referido jogo!"
 
             # verify max and min number of players on that team on that game
-            if len(set(teams[team_name])) > MAX_PLAYERS_MATCH or len(set(teams[team_name])) < MIN_PLAYERS_MATCH:
+            if len(set(players)) > MAX_PLAYERS_MATCH or len(set(players)) < MIN_PLAYERS_MATCH:
                 return False, f"O número de jogadores por equipa deve estar compreendido " \
                               f"entre {MIN_PLAYERS_MATCH} e {MAX_PLAYERS_MATCH}!"
 
@@ -201,7 +203,9 @@ def add_player_to_game(data):
             return False, "Já foram definidos os jogadores que jogam nesse jogo!"
 
         for team_name in teams:
-            for player_id in teams[team_name]:
+            players = [p for p in teams[team_name] if p]
+
+            for player_id in players:
                 if player_id:
                     player = Player.objects.get(id=int(player_id))
 
@@ -215,7 +219,7 @@ def add_player_to_game(data):
                     )
 
         transaction.set_autocommit(True)
-        return True, "Jogadores adicionado com sucesso ao jogo"
+        return True, "Jogadores adicionados com sucesso ao jogo"
     except Game.DoesNotExist:
         transaction.rollback()
         return False, "Jogo não existente!"
@@ -225,7 +229,7 @@ def add_player_to_game(data):
     except Exception as e:
         print(e)
         transaction.rollback()
-        return False, "Erro na base de dados a adicionar novo jogador ao jogo"
+        return False, "Erro na base de dados a adicionar novos jogadores ao jogo"
 
 
 ######################### Get queries #########################
