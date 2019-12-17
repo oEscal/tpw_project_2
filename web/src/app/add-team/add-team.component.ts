@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-add-team',
@@ -10,13 +11,23 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class AddTeamComponent implements OnInit {
 
+  // url params
+  update = false;
+  title = '';
+
+  // for update
+  team_name;
+  team;
+
   stadiums;
   new_team;
 
   error_message:string = null;
   success_message:string = null;
 
-  constructor(private formBuilder: FormBuilder, private rest_api_service: RestApiService) {
+  constructor(private formBuilder: FormBuilder,
+              private rest_api_service: RestApiService,
+              private route: ActivatedRoute) {
     this.new_team = this.formBuilder.group({
       name: '',
       foundation_date: '',
@@ -26,6 +37,16 @@ export class AddTeamComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {this.title = data.title; });
+
+    this.route.data.subscribe(data => {this.update = data.update; });
+    if (this.update) {
+      this.route.params.subscribe(param => {this.team_name = param.name; });
+      this.rest_api_service.get_team(this.team_name).subscribe(
+        result => this.team = result.data,
+        error => this.handle_error(error));
+    }
+
     this.rest_api_service.get_all_unused_stadiums().subscribe(
       result => this.stadiums = result.data,
       error => this.handle_error(error));
@@ -33,6 +54,12 @@ export class AddTeamComponent implements OnInit {
 
   add_team(new_team): void {
     this.rest_api_service.add_team(new_team).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
+  update_team(new_team): void {
+    this.rest_api_service.update_team(new_team, this.team_name).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }
