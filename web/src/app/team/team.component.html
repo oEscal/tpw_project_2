@@ -26,13 +26,7 @@
               </div>
             </div>
 
-            <!--TODO-->
-            <div class="col-md-6 p-5" style="background-image: url(
-                        ''
-                        );
-                                background-position: center center;  background-size: contain;
-                                background-repeat: no-repeat;">
-            </div>
+            <img *ngIf="team.logo" class="col-md-4" [src]="team.logo" alt="">
           </div>
         </div>
       </div>

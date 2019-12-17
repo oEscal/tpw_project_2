@@ -85,7 +85,7 @@ export class AddTeamComponent implements OnInit {
     this.rest_api_service.add_team(new_team).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
-  } 
+  }
 
   update_team(new_team): void {
     if (this.image)
