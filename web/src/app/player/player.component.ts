@@ -11,7 +11,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class PlayerComponent implements OnInit {
 
-  is_logged = false;
+  is_logged: boolean = false;
 
   player: Player;
   player_id: number;

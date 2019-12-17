@@ -14,7 +14,7 @@ import {FilesService} from '../files.service';
 })
 export class AddStadiumComponent implements OnInit {
 
-  is_logged = false;
+  is_logged: boolean = false;
 
   // url params
   update = false;

@@ -20,7 +20,7 @@
               {% if do_update %}
               -->
               <div class="col-md-6 offset-md-3" style="padding-bottom: 3%;">
-                <input type="button" class="btn btn-outline-danger btn-block"
+                <input type="button" *ngIf="is_logged" class="btn btn-outline-danger btn-block"
                        value="Remover todos os jogadores deste jogo" data-toggle="modal"
                        data-target="#myModal">
               </div>
