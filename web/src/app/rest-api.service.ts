@@ -116,4 +116,9 @@ export class RestApiService {
     const url: string = `${API_URL}/update_stadium/${name}/`;
     return this.http.put(url, new_data, http_options);
   }
+
+  update_team(new_data, name): Observable<any> {
+    const url: string = `${API_URL}/update_team/${name}/`;
+    return this.http.put(url, new_data, http_options);
+  }
 }
