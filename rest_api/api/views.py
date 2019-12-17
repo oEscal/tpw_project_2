@@ -580,10 +580,6 @@ def update_player(request, id):
             data_to_update = request.data
             data_to_update['id'] = id
 
-            # encode logo
-            if 'photo' in data:
-                data_to_update['photo'] = image_to_base64(data_to_update['photo'])
-
             update_status, message = queries.update_player(data_to_update)
             if not update_status:
                 status = HTTP_404_NOT_FOUND

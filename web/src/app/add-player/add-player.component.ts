@@ -84,7 +84,6 @@ export class AddPlayerComponent implements OnInit {
 
   read_file($event) {
     this.image = this.files_service.read_file($event);
-    console.log(this.image);
   }
 
   add_player(new_player): void {
@@ -96,6 +95,8 @@ export class AddPlayerComponent implements OnInit {
   }
 
   update_player(new_player): void {
+    if (this.image)
+      new_player.photo = this.image;
     this.rest_api_service.update_player(new_player, this.player_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
