@@ -54,9 +54,14 @@ export class AddStadiumComponent implements OnInit {
       error => this.handle_error(error));
   }
 
+  update_stadium(new_stadium): void {
+    this.rest_api_service.update_stadium(new_stadium, this.stadium_name).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
   handle_error(error: HttpErrorResponse) {
     console.log(error);
     this.error_message = error.error.message;
   }
-
 }
