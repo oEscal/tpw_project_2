@@ -55,5 +55,5 @@ urlpatterns = [
     url(r'^remove_stadium/(?P<name>[\w\s]+)/$', remove_stadium, name='remove_stadium'),
     url(r'^remove_players_game/(?P<id>[\w\s]+)/$', remove_players_game, name='remove_players_game'),        # em falta
     url(r'^remove_game/(?P<id>[\w\s]+)/$', remove_game, name='remove_game'),
-    url(r'^remove_event/(?P<id>[\w\s]+)/$', remove_event, name='remove_event'),                             # em falta
+    url(r'^remove_event/(?P<id>[\w\s]+)/$', remove_event, name='remove_event'),
 ]

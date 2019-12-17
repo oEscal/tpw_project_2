@@ -760,8 +760,26 @@ def remove_stadium(request, name):
 
 @csrf_exempt
 @api_view(["DELETE"])
-def remove_players_game(request, name):
-    pass
+def remove_players_game(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        try:
+            remove_status, message = queries.remove_allplayersFrom_game(id)
+
+            if not remove_status:
+                status = HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro a eliminar estádio!"
+
+    return create_response(message, status, token=token, data=data)
 
 
 @csrf_exempt
