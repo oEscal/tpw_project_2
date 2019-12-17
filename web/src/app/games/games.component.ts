@@ -13,6 +13,8 @@ import $ from 'jquery';
 })
 export class GamesComponent implements OnInit{
 
+  is_logged: boolean = false;
+
   games: Game[];
   show_game_info: boolean[] = [];
   show_events: boolean = false;
@@ -22,6 +24,7 @@ export class GamesComponent implements OnInit{
   constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.is_logged = this.rest_api_service.is_logged();
     this.get_games();
   }
 
