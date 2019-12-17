@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -11,14 +12,22 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class AddStadiumComponent implements OnInit {
 
-  title = `Adicionar estádio`;
+  // url params
+  update = false;
+  title = '';
+
+  // for update
+  stadium_name;
+  stadium;
 
   new_stadium;
 
   error_message:string = null;
   success_message:string = null;
 
-  constructor(private formBuilder: FormBuilder, private rest_api_service: RestApiService) {
+  constructor(private formBuilder: FormBuilder,
+              private rest_api_service: RestApiService,
+              private route: ActivatedRoute) {
     this.new_stadium = this.formBuilder.group({
       name: '',
       address: '',
@@ -28,6 +37,15 @@ export class AddStadiumComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {this.title = data.title; });
+
+    this.route.data.subscribe(data => {this.update = data.update; });
+    if (this.update) {
+      this.route.params.subscribe(param => {this.stadium_name = param.name; });
+      this.rest_api_service.get_stadium(this.stadium_name).subscribe(
+        result => this.stadium = result.data,
+        error => this.handle_error(error));
+    }
   }
 
   add(new_stadium): void {
