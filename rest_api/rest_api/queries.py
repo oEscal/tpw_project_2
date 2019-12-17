@@ -458,7 +458,7 @@ def get_players_per_game_and_events(game_id):
                 'name': player.name
             })
 
-        result['events'] = [[event.name, event.id] for event in KindEvent.objects.all()]
+        result['events'] = [event.name for event in KindEvent.objects.all()]
         return result, "Sucesso!"
     except Game.DoesNotExist:
         return None, "Jogo inexistente!"

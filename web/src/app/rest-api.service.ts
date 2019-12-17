@@ -99,4 +99,9 @@ export class RestApiService {
     const url: string = `${API_URL}/get_game_team_players/${id}/`;
     return this.http.get(url, http_options);
   }
+
+  get_players_per_game_and_events(id): Observable<any> {
+    const url: string = `${API_URL}/get_players_per_game_and_events/${id}/`;
+    return this.http.get(url, http_options);
+  }
 }
