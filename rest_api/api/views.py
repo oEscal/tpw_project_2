@@ -227,6 +227,8 @@ def add_players_game(request, id):
     try:
         make_query = True
 
+        print(request.data)
+
         # verify if number of players is greater or smaller than the constraints
         for team_name in request.data:
             if len(set(request.data[team_name])) > MAX_PLAYERS_MATCH or len(set(request.data[team_name])) < MIN_PLAYERS_MATCH:

@@ -7,7 +7,7 @@ import {Stadium} from './entities';
 const http_options = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    Authorization: 'Token 77ee4339bddb5a48990ea9568529fb800f7d384f',
+    Authorization: 'Token 70de2e3e311ab48615455e977939badd7cd611cb',
   })
 };
 
@@ -43,7 +43,7 @@ export class RestApiService {
   }
 
   add_players_game(new_players_game, id): Observable<any> {
-    const url: string = `${API_URL}/add_players_game/${id}`;
+    const url: string = `${API_URL}/add_players_game/${id}/`;
     return this.http.post(url, new_players_game, http_options);
   }
 

@@ -11,7 +11,7 @@
           {{ success_message }}
         </div>
 
-        <form method="post" class="bg-white" enctype="multipart/form-data">
+        <form [formGroup]="new_players" (ngSubmit)="add_players_game(new_players.value)" ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
           <div class="p-3 p-lg-5 border">
 
             <div class="form-group row">
@@ -39,23 +39,24 @@
                 </h1>
               </div>
 
-              <div *ngFor="let id_player of array_loop" class="col-12 row" >
-                <div *ngFor="let id_team of [0, 1]" class="col-md-6 p-3">
-                  <label for="c_fname" class="text-black"><label for="id_FC Porto-0">Jogador {{ id_player + 1 }}:</label></label><br>
-                  <select name="FC Porto-0" class="form-control" id="id_FC Porto-0">
-                    <option value="-">Escolha um jogador</option>
+              <div class="col-12">
+                <div *ngFor="let id_player of array_loop" class="col-12 row" >
+                  <div *ngFor="let id_team of [0, 1]" class="col-md-6 p-3" formArrayName="{{teams[id_team]}}">
+                    <label for="" class="text-black">
+                      <label for="player_{{ id_team }}_{{ id_player }}">Jogador {{ id_player + 1 }}:</label></label><br>
+                    <select [formControlName]="id_player" class="form-control" id="player_{{ id_team }}_{{ id_player }}">
+                      <option value="-">Escolha um jogador</option>
 
-                    <option *ngFor="let player of players.players[id_team]" value="{{ player }}" >{{ player }}</option>
+                      <option *ngFor="let player of players.players[id_team]" value="{{ player[1] }}" >{{ player[0] }}</option>
 
-                  </select>
+                    </select>
 
-                  <div class="text-danger">
+                    <div class="text-danger">
 
+                    </div>
                   </div>
                 </div>
               </div>
-
-
             </div>
 
             <div class="form-group row">

@@ -202,16 +202,17 @@ def add_player_to_game(data):
 
         for team_name in teams:
             for player_id in teams[team_name]:
-                player = Player.objects.get(id=player_id)
+                if player_id:
+                    player = Player.objects.get(id=int(player_id))
 
-                if player.team.name != team_name:
-                    transaction.rollback()
-                    return False, f"Jogador {player.name} não pertence à equipa {team_name}"
+                    if player.team.name != team_name:
+                        transaction.rollback()
+                        return False, f"Jogador {player.name} não pertence à equipa {team_name}"
 
-                PlayerPlayGame.objects.create(
-                    game=Game.objects.get(id=game_id),
-                    player=player
-                )
+                    PlayerPlayGame.objects.create(
+                        game=Game.objects.get(id=game_id),
+                        player=player
+                    )
 
         transaction.set_autocommit(True)
         return True, "Jogadores adicionado com sucesso ao jogo"
@@ -432,7 +433,7 @@ def get_game_team_players(id):
         }
         for team in Game.objects.get(id=id).teams.all():
             result['teams'].append(team.name)
-            result['players'].append([player.name for player in Player.objects.filter(team=team)])
+            result['players'].append([[player.name, player.id] for player in Player.objects.filter(team=team)])
         return result, "Sucesso"
     except Game.DoesNotExist:
         return None, "Esse jogo não existe!"
