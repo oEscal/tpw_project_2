@@ -5,6 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {ErrorHandlingService} from '../error-handling.service';
+import {FilesService} from '../files.service';
 
 
 @Component({
@@ -24,6 +25,8 @@ export class AddTeamComponent implements OnInit {
   team_name;
   team;
 
+  image;
+
   // for remove
   REMOVE_MESSAGE = [
     'Remover a equipa implica remover:',
@@ -40,7 +43,8 @@ export class AddTeamComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
               private route: ActivatedRoute,
-              private error_service: ErrorHandlingService) {
+              private error_service: ErrorHandlingService,
+              private files_service: FilesService) {
     this.new_team = this.formBuilder.group({
       name: '',
       foundation_date: '',
@@ -71,13 +75,21 @@ export class AddTeamComponent implements OnInit {
     }
   }
 
+  read_file($event) {
+    this.image = this.files_service.read_file($event);
+  }
+
   add_team(new_team): void {
+    if (this.image)
+      new_team.logo = this.image;
     this.rest_api_service.add_team(new_team).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
-  }
+  } 
 
   update_team(new_team): void {
+    if (this.image)
+      new_team.logo = this.image;
     this.rest_api_service.update_team(new_team, this.team_name).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });

@@ -46,7 +46,7 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_logo" class="text-black"><label for="id_logo">Logótipo da equipa:</label> <span class="text-danger">*</span></label><br>
-                  <input type="file" formControlName="logo" accept="image/*" id="id_logo">
+                  <input type="file" accept="image/*" id="id_logo" (change)="read_file($event)" >
 
                   <div class="text-danger">
 

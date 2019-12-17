@@ -550,10 +550,6 @@ def update_team(request, name):
             data_to_update = request.data
             data_to_update['name'] = name
 
-            # encode logo
-            if 'logo' in data_to_update:
-                data_to_update['logo'] = image_to_base64(data_to_update['logo'])
-
             add_status, message = queries.update_team(data_to_update)
             if not add_status:
                 status = HTTP_404_NOT_FOUND
