@@ -5,6 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {ErrorHandlingService} from '../error-handling.service';
+import {FilesService} from '../files.service';
 
 @Component({
   selector: 'app-add-player',
@@ -26,6 +27,8 @@ export class AddPlayerComponent implements OnInit {
   // for remove
   REMOVE_MESSAGE = ['Remover o jogador implica remover:', ' - Todos os eventos que o jogador fez durante os jogos'];
 
+  image;
+
   player_positions;
   teams;
   new_player;
@@ -36,7 +39,8 @@ export class AddPlayerComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
               private route: ActivatedRoute,
-              private error_service: ErrorHandlingService) {
+              private error_service: ErrorHandlingService,
+              private files_service: FilesService) {
     this.new_player = this.formBuilder.group({
       name: '',
       birth_date: '',
@@ -65,40 +69,41 @@ export class AddPlayerComponent implements OnInit {
         });
         this.rest_api_service.get_player(this.player_id).subscribe(
           result => this.player = result.data,
-          error => this.handle_error(error));
+          error => {this.error_message = this.error_service.handle_error(error); });
       }
 
       this.rest_api_service.get_positions().subscribe(
         result => this.player_positions = result.data,
-        error => this.handle_error(error));
+        error => {this.error_message = this.error_service.handle_error(error); });
 
-      // TODO -> posteriormente, poderá adicionar-se um método à rest api só para retornar os nomes das equipas, para não tornar esta chamada tão pesada
       this.rest_api_service.get_teams().subscribe(
         result => this.teams = result.data,
-        error => this.handle_error(error));
+        error => {this.error_message = this.error_service.handle_error(error); });
     }
   }
 
+  read_file($event) {
+    this.image = this.files_service.read_file($event);
+    console.log(this.image);
+  }
+
   add_player(new_player): void {
+    if (this.image)
+      new_player.photo = this.image;
     this.rest_api_service.add_player(new_player).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   update_player(new_player): void {
     this.rest_api_service.update_player(new_player, this.player_id).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   remove_player(): void {
     this.rest_api_service.remove_player(this.player_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
-  }
-
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    this.error_message = error.error.message;
   }
 }
