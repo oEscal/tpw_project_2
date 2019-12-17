@@ -5,6 +5,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import $ from 'jquery';
 
+import {ErrorHandlingService} from '../error-handling.service';
+
 
 @Component({
   selector: 'app-add-event',
@@ -34,7 +36,8 @@ export class AddEventComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private error_service: ErrorHandlingService) {
     this.new_event = this.formBuilder.group({
       team: '',
       player: '',
@@ -69,7 +72,7 @@ export class AddEventComponent implements OnInit {
 
             this.no_players_error();
           },
-          error => this.handle_error(error));
+          error => this.error_service.handle_error(error));
       } else {
         this.route.params.subscribe(params => {
           this.game_id = params.id;
@@ -81,7 +84,7 @@ export class AddEventComponent implements OnInit {
 
             this.no_players_error();
           },
-          error => this.handle_error(error));
+          error => this.error_service.handle_error(error));
       }
     }
 
@@ -106,7 +109,7 @@ export class AddEventComponent implements OnInit {
 
     this.rest_api_service.add_event(new_event, this.game_id).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
+      error => this.error_service.handle_error(error));
   }
 
   update_event(new_event): void {
@@ -115,18 +118,13 @@ export class AddEventComponent implements OnInit {
 
     this.rest_api_service.update_event(new_event, this.event_id).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
+      error => this.error_service.handle_error(error));
   }
 
   remove_event(): void {
     this.rest_api_service.remove_event(this.event_id).subscribe(
       result => this.success_message = result.message,
-      error => this.handle_error(error));
-  }
-
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    this.error_message = error.error.message;
+      error => this.error_service.handle_error(error));
   }
 
   no_players_error() {
