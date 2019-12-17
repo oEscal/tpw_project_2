@@ -54,7 +54,7 @@ export class AddGameComponent implements OnInit {
     if (this.update) {
       this.route.params.subscribe(param => {this.game_id = param.id; });
       this.rest_api_service.get_game(this.game_id).subscribe(
-        result => {this.game = result.data; console.log(this.game)},
+        result => {this.game = result.data; },
         error => this.handle_error(error));
     }
 

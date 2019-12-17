@@ -401,11 +401,14 @@ def get_minimal_event(id):
         pg = PlayerPlayGame.objects.get(event__id=id)
         event = Event.objects.get(id=id)
         result = {
-            'id': id,
-            'team': pg.player.team.name,
-            'player': pg.player.id,
-            'kind_event': event.kind_event.name,
-            'minute': event.minute
+            'event': {
+                'id': id,
+                'team': pg.player.team.name,
+                'player': pg.player.id,
+                'kind_event': event.kind_event.name,
+                'minute': event.minute
+            },
+            'game': get_players_per_game_and_events(pg.game.id)[0]
         }
         return result, "Sucesso"
     except PlayerPlayGame.DoesNotExist:

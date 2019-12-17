@@ -13,6 +13,14 @@ import $ from 'jquery';
 })
 export class AddEventComponent implements OnInit {
 
+  // url params
+  update = false;
+  title = '';
+
+  // for update
+  event_id;
+  event;
+
   new_event;
 
   form_data;
@@ -34,13 +42,29 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {this.game_id = params.id; });
-    this.rest_api_service.get_players_per_game_and_events(this.game_id).subscribe(
-      result => {
-        this.form_data = result.data;
-        this.teams = Object.keys(this.form_data.teams);
-      },
-      error => this.handle_error(error));
+    this.route.data.subscribe(data => {this.title = data.title; });
+
+    this.route.data.subscribe(data => {this.update = data.update; });
+
+    if (this.update) {
+      this.route.params.subscribe(param => {this.event_id = param.id; });
+      this.rest_api_service.get_event(this.event_id).subscribe(
+        result => {
+          this.event = result.data.event;
+          this.form_data = result.data.game;
+          this.teams = Object.keys(this.form_data.teams);
+          },
+        error => this.handle_error(error));
+    } else {
+      this.route.params.subscribe(params => {this.game_id = params.id; });
+      this.rest_api_service.get_players_per_game_and_events(this.game_id).subscribe(
+        result => {
+          this.form_data = result.data;
+          this.teams = Object.keys(this.form_data.teams);
+        },
+        error => this.handle_error(error));
+    }
+
 
     // jquery
     $(document).ready(function () {
@@ -59,6 +83,12 @@ export class AddEventComponent implements OnInit {
 
   add_event(new_event): void {
     this.rest_api_service.add_event(new_event, this.game_id).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
+  update_event(new_event): void {
+    this.rest_api_service.update_event(new_event, this.event_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }

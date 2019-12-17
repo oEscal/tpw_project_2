@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'adicionar-jogador', component: AddPlayerComponent, data: {title: 'Adicionar jogador', update: false}},
   {path: 'adicionar-jogo', component: AddGameComponent, data: {title: 'Adicionar jogo', update: false}},
   {path: 'adicionar-jogadores-jogo/:id', component: AddPlayersGameComponent, data: {title: 'Adicionar jogadores a um jogo'}},
-  {path: 'adicionar-evento/:id', component: AddEventComponent, data: {title: 'Adicionar evento', update: true}},
+  {path: 'adicionar-evento/:id', component: AddEventComponent, data: {title: 'Adicionar evento', update: false}},
 
   {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}},
   {path: 'equipas', component: TeamsComponent, data: {title: 'Equipas'}},

@@ -11,7 +11,8 @@
           {{ success_message }}
         </div>
 
-        <form [formGroup]="new_event" (ngSubmit)="add_event(new_event.value)" ngNativeValidate method="post" class="bg-white">
+        <form [formGroup]="new_event" (ngSubmit)="update ? update_event(new_event.value) : add_event(new_event.value)"
+              ngNativeValidate method="post" class="bg-white">
           <div class="p-3 p-lg-5 border">
             <!--TODO
             {% if do_update %}
@@ -30,7 +31,8 @@
                 <label for="id_team" class="text-black">Equipa: <span
                   class="text-danger">*</span></label>
 
-                <select name="team" class="form-control" placeholder="Escolha a equipa" id="id_team">
+                <select name="team" class="form-control" placeholder="Escolha a equipa" id="id_team"
+                        [value]="update ? event.team : '-'">
                   <option value="-">Escolha a equipa</option>
 
                   <option *ngFor="let team_name of teams" value="{{ team_name }}">{{ team_name }}</option>
@@ -39,12 +41,14 @@
               </div>
 
               <div class="col-md-6 ">
-                <label for="id_player1" class="text-black">Jogador:
+                <label for="id_player" class="text-black">Jogador:
                   <span
                     class="text-danger">*</span>
                 </label>
                 <div *ngFor="let team_name of teams" class="input-sm">
-                  <select formControlName="player" class="form-control {{ team_name.replace(' ', '_') }}" style="display: none;" placeholder="Escolha o jogador" id="id_player1">
+                  <select formControlName="player" class="form-control {{ team_name.replace(' ', '_') }}"
+                          [style.display]="update && team_name == event.team ? '' : 'none'" placeholder="Escolha o jogador"
+                          id="id_player" [value]="update ? event.player : '-'">
                     <option value="-">Escolha o jogador</option>
 
                     <option *ngFor="let player of form_data.teams[team_name]" value="{{ player.id }}">{{ player.name }}</option>
@@ -63,7 +67,8 @@
                 <span
                   class="text-danger">*</span>
               </label>
-              <select formControlName="kind_event" class="form-control" placeholder="Escolha o tipo de evento" id="id_kind_event">
+              <select formControlName="kind_event" class="form-control" placeholder="Escolha o tipo de evento"
+                      id="id_kind_event" [value]="update ? event.kind_event : '-'">
                 <option value="-">Escolha o tipo de evento</option>
 
                 <option *ngFor="let name of form_data.events" value="{{ name }}">{{ name }}</option>
@@ -77,7 +82,8 @@
             <div class="col-md-6">
               <label for="id_minute" class="text-black">Minuto <span
                 class="text-danger">*</span></label>
-              <input type="number" formControlName="minute" min="0" class="form-control" placeholder="Escolha o minuto do evento" required="" id="id_minute">
+              <input type="number" formControlName="minute" min="0" class="form-control"
+                     placeholder="Escolha o minuto do evento" required="" id="id_minute" [value]="update ? event.minute : ''">
 
               <div class="text-danger">
               </div>
@@ -87,7 +93,7 @@
           <div class="form-group row">
             <div class="col-lg-12">
               <input type="submit" class="btn btn-primary btn-lg btn-block"
-                     value="Adicionar evento">
+                     value="{{ title }}">
             </div>
 
           </div>
