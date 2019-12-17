@@ -520,11 +520,11 @@ def update_team(data):
         if not team.exists():
             return False, "Equipa a editar não existe na base de dados!"
 
-        if 'foundation_date' in data and data['foundation_date'] is not None:
+        if 'foundation_date' in data and data['foundation_date']:
             team.update(foundation_date=data['foundation_date'])
-        if 'logo' in data and data['logo'] is not None:
+        if 'logo' in data and data['logo']:
             team.update(logo=data['logo'])
-        if 'stadium' in data and data['stadium'] is not None:
+        if 'stadium' in data and data['stadium']:
             if (Team.objects.filter(stadium__name=data['stadium']).exists()
                   and not Team.objects.filter(Q(stadium__name=data['stadium']) & Q(name=data['name'])).exists()):
                 return False, "O estádio selecionado já pertence a outra equipa!"

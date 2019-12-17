@@ -19,7 +19,7 @@
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="id_name" class="text-black"><label for="id_name">Nome da equipa:</label> <span class="text-danger">*</span></label><br>
-                  <input type="text" formControlName="name" maxlength="200" class="form-control"
+                  <input type="text" formControlName="name" maxlength="200" class="form-control" [readOnly]="update"
                          placeholder="Insira o nome da equipa" required="" id="id_name" [value]="update ? team.name : ''">
 
                   <div class="text-danger">
