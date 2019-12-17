@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-add-game',
@@ -9,6 +10,15 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrls: ['./add-game.component.css']
 })
 export class AddGameComponent implements OnInit {
+
+  // url params
+  update = false;
+  title = '';
+
+  // for update
+  game_id;
+  game;
+
   stadiums;
   teams_props;
   new_game;
@@ -17,7 +27,9 @@ export class AddGameComponent implements OnInit {
   error_data: [];
   success_message: string;
 
-  constructor(private formBuilder: FormBuilder, private rest_api_service: RestApiService) {
+  constructor(private formBuilder: FormBuilder,
+              private rest_api_service: RestApiService,
+              private route: ActivatedRoute) {
     this.new_game = this.formBuilder.group({
       date: '',
       journey: '',
@@ -36,6 +48,16 @@ export class AddGameComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {this.title = data.title; });
+
+    this.route.data.subscribe(data => {this.update = data.update; });
+    // if (this.update) {
+    //   this.route.params.subscribe(param => {this.game_id = param.id; });
+    //   this.rest_api_service.get_game(this.game_id).subscribe(
+    //     result => this.game = result.data,
+    //     error => this.handle_error(error));
+    // }
+
     this.rest_api_service.get_stadiums().subscribe(
       result => this.stadiums = result.data,
       error => this.handle_error(error));
@@ -61,8 +83,13 @@ export class AddGameComponent implements OnInit {
   }
 
   add_game(new_game): void {
-    console.log(this.normalize_data(new_game));
     this.rest_api_service.add_game(this.normalize_data(new_game)).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
+  update_game(new_game): void {
+    this.rest_api_service.update_game(this.normalize_data(new_game), this.game_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }
