@@ -25,6 +25,8 @@ export class AddTeamComponent implements OnInit {
   error_message:string = null;
   success_message:string = null;
 
+  is_logged = false;
+
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
               private route: ActivatedRoute) {
@@ -37,19 +39,24 @@ export class AddTeamComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {this.title = data.title; });
+    this.is_logged = this.rest_api_service.is_logged();
+    if (!this.is_logged)
+      this.error_message = "Não tem conta iniciada!"
+    else {
+      this.route.data.subscribe(data => {this.title = data.title; });
 
-    this.route.data.subscribe(data => {this.update = data.update; });
-    if (this.update) {
-      this.route.params.subscribe(param => {this.team_name = param.name; });
-      this.rest_api_service.get_team(this.team_name).subscribe(
-        result => this.team = result.data,
+      this.route.data.subscribe(data => {this.update = data.update; });
+      if (this.update) {
+        this.route.params.subscribe(param => {this.team_name = param.name; });
+        this.rest_api_service.get_team(this.team_name).subscribe(
+          result => this.team = result.data,
+          error => this.handle_error(error));
+      }
+
+      this.rest_api_service.get_all_unused_stadiums().subscribe(
+        result => this.stadiums = result.data,
         error => this.handle_error(error));
     }
-
-    this.rest_api_service.get_all_unused_stadiums().subscribe(
-      result => this.stadiums = result.data,
-      error => this.handle_error(error));
   }
 
   add_team(new_team): void {
@@ -66,6 +73,9 @@ export class AddTeamComponent implements OnInit {
 
   handle_error(error: HttpErrorResponse) {
     console.log(error);
-    this.error_message = error.error.message;
+    if (error.error.message)
+      this.error_message = error.error.message;
+    else
+      this.error_message = "Houve um erro a contactar a REST API!";
   }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestApiService} from '../rest-api.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
+
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private rest_api_service: RestApiService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
     this.new_login = this.formBuilder.group({
       username: '',
       password: '',
@@ -31,9 +33,12 @@ export class LoginComponent implements OnInit {
     this.error_message = null;
     this.success_message = null;
 
-    // this.rest_api_service.login(new_login).subscribe(
-    //   result => this.success_message = result.message,
-    //   error => this.handle_error(error));
+    this.rest_api_service.login(new_login).subscribe(
+      result => {
+        this.success_message = result.message;
+        this.router.navigateByUrl('/');
+      },
+      error => this.handle_error(error));
   }
 
   handle_error(error: HttpErrorResponse) {

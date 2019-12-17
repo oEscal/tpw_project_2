@@ -61,21 +61,21 @@
           class="icon-menu h3"></span></a></div>
 
         <ul class="site-menu js-clone-nav d-none d-md-block">
-          <li><a href="/equipas">Equipas</a></li>
-          <li><a href="/jogos">Jogos</a></li>
+          <li><a routerLink="/equipas">Equipas</a></li>
+          <li><a routerLink="/jogos">Jogos</a></li>
           <!--{% if is_admin %}-->
           <li class="has-children active">
             <a class="font-weight-bold">Conta</a>
             <ul class="dropdown arrow-top">
               <li><a routerLink="/adicionar-estadio">Adicionar estádio</a></li>
               <li><a routerLink="/adicionar-equipa">Adicionar equipa</a></li>
-              <li><a href="/adicionar-jogador">Adicionar jogador</a></li>
-              <li><a href="/adicionar-jogo">Adicionar jogo</a></li>
-              <li><a href="{% url 'logout' %}">Terminar sessão</a></li>
+              <li><a routerLink="/adicionar-jogador">Adicionar jogador</a></li>
+              <li><a routerLink="/adicionar-jogo">Adicionar jogo</a></li>
+              <li><a routerLink="{% url 'logout' %}">Terminar sessão</a></li>
             </ul>
           </li>
           <!--{% else %}-->
-          <li class="active"><a class="font-weight-bold" href="{% url 'login' %}">Iniciar sessão</a></li>
+          <li class="active"><a class="font-weight-bold" href="/login">Iniciar sessão</a></li>
           <!--{% endif %}-->
         </ul>
       </div>

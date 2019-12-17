@@ -12,9 +12,12 @@ import {AddGameComponent} from './add-game/add-game.component';
 import {GamesComponent} from './games/games.component';
 import {AddPlayersGameComponent} from './add-players-game/add-players-game.component';
 import {AddEventComponent} from './add-event/add-event.component';
+import {LoginComponent} from './login/login.component';
 
 
 const routes: Routes = [
+  {path: 'login', component: LoginComponent, data: {title: 'Login'}},
+
   {path: 'adicionar-estadio', component: AddStadiumComponent, data: {title: 'Adicionar estádio', update: false}},
   {path: 'adicionar-equipa', component: AddTeamComponent, data: {title: 'Adicionar equipa', update: false}},
   {path: 'adicionar-jogador', component: AddPlayerComponent, data: {title: 'Adicionar jogador', update: false}},
