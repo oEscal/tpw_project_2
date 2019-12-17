@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Player, Team} from '../entities';
+import {Player} from '../entities';
 import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -11,6 +11,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class PlayerComponent implements OnInit {
 
+  is_logged = false;
+
   player: Player;
   player_id: number;
 
@@ -19,7 +21,9 @@ export class PlayerComponent implements OnInit {
   constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {this.player_id = params.id;});
+    this.is_logged = this.rest_api_service.is_logged();
+
+    this.route.params.subscribe(params => {this.player_id = params.id; });
     this.get_team();
   }
 

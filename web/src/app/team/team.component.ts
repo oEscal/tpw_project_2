@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Team, TeamMinimal} from '../entities';
+import {Team} from '../entities';
 import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
+
+import {ErrorHandlingService} from '../error-handling.service';
+
 
 @Component({
   selector: 'app-team',
@@ -11,15 +14,22 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class TeamComponent implements OnInit {
 
+  is_logged: boolean = false;
+
   team: Team;
 
   team_name: string;
   error_message: string = '';
 
-  constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) {
+  constructor(
+    private rest_api_service: RestApiService,
+    private route: ActivatedRoute,
+    private error_service: ErrorHandlingService) {
   }
 
   ngOnInit() {
+    this.is_logged = this.rest_api_service.is_logged();
+
     this.route.params.subscribe(params => {this.team_name = params.name; });
     this.get_team();
   }
@@ -27,11 +37,6 @@ export class TeamComponent implements OnInit {
   get_team(): void {
     this.rest_api_service.get_team(this.team_name).subscribe(
       result => this.team = result.data as Team,
-      error => this.handle_error(error));
-  }
-
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    this.error_message = error.error.message;
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 }
