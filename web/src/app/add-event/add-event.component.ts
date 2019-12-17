@@ -118,6 +118,12 @@ export class AddEventComponent implements OnInit {
       error => this.handle_error(error));
   }
 
+  remove_event(): void {
+    this.rest_api_service.remove_event(this.event_id).subscribe(
+      result => this.success_message = result.message,
+      error => this.handle_error(error));
+  }
+
   handle_error(error: HttpErrorResponse) {
     console.log(error);
     this.error_message = error.error.message;
