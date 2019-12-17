@@ -681,17 +681,17 @@ def update_player(data):
         if not player.exists():
             return False, "Jogador a editar não existe na base de dados!"
 
-        if 'name' in data and data['name'] is not None:
+        if 'name' in data and data['name']:
             player.update(name=data['name'])
-        if 'photo' in data and data['photo'] is not None:
+        if 'photo' in data and data['photo']:
             player.update(photo=data['photo'])
-        if 'position' in data and data['position'] is not None:
+        if 'position' in data and data['position']:
             player.update(position=Position.objects.get(name=data['position']))
-        if 'birth_date' in data and data['birth_date'] is not None:
+        if 'birth_date' in data and data['birth_date']:
             player.update(birth_date=data['birth_date'])
-        if 'nick' in data and data['nick'] is not None:
+        if 'nick' in data and data['nick']:
             player.update(nick=data['nick'])
-        if 'team' in data and data['team'] is not None:
+        if 'team' in data and data['team']:
             player.update(team=Team.objects.get(name=data['team']))
 
         transaction.set_autocommit(True)

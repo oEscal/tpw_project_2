@@ -28,7 +28,7 @@ const routes: Routes = [
   {path: 'jogador/:id', component: PlayerComponent, data: {title: 'Jogador'}},
   {path: 'jogos', component: GamesComponent, data: {title: 'Jogos'}},
 
-  {path: 'editar-jogador/:id', component: AddPlayerComponent, data: {title: 'Editar', update: true}},
+  {path: 'editar-jogador/:id', component: AddPlayerComponent, data: {title: 'Editar jogador', update: true}},
 ];
 
 

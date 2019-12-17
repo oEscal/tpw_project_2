@@ -11,7 +11,9 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddPlayerComponent implements OnInit {
 
+  // url params
   update = false;
+  title = '';
 
   // for update
   player_id;
@@ -38,6 +40,8 @@ export class AddPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {this.title = data.title; });
+
     this.route.data.subscribe(data => {this.update = data.update; });
     if (this.update) {
       this.route.params.subscribe(param => {this.player_id = param.id; });
