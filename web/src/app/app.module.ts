@@ -17,6 +17,7 @@ import { GamesComponent } from './games/games.component';
 import { AddPlayersGameComponent } from './add-players-game/add-players-game.component';
 import { AddEventComponent } from './add-event/add-event.component';
 import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LoginComponent } from './login/login.component';
     AddPlayersGameComponent,
     AddEventComponent,
     LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,

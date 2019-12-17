@@ -42,9 +42,18 @@ export class RestApiService {
 
   login(new_login): Observable<any> {
     const url: string = `${API_URL}/login/`;
-    return this.http.post(url, new_login, this.http_options()).pipe(
+    return this.http.post(url, new_login, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }).pipe(
       tap(result => this.setSession(result))
     );
+  }
+
+  logout() {
+    localStorage.removeItem('is_logged');
+    localStorage.removeItem('token');
   }
 
 
