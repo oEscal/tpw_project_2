@@ -89,7 +89,7 @@ export class AddGameComponent implements OnInit {
   }
 
   update_game(new_game): void {
-    this.rest_api_service.update_game(this.normalize_data(new_game), this.game_id).subscribe(
+    this.rest_api_service.update_game(new_game, this.game_id).subscribe(
       result => this.success_message = result.message,
       error => this.handle_error(error));
   }

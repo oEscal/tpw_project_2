@@ -561,11 +561,11 @@ def update_game(data):
         game_status_home = GameStatus.objects.filter(Q(game=data['id']) & Q(team=teams[0]))
         game_status_away = GameStatus.objects.filter(Q(game=data['id']) & Q(team=teams[1]))
 
-        home_ball_pos, away_ball_pos = None, None
+        home_ball_pos, away_ball_pos = game_status_home[0].ball_possession, game_status_away[0].ball_possession
 
-        if 'home_ball_pos' in data and data['home_ball_pos'] is not None:
+        if 'home_ball_pos' in data and data['home_ball_pos']:
             home_ball_pos = data['home_ball_pos']
-        if 'away_ball_pos' in data and data['away_ball_pos'] is not None:
+        if 'away_ball_pos' in data and data['away_ball_pos']:
             away_ball_pos = data['away_ball_pos']
 
         if home_ball_pos is not None and away_ball_pos is not None:
