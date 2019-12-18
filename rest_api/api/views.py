@@ -546,6 +546,7 @@ def update_team(request, name):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             data_to_update = request.data
             data_to_update['name'] = name
@@ -572,6 +573,7 @@ def update_player(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             data_to_update = request.data
             data_to_update['id'] = id
@@ -598,6 +600,7 @@ def update_stadium(request, name):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             data_to_update = request.data
             data_to_update['current_name'] = name
@@ -630,6 +633,7 @@ def update_game(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             data_to_update = request.data
             data_to_update['id'] = id
@@ -656,6 +660,7 @@ def update_event(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             data_to_update = request.data
             data_to_update['id'] = id
@@ -685,6 +690,7 @@ def remove_team(request, name):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             remove_status, message = queries.remove_team(name)
 
@@ -709,6 +715,7 @@ def remove_player(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             remove_status, message = queries.remove_player(id)
 
@@ -733,6 +740,7 @@ def remove_stadium(request, name):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             remove_status, message = queries.remove_stadium(name)
 
@@ -757,6 +765,7 @@ def remove_players_game(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             remove_status, message = queries.remove_allplayersFrom_game(id)
 
@@ -781,6 +790,7 @@ def remove_game(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             remove_status, message = queries.remove_game(id)
 
@@ -805,6 +815,7 @@ def remove_event(request, id):
     if not verify_if_admin(request.user):
         return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
     else:
+        token = Token.objects.get(user=request.user).key
         try:
             remove_status, message = queries.remove_event(id)
 
