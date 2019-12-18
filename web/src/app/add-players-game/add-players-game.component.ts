@@ -22,6 +22,9 @@ export class AddPlayersGameComponent implements OnInit {
   // for update
   players_game = [];
 
+  // for remove
+  REMOVE_MESSAGE =  ['Remover todos os jogadores inscritos num jogo implica',
+                    ' - Remover todos os jogos nos quais eles participam'];
 
   players;
   game_id;
@@ -145,6 +148,14 @@ export class AddPlayersGameComponent implements OnInit {
     data[this.players.teams[1]] = new_players_game['dois'];
 
     this.rest_api_service.update_players_game(data, this.game_id).subscribe(
+      result => this.success_message = result.message,
+      error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  remove_players_game(): void {
+    this.clear_messages();
+
+    this.rest_api_service.remove_players_game(this.game_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
   }
