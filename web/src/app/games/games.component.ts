@@ -4,6 +4,7 @@ import {RestApiService} from '../rest-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import $ from 'jquery';
+import {ErrorHandlingService} from '../error-handling.service';
 
 
 @Component({
@@ -21,7 +22,9 @@ export class GamesComponent implements OnInit{
 
   error_message: string = '';
 
-  constructor(private rest_api_service: RestApiService, private route: ActivatedRoute) { }
+  constructor(private rest_api_service: RestApiService,
+              private route: ActivatedRoute,
+              private error_service: ErrorHandlingService) { }
 
   ngOnInit() {
     this.is_logged = this.rest_api_service.is_logged();
@@ -35,12 +38,7 @@ export class GamesComponent implements OnInit{
         for (let i = 0; i < this.games.length; i++)
           this.show_game_info.push(false);
         },
-      error => this.handle_error(error));
-  }
-
-  handle_error(error: HttpErrorResponse) {
-    console.log(error);
-    this.error_message = error.error.message;
+      error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   show_game(id) {

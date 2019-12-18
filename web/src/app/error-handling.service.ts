@@ -12,6 +12,9 @@ export class ErrorHandlingService {
     console.log(error);
     let error_message = '';
 
+    if (error.statusText == 'Unauthorized')
+      window.location.href = '/logout';
+
     if (error.error.message)
       error_message = error.error.message;
     else
