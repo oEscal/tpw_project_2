@@ -228,8 +228,6 @@ def add_players_game(request, id):
     try:
         make_query = True
 
-        print(request.data)
-
         # verify if number of players is greater or smaller than the constraints
         for team_name in request.data:
             if len(set(request.data[team_name])) > MAX_PLAYERS_MATCH or len(set(request.data[team_name])) < MIN_PLAYERS_MATCH:
@@ -619,8 +617,40 @@ def update_stadium(request, name):
 
 @csrf_exempt
 @api_view(["PUT"])
-def update_player_game(request, name):
-    pass
+def update_player_game(request, id):
+    status = HTTP_200_OK
+    message = ""
+    data = {}
+    token = ""
+
+    if not verify_if_admin(request.user):
+        return create_response("Login inválido!", HTTP_401_UNAUTHORIZED)
+    else:
+        token = Token.objects.get(user=request.user).key
+        try:
+            make_query = True
+
+            # verify if number of players is greater or smaller than the constraints
+            print(request.data)
+            for team_name in request.data:
+                if len(set(request.data[team_name])) > MAX_PLAYERS_MATCH or len(
+                        set(request.data[team_name])) < MIN_PLAYERS_MATCH:
+                    message = f"Tem de escolher entre {MIN_PLAYERS_MATCH} e {MAX_PLAYERS_MATCH} " \
+                              f"jogadores na equipa {team_name}!"
+                    status = HTTP_400_BAD_REQUEST
+                    make_query = False
+            if make_query:
+                add_status, message = queries.update_player_to_game({
+                    'id': id,
+                    'teams': request.data
+                })
+                status = HTTP_200_OK if add_status else HTTP_404_NOT_FOUND
+        except Exception as e:
+            print(e)
+            status = HTTP_403_FORBIDDEN
+            message = "Erro ao editar jogadores que jogaram no referido jogo!"
+
+    return create_response(message, status, token=token, data=data)
 
 
 @csrf_exempt

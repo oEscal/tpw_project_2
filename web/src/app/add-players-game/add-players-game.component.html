@@ -11,7 +11,7 @@
           {{ success_message }}
         </div>
 
-        <form [formGroup]="new_players" (ngSubmit)="update ? update_players_game(new_players) : add_players_game(new_players.value)" ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
+        <form [formGroup]="new_players" (ngSubmit)="update ? update_players_game(new_players.value) : add_players_game(new_players.value)" ngNativeValidate method="post" class="bg-white" enctype="multipart/form-data">
           <div class="p-3 p-lg-5 border">
 
             <div class="form-group row">
@@ -39,8 +39,8 @@
                     <label for="" class="text-black">
                       <label for="player_{{ id_team }}_{{ id_player }}">Jogador {{ id_player + 1 }}:</label></label><br>
                     <select [formControlName]="id_player" class="form-control" id="player_{{ id_team }}_{{ id_player }}"
-                    [value]="update && players_game[id_team][id_player] ? players_game[id_team][id_player] : '-'">
-                      <option value="-">Escolha um jogador</option>
+                    [ngModel]="update && players_game[id_team][id_player] ? players_game[id_team][id_player] : ''">
+                      <option value="">Escolha um jogador</option>
 
                       <option *ngFor="let player of players.players[id_team]" value="{{ player[1] }}" >{{ player[0] }}</option>
 

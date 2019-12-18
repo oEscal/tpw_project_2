@@ -189,7 +189,7 @@ def add_player_to_game(data):
 
         teams_played_game = [game_status.team.name for game_status in GameStatus.objects.filter(game_id=game_id)]
         for team_name in teams:
-            players = [p for p in teams[team_name] if p]
+            players = [int(p) for p in teams[team_name] if p]
 
             # verify if teams selected played that game
             if team_name not in teams_played_game:
@@ -205,7 +205,7 @@ def add_player_to_game(data):
             return False, "Já foram definidos os jogadores que jogam nesse jogo!"
 
         for team_name in teams:
-            players = [p for p in teams[team_name] if p]
+            players = set([int(p) for p in teams[team_name] if p])
 
             for player_id in players:
                 if player_id:
@@ -653,6 +653,7 @@ def update_player_to_game(data):
     transaction.set_autocommit(False)
 
     try:
+        print(data)
         for team in data['teams']:
             players_game = PlayerPlayGame.objects.filter(Q(game__id=data['id']) & Q(player__team__name=team))
             for p in players_game:
