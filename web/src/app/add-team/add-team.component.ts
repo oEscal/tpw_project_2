@@ -55,6 +55,8 @@ export class AddTeamComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
       this.error_message = 'Não tem conta iniciada!';
@@ -81,6 +83,8 @@ export class AddTeamComponent implements OnInit {
   }
 
   add_team(new_team): void {
+    this.clear_messages();
+
     if (this.image)
       new_team.logo = this.image;
     this.rest_api_service.add_team(new_team).subscribe(
@@ -89,6 +93,8 @@ export class AddTeamComponent implements OnInit {
   }
 
   update_team(new_team): void {
+    this.clear_messages();
+
     if (this.image)
       new_team.logo = this.image;
     if (!this.update_stadium)
@@ -99,6 +105,8 @@ export class AddTeamComponent implements OnInit {
   }
 
   remove_team(): void {
+    this.clear_messages();
+
     this.rest_api_service.remove_team(this.team_name).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
@@ -106,5 +114,10 @@ export class AddTeamComponent implements OnInit {
 
   change_stadium(): void {
     this.update_stadium = true;
+  }
+
+  clear_messages() {
+    this.error_message = null;
+    this.success_message = null;
   }
 }

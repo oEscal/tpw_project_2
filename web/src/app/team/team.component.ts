@@ -28,6 +28,8 @@ export class TeamComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
 
     this.route.params.subscribe(params => {this.team_name = params.name; });
@@ -35,8 +37,14 @@ export class TeamComponent implements OnInit {
   }
 
   get_team(): void {
+    this.clear_messages();
+
     this.rest_api_service.get_team(this.team_name).subscribe(
       result => this.team = result.data as Team,
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  clear_messages() {
+    this.error_message = null;
   }
 }

@@ -53,6 +53,8 @@ export class AddStadiumComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
 
     if (!this.is_logged) {
@@ -81,6 +83,8 @@ export class AddStadiumComponent implements OnInit {
   }
 
   add(new_stadium): void {
+    this.clear_messages();
+
     if (this.image)
       new_stadium.picture = this.image;
     console.log(this.image);
@@ -90,14 +94,23 @@ export class AddStadiumComponent implements OnInit {
   }
 
   update_stadium(new_stadium): void {
+    this.clear_messages();
+
     this.rest_api_service.update_stadium(new_stadium, this.stadium_name).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   remove_stadium(): void {
+    this.clear_messages();
+
     this.rest_api_service.remove_stadium(this.stadium_name).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  clear_messages() {
+    this.error_message = null;
+    this.success_message = null;
   }
 }

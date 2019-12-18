@@ -52,6 +52,8 @@ export class AddPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
       this.error_message = 'Não tem conta iniciada!';
@@ -87,6 +89,8 @@ export class AddPlayerComponent implements OnInit {
   }
 
   add_player(new_player): void {
+    this.clear_messages();
+
     if (this.image)
       new_player.photo = this.image;
     this.rest_api_service.add_player(new_player).subscribe(
@@ -95,6 +99,8 @@ export class AddPlayerComponent implements OnInit {
   }
 
   update_player(new_player): void {
+    this.clear_messages();
+
     if (this.image)
       new_player.photo = this.image;
     this.rest_api_service.update_player(new_player, this.player_id).subscribe(
@@ -103,8 +109,15 @@ export class AddPlayerComponent implements OnInit {
   }
 
   remove_player(): void {
+    this.clear_messages();
+
     this.rest_api_service.remove_player(this.player_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  clear_messages() {
+    this.error_message = null;
+    this.success_message = null;
   }
 }

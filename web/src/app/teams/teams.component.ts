@@ -23,12 +23,20 @@ export class TeamsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.get_teams();
   }
 
   get_teams(): void {
+    this.clear_messages();
+
     this.rest_api_service.get_teams().subscribe(
       result => this.teams = result.data as TeamMinimal[],
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  clear_messages() {
+    this.error_message = null;
   }
 }

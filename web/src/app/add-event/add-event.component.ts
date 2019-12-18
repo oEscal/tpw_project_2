@@ -47,6 +47,8 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
       this.error_message = 'Não tem conta iniciada!';
@@ -104,8 +106,7 @@ export class AddEventComponent implements OnInit {
   }
 
   add_event(new_event): void {
-    this.error_message = null;
-    this.success_message = null;
+    this.clear_messages();
 
     this.rest_api_service.add_event(new_event, this.game_id).subscribe(
       result => this.success_message = result.message,
@@ -113,8 +114,7 @@ export class AddEventComponent implements OnInit {
   }
 
   update_event(new_event): void {
-    this.error_message = null;
-    this.success_message = null;
+    this.clear_messages();
 
     this.rest_api_service.update_event(new_event, this.event_id).subscribe(
       result => this.success_message = result.message,
@@ -122,13 +122,22 @@ export class AddEventComponent implements OnInit {
   }
 
   remove_event(): void {
+    this.clear_messages();
+
     this.rest_api_service.remove_event(this.event_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
   }
 
   no_players_error() {
+    this.clear_messages();
+
     if (this.teams.length == 0)
       this.error_message = 'Atenção, ainda não adicionou jogadores a este jogo!';
+  }
+
+  clear_messages() {
+    this.error_message = null;
+    this.success_message = null;
   }
 }

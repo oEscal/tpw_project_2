@@ -77,6 +77,8 @@ export class AddPlayersGameComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
     if (!this.is_logged) {
       this.error_message = 'Não tem conta iniciada!';
@@ -96,7 +98,8 @@ export class AddPlayersGameComponent implements OnInit {
   }
 
   add_players_game(new_players_game): void {
-    console.log(new_players_game);
+    this.clear_messages();
+
     const data = {};
     data[this.players.teams[0]] = new_players_game['um'];
     data[this.players.teams[1]] = new_players_game['dois'];
@@ -104,5 +107,10 @@ export class AddPlayersGameComponent implements OnInit {
     this.rest_api_service.add_players_game(data, this.game_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  clear_messages() {
+    this.error_message = null;
+    this.success_message = null;
   }
 }

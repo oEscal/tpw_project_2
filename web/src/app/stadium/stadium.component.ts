@@ -26,6 +26,8 @@ export class StadiumComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear_messages();
+
     this.is_logged = this.rest_api_service.is_logged();
 
     this.route.params.subscribe(params => {this.stadium_name = params.name;});
@@ -33,8 +35,14 @@ export class StadiumComponent implements OnInit {
   }
 
   get_stadium(): void {
+    this.clear_messages();
+
     this.rest_api_service.get_stadium(this.stadium_name).subscribe(
       result => this.stadium = result.data as Stadium,
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  clear_messages() {
+    this.error_message = null;
   }
 }
