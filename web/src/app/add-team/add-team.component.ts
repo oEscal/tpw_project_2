@@ -104,7 +104,7 @@ export class AddTeamComponent implements OnInit {
       error => {this.error_message = this.error_service.handle_error(error); });
   }
 
-  change_stadium() : void {
+  change_stadium(): void {
     this.update_stadium = true;
   }
 }
