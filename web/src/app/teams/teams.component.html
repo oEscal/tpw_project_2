@@ -11,8 +11,10 @@
 
         <div *ngFor="let team of teams" class="col-md-6 col-lg-4 p-lg-5 p-5 aos-init aos-animate" data-aos="fade" data-aos-delay="100">
 
-          <div [style.background-image]="team.logo ? 'url( data:image/png;base64,' + team.logo + ')' : 'url(https://domingoasdez.com/images/default-emblem.png);'"
-               class="feature-block-1 mb-5 mb-lg-0 bg p-3">
+          <div class="feature-block-1 mb-5 mb-lg-0 bg p-3" style="background-image: url(
+                                 'https://domingoasdez.com/images/default-emblem.png');
+                                     background-position: center center;  background-size: contain;
+                                     background-repeat: no-repeat;">
             <div class="text">
               <h2 class="h1 text-white">{{ team.name }}</h2>
               <br>
