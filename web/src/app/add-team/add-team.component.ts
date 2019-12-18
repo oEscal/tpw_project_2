@@ -24,6 +24,7 @@ export class AddTeamComponent implements OnInit {
   // for update
   team_name;
   team;
+  update_stadium: boolean = false;
 
   image;
 
@@ -90,6 +91,8 @@ export class AddTeamComponent implements OnInit {
   update_team(new_team): void {
     if (this.image)
       new_team.logo = this.image;
+    if (!this.update_stadium)
+      new_team.stadium = '';
     this.rest_api_service.update_team(new_team, this.team_name).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
@@ -99,5 +102,9 @@ export class AddTeamComponent implements OnInit {
     this.rest_api_service.remove_team(this.team_name).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  change_stadium() : void {
+    this.update_stadium = true;
   }
 }

@@ -55,7 +55,7 @@
                 <div class="col-md-6">
                   <label for="id_stadium" class="text-black"><label for="id_stadium">Estádio da equipa:</label> <span class="text-danger">*</span></label><br>
                   <select formControlName="stadium" class="form-control" placeholder="Insira o nome do estádio da equipa"
-                          id="id_stadium" [value]="update ? team.stadium : '-'">
+                          id="id_stadium" [value]="update ? team.stadium : '-'" (change)="change_stadium()" >
                     <option value="-" selected="selected">Insira o nome do estádio da equipa</option>
                     <option *ngFor="let stadium of stadiums" value="{{ stadium }}">
                       {{ stadium }}
