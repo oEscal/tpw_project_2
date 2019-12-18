@@ -15,6 +15,14 @@ export class AddPlayersGameComponent implements OnInit {
 
   is_logged: boolean = false;
 
+  // url params
+  update = false;
+  title = '';
+
+  // for update
+  players_game;
+
+
   players;
   game_id;
 
@@ -32,6 +40,8 @@ export class AddPlayersGameComponent implements OnInit {
               private rest_api_service: RestApiService,
               private route: ActivatedRoute,
               private error_service: ErrorHandlingService) {
+
+    // it doesnt let me add this dynamically
     this.new_players = this.formBuilder.group({
       um: new FormArray([
         new FormControl(''),
@@ -83,6 +93,16 @@ export class AddPlayersGameComponent implements OnInit {
     if (!this.is_logged) {
       this.error_message = 'Não tem conta iniciada!';
     } else {
+      this.route.data.subscribe(data => {this.title = data.title; });
+
+      this.route.data.subscribe(data => {this.update = data.update; });
+      if (this.update) {
+        this.route.params.subscribe(param => {this.game_id = param.id; });
+        this.rest_api_service.(this.game_id).subscribe(
+          result => this.team = result.data,
+          error => {this.error_message = this.error_service.handle_error(error); });
+      }
+
       for (let i = 0; i < this.interval_of_players[1]; i++)
         this.array_loop.push(i);
 
