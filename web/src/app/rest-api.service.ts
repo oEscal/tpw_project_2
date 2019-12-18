@@ -228,6 +228,14 @@ export class RestApiService {
   }
 
 
+  update_players_game(new_data, id): Observable<any> {
+    const url: string = `${API_URL}/update_players_game/${id}/`;
+    return this.http.put(url, new_data, this.http_options()).pipe(
+      tap(result => this.update_token(result))
+    );
+  }
+
+
   /************************************** Remove **************************************/
 
   remove_event(id): Observable<any> {

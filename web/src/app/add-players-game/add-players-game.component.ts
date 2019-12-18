@@ -20,7 +20,7 @@ export class AddPlayersGameComponent implements OnInit {
   title = '';
 
   // for update
-  players_game;
+  players_game = [];
 
 
   players;
@@ -98,8 +98,16 @@ export class AddPlayersGameComponent implements OnInit {
       this.route.data.subscribe(data => {this.update = data.update; });
       if (this.update) {
         this.route.params.subscribe(param => {this.game_id = param.id; });
-        this.rest_api_service.(this.game_id).subscribe(
-          result => this.team = result.data,
+        this.rest_api_service.get_players_per_game_and_events(this.game_id).subscribe(
+          result => {
+            let team_id = 0;
+            for (let team in result.data.teams) {
+              this.players_game.push([]);
+              for (let i = 0; i < result.data.teams[team].length; i++)
+                this.players_game[team_id].push(result.data.teams[team][i].id);
+              team_id++;
+            }
+          },
           error => {this.error_message = this.error_service.handle_error(error); });
       }
 
@@ -125,6 +133,18 @@ export class AddPlayersGameComponent implements OnInit {
     data[this.players.teams[1]] = new_players_game['dois'];
 
     this.rest_api_service.add_players_game(data, this.game_id).subscribe(
+      result => this.success_message = result.message,
+      error => {this.error_message = this.error_service.handle_error(error); });
+  }
+
+  update_players_game(new_players_game): void {
+    this.clear_messages();
+
+    const data = {};
+    data[this.players.teams[0]] = new_players_game['um'];
+    data[this.players.teams[1]] = new_players_game['dois'];
+
+    this.rest_api_service.update_players_game(data, this.game_id).subscribe(
       result => this.success_message = result.message,
       error => {this.error_message = this.error_service.handle_error(error); });
   }

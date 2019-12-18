@@ -476,6 +476,7 @@ def get_players_per_game_and_events(request, id):
 
     try:
         data, message = queries.get_players_per_game_and_events(id)
+        print(data)
         if not data:
             status = HTTP_404_NOT_FOUND
     except Exception as e:
