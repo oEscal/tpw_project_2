@@ -24,7 +24,7 @@ const routes: Routes = [
   {path: 'adicionar-equipa', component: AddTeamComponent, data: {title: 'Adicionar equipa', update: false}},
   {path: 'adicionar-jogador', component: AddPlayerComponent, data: {title: 'Adicionar jogador', update: false}},
   {path: 'adicionar-jogo', component: AddGameComponent, data: {title: 'Adicionar jogo', update: false}},
-  {path: 'adicionar-jogadores-jogo/:id', component: AddPlayersGameComponent, data: {title: 'Adicionar jogadores a um jogo'}},
+  {path: 'adicionar-jogadores-jogo/:id', component: AddPlayersGameComponent, data: {title: 'Adicionar jogadores a um jogo', update: false}},
   {path: 'adicionar-evento/:id', component: AddEventComponent, data: {title: 'Adicionar evento', update: false}},
 
   {path: 'estadio/:name', component: StadiumComponent, data: {title: 'Estádio'}},
@@ -37,6 +37,7 @@ const routes: Routes = [
   {path: 'editar-equipa/:name', component: AddTeamComponent, data: {title: 'Editar equipa', update: true}},
   {path: 'editar-jogador/:id', component: AddPlayerComponent, data: {title: 'Editar jogador', update: true}},
   {path: 'editar-jogo/:id', component: AddGameComponent, data: {title: 'Editar jogo', update: true}},
+  {path: 'editar-jogadores-jogo/:id', component: AddPlayersGameComponent, data: {title: 'Editar jogadores dum jogo', update: true}},
   {path: 'editar-evento/:id', component: AddEventComponent, data: {title: 'Editar evento', update: true}},
 ];
 
