@@ -12,13 +12,11 @@ const API_URL: string = 'http://localhost:8000';
 export class RestApiService {
 
   private set_session(auth) {
-    const token = auth.token;
     localStorage.setItem('token', auth.token);
     localStorage.setItem('is_logged', 'true');
   }
 
   private update_token(auth) {
-    const token = auth.token;
     localStorage.setItem('token', auth.token);
   }
 
@@ -51,7 +49,7 @@ export class RestApiService {
   login(new_login): Observable<any> {
     const url: string = `${API_URL}/login/`;
     return this.http.post(url, new_login, this.http_options()).pipe(
-      tap(result => this.update_token(result))
+      tap(result => this.set_session(result))
     );
   }
 
