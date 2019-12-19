@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,13 @@ export class FilesService {
   constructor() { }
 
   read_file($event) {
-    const file: File =  $event.target.files[0];
+    const file: File = $event.target.files[0];
 
     const image_reader: FileReader = new FileReader();
     image_reader.onloadend = (e) => {
       this.image = image_reader.result;
     };
+
     image_reader.readAsDataURL(file);
 
     return this.image;

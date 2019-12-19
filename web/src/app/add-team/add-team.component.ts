@@ -49,8 +49,8 @@ export class AddTeamComponent implements OnInit {
     this.new_team = this.formBuilder.group({
       name: '',
       foundation_date: '',
-      stadium: 'string',
-      // logo: File,
+      stadium: '-',
+      logo: '',
   });
   }
 
