@@ -18,7 +18,7 @@
               <div class="text-center text-lg-left">
                 <div class="d-block d-lg-flex align-items-center">
                   <div class="image mx-auto mb-3 mb-lg-0 mr-lg-3">
-                    <img [src]="game.teams[0].logo ? game.teams[0].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
+                    <img [src]="game.teams[0].logo ? 'data:image/png;base64,' + game.teams[0].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
                   </div>
                   <div class="text">
                     <h3 class="h5 mb-0 text-black">
@@ -49,7 +49,7 @@
               <div class="">
                 <div class="d-block d-lg-flex align-items-center">
                   <div class="image mx-auto ml-lg-3 mb-3 mb-lg-0 order-2">
-                    <img [src]="game.teams[1].logo ? game.teams[1].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
+                    <img [src]="game.teams[1].logo ? 'data:image/png;base64,' + game.teams[1].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
                   </div>
                   <div class="text order-1">
                     <h3 class="h5 mb-0 text-black">
@@ -70,7 +70,7 @@
                 <h4 class="mb-2"><small class="text-uppercase text-black font-weight-bold">
                   {{ game.stadium }}</small></h4>
                 <div class="mx-auto col-8">
-                  <img [src]="game.stadium_picture ? game.stadium_picture : ''" alt="" class="img-fluid">
+                  <img [src]="game.stadium_picture ? 'data:image/png;base64,' + game.stadium_picture : ''" alt="" class="img-fluid">
                 </div>
               </div>
               <br>
@@ -190,13 +190,13 @@
                                     </p>
                                   </div>
                                   <div class="col-3">
-                                    <img [src]="event.photo ? event.photo : 'https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d'" alt="Image"
+                                    <img [src]="event.photo ? 'data:image/png;base64,' + event.photo : 'https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d'" alt="Image"
                                          class="img-fluid pull-right">
                                   </div>
                                 </div>
                                 <ng-template #event_team_0>
                                   <div class="col-3">
-                                    <img [src]="event.photo ? event.photo : 'https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d'" alt="Image"
+                                    <img [src]="event.photo ? 'data:image/png;base64,' + event.photo : 'https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d'" alt="Image"
                                          class="img-fluid pull-left">
                                   </div>
                                   <div class="col-9">
@@ -256,7 +256,7 @@
             <div class="text-center text-lg-left">
               <div class="d-block d-lg-flex align-items-center">
                 <div class="image image-small text-center mb-3 mb-lg-0 mr-lg-3">
-                  <img [src]="game.teams[0].logo ? game.teams[0].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
+                  <img [src]="game.teams[0].logo ? 'data:image/png;base64,' + game.teams[0].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
                 </div>
                 <div class="text">
                   <h3 class="h5 mb-0 text-black">
@@ -286,7 +286,7 @@
             <div class="">
               <div class="d-block d-lg-flex align-items-center">
                 <div class="image image-small ml-lg-3 mb-3 mb-lg-0 order-2">
-                  <img [src]="game.teams[1].logo ? game.teams[1].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
+                  <img [src]="game.teams[1].logo ? 'data:image/png;base64,' + game.teams[1].logo : 'https://domingoasdez.com/images/default-emblem.png'" alt="Image" class="img-fluid">
                 </div>
                 <div class="text order-1 w-100">
                   <h3 class="h5 mb-0 text-black">

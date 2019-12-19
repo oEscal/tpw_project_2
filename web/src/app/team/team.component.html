@@ -26,7 +26,7 @@
               </div>
             </div>
 
-            <img *ngIf="team.logo" class="col-md-4" [src]="team.logo" alt="">
+            <img *ngIf="team.logo" class="col-md-4" [src]="'data:image/png;base64,' + team.logo" alt="">
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
         <div *ngFor="let player of team.players" class="mb-4 mb-lg-0 col-6 col-md-4 col-lg-2 text-center">
           <div class="player mb-5">
             <a class="team-number" routerLink="/jogador/{{ player.id }}"><i class="fa fa-plus"></i></a>
-            <img [src]="player.photo ? player.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQPhx6rvxuYnvhCCg-T3VIGRY9oJT_SL248Dr3We47EjmaxF0r'"
+            <img [src]="player.photo ? 'data:image/png;base64,' + player.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQPhx6rvxuYnvhCCg-T3VIGRY9oJT_SL248Dr3We47EjmaxF0r'"
                  alt="Image" class="img-fluid image rounded-circle">
             <h2>{{ player.name }}</h2>
             <span class="position">{{ player.position }}</span>

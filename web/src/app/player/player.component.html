@@ -33,7 +33,7 @@
               <p class="mb-4"><a routerLink="/equipa/{{ player.team }}">{{ player.team }}</a></p>
             </div>
             <div class="col-4">
-              <img [src]="player.photo ? player.photo : ''" alt="" class="img-fluid image">
+              <img [src]="player.photo ? 'data:image/png;base64,' + player.photo : ''" alt="" class="img-fluid image">
             </div>
           </div>
         </div>
